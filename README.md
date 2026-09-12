@@ -22,6 +22,7 @@
 | [Backlog canônico](docs/07-backlog-canonico.md) | Ordenar fundação, funcionalidades, beta e evoluções | Pronto para execução |
 | [Matriz de rastreabilidade](docs/08-matriz-rastreabilidade.md) | Ligar requisitos, itens, verificações e evidências | Cobertura inicial completa |
 | [Modelo de evidências](docs/evidencias/README.md) | Padronizar a comprovação de cada entrega | Obrigatório |
+| [Guia de desenvolvimento](docs/09-guia-de-desenvolvimento.md) | Instalar, validar e executar a fundação local | Em execução |
 
 ---
 

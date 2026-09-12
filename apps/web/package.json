@@ -1,0 +1,32 @@
+{
+  "name": "@seekin/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "react-router build",
+    "dev": "vite dev",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev",
+    "typecheck": "react-router typegen && tsc --noEmit"
+  },
+  "dependencies": {
+    "@seekin/contracts": "workspace:*",
+    "isbot": "5.2.2",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-router": "8.3.1",
+    "zod": "4.6.2",
+    "isbot": "^5"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.54.8",
+    "@cloudflare/workers-types": "5.20260911.1",
+    "@react-router/dev": "8.3.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "typescript": "5.9.3",
+    "vite": "8.3.0",
+    "wrangler": "4.131.1"
+  }
+}

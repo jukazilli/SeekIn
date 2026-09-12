@@ -1,0 +1,10 @@
+node_modules
+build
+dist
+coverage
+.wrangler
+.react-router
+pnpm-lock.yaml
+worker-configuration.d.ts
+README.md
+docs/**/*.md

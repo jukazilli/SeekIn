@@ -1,0 +1,15 @@
+node_modules/
+.pnpm-store/
+.env
+.env.*
+!.env.example
+build/
+dist/
+coverage/
+.wrangler/
+.react-router/
+playwright-report/
+test-results/
+worker-configuration.d.ts
+*.tsbuildinfo
+
