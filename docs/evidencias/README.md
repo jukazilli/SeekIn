@@ -113,3 +113,17 @@ Os itens `SKN-030` e `SKN-143` agregam evidências anteriores. Seus registros de
 ---
 
 O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado impossível de reproduzir deve ser tratado como perda de evidência e revalidado.
+
+## 5. Registros atuais
+
+| Item | Estado | Registro |
+|---|---|---|
+| SKN-010 | Em revisão | [Workspace pnpm](SKN-010.md) |
+| SKN-011 | Em revisão | [Toolchain e validação](SKN-011.md) |
+| SKN-012 | Em revisão | [Contrato de ambiente](SKN-012.md) |
+| SKN-013 | Em revisão | [Supabase local](SKN-013.md) |
+| SKN-014 | Em revisão | [Web e health](SKN-014.md) |
+| SKN-017 | Em desenvolvimento | [Migration inicial](SKN-017.md) |
+| SKN-018 | Em desenvolvimento | [RLS e grants](SKN-018.md) |
+| SKN-020 | Em desenvolvimento | [Health backend](SKN-020.md) |
+| SKN-023 | Em desenvolvimento | [CI](SKN-023.md) |
