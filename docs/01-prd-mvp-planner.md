@@ -957,11 +957,13 @@ Estas questões não bloqueiam a documentação, mas precisam ser confirmadas an
 
 ## 25. Próximos artefatos
 
-Após a aprovação deste PRD:
+A [arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md) já registram a fundação de implementação.
+
+Próximos artefatos:
 
 1. especificação de UX com fluxos e estados;
 2. especificação de UI e design system;
-3. arquitetura técnica e modelo físico de dados;
+3. modelo físico de dados e migrations iniciais;
 4. backlog canônico com épicos, histórias e critérios de aceite;
 5. plano de testes do motor de planejamento;
 6. plano de instrumentação e beta.

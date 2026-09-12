@@ -5,7 +5,7 @@
 **Status:** decisão registrada<br>
 **Versão:** 0.1<br>
 **Data:** 12 de setembro de 2026<br>
-**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md)
+**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md) · [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md)
 
 ---
 
@@ -417,7 +417,7 @@ O suporte de instalação varia entre navegador e sistema. A experiência web n�
 - publicação em lojas de aplicativos;
 - aplicativos nativos.
 
-Essas decisões serão tratadas na arquitetura técnica.
+Essas decisões são definidas na [arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) e, para a evolução de infraestrutura, na [estratégia de Cloud Run](05-estrategia-de-evolucao-cloud-run.md).
 
 ## 15. Referências técnicas
 

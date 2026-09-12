@@ -6,7 +6,7 @@
 
 **Versão:** 0.1
 
-**Documentação atual:** briefing, PRD e requisitos técnicos do MVP
+**Documentação atual:** briefing, PRD, requisitos técnicos, arquitetura e engenharia
 
 ## Documentação do produto
 
@@ -15,6 +15,9 @@
 | **Briefing de Produto** — este arquivo | Registrar visão, fases e decisões gerais | Versão 0.1 |
 | [PRD — MVP do Planner](docs/01-prd-mvp-planner.md) | Especificar o primeiro produto entregável | Pronto para revisão |
 | [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) | Definir instalação, layouts e visões por dispositivo | Decisão registrada |
+| [Arquitetura técnica e infraestrutura](docs/03-arquitetura-tecnica-e-infraestrutura.md) | Definir stack, módulos, dados, segurança e implantação | Decisão aprovada |
+| [Engenharia, qualidade e manutenção](docs/04-requisitos-de-engenharia-e-qualidade.md) | Definir padrões de código, testes, CI e revisão | Decisão aprovada |
+| [Evolução para Google Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) | Preparar migração incremental de computação e servidor web | Direção futura aprovada |
 
 ---
 
@@ -657,7 +660,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 
 ## 31. Continuidade da documentação
 
-O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. Depois da revisão, os próximos artefatos recomendados são a especificação de UX, a especificação de UI, a arquitetura técnica e o backlog canônico.
+O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. A [arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a fundação de implementação e o caminho de escala. Os próximos artefatos recomendados são a especificação de UX, a especificação de UI, o modelo físico de dados e o backlog canônico.
 
 ---
 
