@@ -115,6 +115,8 @@ Estudantes de graduação, presenciais ou a distância, que conciliam estudos co
 - a reserva de capacidade padrão será de 20%;
 - a folga desejada antes da entrega será de 24 horas quando houver capacidade;
 - o planejamento automático considerará até 90 dias por execução;
+- não haverá prazo máximo entre a criação e a entrega de uma atividade; itens além de 90 dias permanecem registrados até entrarem no horizonte do planejador;
+- no beta, analytics será registrado em eventos próprios no Supabase, sem ferramenta externa, textos acadêmicos ou conteúdo pessoal;
 - dependências entre atividades ficam fora do P0.
 
 Essas premissas são configuráveis ou revisáveis após a validação do beta.
@@ -952,6 +954,8 @@ O MVP pode ser liberado para o beta quando:
 - mudanças relevantes exigem confirmação;
 - ignorar uma sessão poderá usar um motivo sugerido ou a opção `outro` com texto opcional;
 - sessões concluídas e fixadas nunca serão movidas automaticamente;
+- atividades não terão distância máxima entre criação e prazo; o motor considera apenas o horizonte móvel de 90 dias;
+- analytics do beta usará eventos próprios no Supabase, sem conteúdo pessoal ou acadêmico;
 - Google Calendar, IA e recursos sociais ficam fora do P0.
 
 ## 24. Revisão do Product Owner
@@ -964,10 +968,10 @@ O MVP pode ser liberado para o beta quando:
 | Sessão padrão | Aprovada | Começa em 50 minutos e pode ser alterada pelo aluno. |
 | Atividade sem disciplina | Aprovada | Permitida para demandas gerais, extensionistas e complementares. |
 | Sessão totalmente manual | Aprovada | Permitida no P0 e contabilizada na capacidade. |
-| Distância entre criação e prazo | Pendente | Recomendação: não impor máximo; limitar somente o cálculo automático ao horizonte de 90 dias. |
+| Distância entre criação e prazo | Aprovada | Não há máximo; o cálculo automático considera somente o horizonte móvel de 90 dias. |
 | Confirmação do plano | Aprovada | Exigida na primeira geração e apenas em mudanças relevantes posteriores. |
 | Motivo ao ignorar sessão | Aprovada | Lista inicial definida na seção 9.12, com `outro` e texto opcional. |
-| Analytics | Pendente | Recomendação: no beta, eventos próprios no Supabase, sem ferramenta externa nem conteúdo pessoal. |
+| Analytics | Aprovada | No beta, eventos próprios no Supabase, sem ferramenta externa, textos acadêmicos ou conteúdo pessoal. |
 
 ### 24.1 Requisitos de entrega dos e-mails de autenticação
 

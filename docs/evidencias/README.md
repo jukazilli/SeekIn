@@ -118,7 +118,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 
 | Item | Estado | Registro |
 |---|---|---|
-| SKN-001 | Em desenvolvimento | [Decisões bloqueadoras](SKN-001.md) |
+| SKN-001 | Verificado | [Decisões bloqueadoras](SKN-001.md) |
 | SKN-010 | Em revisão | [Workspace pnpm](SKN-010.md) |
 | SKN-011 | Em revisão | [Toolchain e validação](SKN-011.md) |
 | SKN-012 | Em revisão | [Contrato de ambiente](SKN-012.md) |

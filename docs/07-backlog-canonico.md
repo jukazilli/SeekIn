@@ -336,7 +336,7 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Concluir as duas decisões pendentes de `SKN-001` e finalizar `SKN-013`/`SKN-024` no Supabase Cloud. Em seguida, executar `SKN-002` a `SKN-007` e fechar as provas de banco do portão G1 antes de iniciar autenticação.
+Com `SKN-001` verificado, finalizar `SKN-013`/`SKN-024` no Supabase Cloud. Em seguida, executar `SKN-002` a `SKN-007` e fechar as provas de banco do portão G1 antes de iniciar autenticação.
 
 ---
 
