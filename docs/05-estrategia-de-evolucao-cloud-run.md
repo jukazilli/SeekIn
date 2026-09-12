@@ -5,7 +5,7 @@
 **Status:** direção futura aprovada  
 **Versão:** 0.1  
 **Data:** 12 de setembro de 2026  
-**Documentos relacionados:** [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) · [Engenharia e qualidade](04-requisitos-de-engenharia-e-qualidade.md) · [PRD](01-prd-mvp-planner.md)
+**Documentos relacionados:** [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) · [Engenharia e qualidade](04-requisitos-de-engenharia-e-qualidade.md) · [PRD](01-prd-mvp-planner.md) · [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md) · [Backlog](07-backlog-canonico.md)
 
 ---
 

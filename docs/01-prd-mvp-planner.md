@@ -955,18 +955,25 @@ Estas questões não bloqueiam a documentação, mas precisam ser confirmadas an
 9. Quais motivos opcionais serão oferecidos ao ignorar uma sessão?
 10. Qual ferramenta de analytics será permitida considerando privacidade e custo?
 
-## 25. Próximos artefatos
+## 25. Execução rastreável
 
-A [arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md) já registram a fundação de implementação.
+A fundação e a execução passam a ser controladas por:
 
-Próximos artefatos:
+- [contrato canônico de entrega e rastreabilidade](06-contrato-canonico-entrega-rastreabilidade.md);
+- [backlog canônico](07-backlog-canonico.md);
+- [matriz de rastreabilidade](08-matriz-rastreabilidade.md);
+- [modelo de evidências](evidencias/README.md).
+
+O backlog inclui como itens obrigatórios:
 
 1. especificação de UX com fluxos e estados;
 2. especificação de UI e design system;
 3. modelo físico de dados e migrations iniciais;
-4. backlog canônico com épicos, histórias e critérios de aceite;
-5. plano de testes do motor de planejamento;
-6. plano de instrumentação e beta.
+4. plano de testes do motor;
+5. plano de instrumentação e beta;
+6. fundação funcional de banco, frontend, backend, CI e deploy antes das funcionalidades.
+
+A implementação começa por SKN-001. Código funcional do produto só entra na branch principal após a aprovação do portão G2 — Fundação operacional em SKN-030.
 
 ---
 

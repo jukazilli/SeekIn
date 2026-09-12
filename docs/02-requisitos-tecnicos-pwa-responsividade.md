@@ -5,7 +5,7 @@
 **Status:** decisão registrada<br>
 **Versão:** 0.1<br>
 **Data:** 12 de setembro de 2026<br>
-**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md) · [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md)
+**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md) · [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) · [Backlog canônico](07-backlog-canonico.md)
 
 ---
 

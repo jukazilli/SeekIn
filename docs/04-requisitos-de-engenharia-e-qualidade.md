@@ -5,7 +5,7 @@
 **Status:** decisão aprovada  
 **Versão:** 0.1  
 **Data:** 12 de setembro de 2026  
-**Documentos relacionados:** [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) · [PRD](01-prd-mvp-planner.md) · [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) · [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md)
+**Documentos relacionados:** [Arquitetura técnica](03-arquitetura-tecnica-e-infraestrutura.md) · [PRD](01-prd-mvp-planner.md) · [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) · [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md) · [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md) · [Backlog](07-backlog-canonico.md)
 
 ---
 

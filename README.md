@@ -6,7 +6,7 @@
 
 **Versão:** 0.1
 
-**Documentação atual:** briefing, PRD, requisitos técnicos, arquitetura e engenharia
+**Documentação atual:** briefing, PRD, requisitos técnicos, arquitetura, engenharia e backlog canônico
 
 ## Documentação do produto
 
@@ -18,6 +18,10 @@
 | [Arquitetura técnica e infraestrutura](docs/03-arquitetura-tecnica-e-infraestrutura.md) | Definir stack, módulos, dados, segurança e implantação | Decisão aprovada |
 | [Engenharia, qualidade e manutenção](docs/04-requisitos-de-engenharia-e-qualidade.md) | Definir padrões de código, testes, CI e revisão | Decisão aprovada |
 | [Evolução para Google Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) | Preparar migração incremental de computação e servidor web | Direção futura aprovada |
+| [Contrato canônico de entrega](docs/06-contrato-canonico-entrega-rastreabilidade.md) | Definir aceite, estados, evidências e portões | Obrigatório |
+| [Backlog canônico](docs/07-backlog-canonico.md) | Ordenar fundação, funcionalidades, beta e evoluções | Pronto para execução |
+| [Matriz de rastreabilidade](docs/08-matriz-rastreabilidade.md) | Ligar requisitos, itens, verificações e evidências | Cobertura inicial completa |
+| [Modelo de evidências](docs/evidencias/README.md) | Padronizar a comprovação de cada entrega | Obrigatório |
 
 ---
 
@@ -660,7 +664,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 
 ## 31. Continuidade da documentação
 
-O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. A [arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a fundação de implementação e o caminho de escala. Os próximos artefatos recomendados são a especificação de UX, a especificação de UI, o modelo físico de dados e o backlog canônico.
+O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. A [arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a fundação e o caminho de escala. O [contrato canônico](docs/06-contrato-canonico-entrega-rastreabilidade.md), o [backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md) e o [modelo de evidências](docs/evidencias/README.md) controlam a execução. A próxima ação é resolver SKN-001 e iniciar a fundação técnica; UX, UI, modelo físico e planos de teste são itens rastreados no próprio backlog.
 
 ---
 
