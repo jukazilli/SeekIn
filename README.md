@@ -396,7 +396,7 @@ O feed permitirá publicar:
 - explicações e resumos;
 - conhecimento científico;
 - referências e materiais;
-- relatos de projetos ou casos de estudo;
+- relatos de projetos e aprendizados;
 - convites para comunidades e sessões coletivas.
 
 O feed terá carregamento contínuo, comentários, reações, salvamento e compartilhamento interno. A ordenação não deve otimizar apenas tempo de tela: utilidade, contexto, qualidade e segurança precisam ter peso explícito.
@@ -494,26 +494,11 @@ Capacidades necessárias:
 - controle de privacidade;
 - combate à desinformação acadêmica.
 
-## 21. Casos de estudo odontológicos e áreas reguladas
-
-A publicação de casos odontológicos é uma oportunidade futura, mas exige proteção adicional:
-
-- consentimento adequado;
-- anonimização de pacientes;
-- remoção de dados identificáveis;
-- controle de acesso e visibilidade;
-- regras para imagens clínicas;
-- separação entre conteúdo educacional e diagnóstico;
-- revisão jurídica, ética e de LGPD;
-- qualificação de profissionais quando aplicável.
-
-Esse recurso não faz parte do primeiro feed sem que os requisitos de segurança e conformidade estejam definidos.
-
 ---
 
 # Fase 3 — Mentorias
 
-## 22. Proposta
+## 21. Proposta
 
 O SeekIn permitirá que pessoas formadas, profissionais e estudantes experientes ajudem quem está começando.
 
@@ -527,7 +512,7 @@ Formatos possíveis:
 - sessão gratuita de comunidade;
 - conteúdo ou trilha vinculada a uma mentoria.
 
-## 23. Fluxo básico
+## 22. Fluxo básico
 
 1. Mentor cria perfil e informa credenciais.
 2. Mentor publica uma oferta com tema, formato, preço e disponibilidade.
@@ -538,7 +523,7 @@ Formatos possíveis:
 7. Participantes registram avaliação e resultado.
 8. A plataforma trata suporte, cancelamento e disputa.
 
-## 24. Monetização
+## 23. Monetização
 
 Hipóteses iniciais:
 
@@ -555,7 +540,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 
 # Jornada, domínio e evolução
 
-## 25. Jornada principal
+## 24. Jornada principal
 
 1. Criar uma conta e um perfil.
 2. Informar rotina, disponibilidade e limites.
@@ -566,7 +551,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 7. Encontrar servidor, canal e sala compatíveis com seu contexto.
 8. Pedir ajuda à comunidade ou contratar uma mentoria.
 
-## 26. Entidades principais
+## 25. Entidades principais
 
 | Domínio | Entidades |
 |---|---|
@@ -576,7 +561,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 | Conteúdo | publicação, comentário, reação, fonte, anexo, denúncia, moderação |
 | Mentoria | mentor, credencial, oferta, agenda, reserva, pagamento, avaliação, disputa |
 
-## 27. Roadmap recomendado
+## 26. Roadmap recomendado
 
 | Marco | Objetivo | Condição para avançar |
 |---|---|---|
@@ -588,7 +573,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 | M5 — Comunidades | Servidores, canais, salas, descoberta e governança | Baixa duplicidade e salas com atividade real |
 | M6 — Mentorias | Ofertas, agenda, pagamento, avaliação e suporte | Demanda recorrente e confiança entre participantes |
 
-## 28. Métricas de sucesso
+## 27. Métricas de sucesso
 
 ### Planner
 
@@ -623,7 +608,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 
 A definição operacional deve combinar sessões concluídas, atividades entregues no prazo e interações úteis. Tempo de tela, isoladamente, não representa sucesso.
 
-## 29. Riscos e respostas
+## 28. Riscos e respostas
 
 | Risco | Impacto | Resposta recomendada |
 |---|---|---|
@@ -636,7 +621,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 | Dados sensíveis | Risco de privacidade e conformidade | Minimização, consentimento, visibilidade e anonimização |
 | Mentoria inadequada | Fraude, abuso ou promessa indevida | Verificação, escopo, pagamentos protegidos e disputa |
 
-## 30. Decisões registradas
+## 29. Decisões registradas
 
 - o nome oficial do produto é **SeekIn**;
 - o produto começa pelo planner de estudos;
@@ -650,7 +635,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - a priorização inicial será determinística e baseada em regras explicáveis;
 - o PRD do MVP do planner está registrado em [`docs/01-prd-mvp-planner.md`](docs/01-prd-mvp-planner.md).
 
-## 31. Decisões em aberto
+## 30. Decisões em aberto
 
 - domínio oficial, identidade visual e registro da marca;
 - nicho inicial do beta;
@@ -660,9 +645,9 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - quem aprova canais em servidores existentes;
 - formatos permitidos no primeiro feed;
 - critérios de ordenação e de contribuição útil;
-- qualificação necessária para mentores e áreas reguladas;
+- critérios de qualificação e verificação de mentores;
 
-## 32. Continuidade da documentação
+## 31. Continuidade da documentação
 
 O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Depois de sua revisão, os próximos artefatos recomendados são a especificação de UX, a especificação de UI, a arquitetura técnica e o backlog canônico.
 
