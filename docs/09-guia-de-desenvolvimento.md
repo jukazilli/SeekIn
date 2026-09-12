@@ -8,12 +8,13 @@
 
 ## 1. Pré-requisitos
 
-- Node.js 24;
+- Node.js 22.23.2, ou outra versão `22.x` igual ou superior a 22.22.0;
 - pnpm 12.4.1 por Corepack;
-- Docker compatível com o Supabase CLI;
 - Git.
 
 As versões de runtime e dependências são fixadas em `.node-version`, `package.json` e `pnpm-lock.yaml`.
+O projeto permanece na linha Node 22 para ser compatível com os demais projetos locais. O
+mínimo 22.22.0 é exigido pelo React Router 8; não use versões anteriores da linha 22.
 
 ## 2. Instalação
 
@@ -22,6 +23,11 @@ corepack enable
 pnpm install --frozen-lockfile
 cp .env.example .env.local
 ```
+
+No Windows com `fnm`, execute `fnm install` e `fnm use` dentro do repositório antes do
+Corepack. Se a rede usa uma autoridade certificadora já confiável pelo Windows e o Corepack
+reportar `SELF_SIGNED_CERT_IN_CHAIN`, habilite `NODE_USE_SYSTEM_CA=1`; não desative a
+verificação TLS.
 
 O arquivo `.env.local` não deve ser versionado. Variáveis iniciadas por `VITE_` podem entrar no bundle do navegador e, portanto, nunca recebem chaves secretas ou `service_role`.
 
@@ -43,26 +49,31 @@ O build de produção usa React Router em Framework Mode, Vite e o runtime do Cl
 pnpm build
 ```
 
-## 4. Banco e backend local
+## 4. Banco e backend no Supabase Cloud
 
 ```bash
-pnpm supabase:start
-pnpm supabase:reset
+pnpm exec supabase login
+pnpm exec supabase link --project-ref <project-ref>
+pnpm supabase:push:dry
+pnpm supabase:push
 pnpm supabase:test
 ```
 
-O primeiro `start` baixa as imagens necessárias. As migrations são a fonte de verdade; alterações manuais no Dashboard não substituem migration.
+O projeto não usa Docker nem executa um banco Supabase local. As migrations versionadas são a
+fonte de verdade e chegam ao ambiente cloud pela integração oficial com o GitHub ou, quando
+necessário, por um `db push` explícito. Alterações manuais de schema no Dashboard não substituem
+migration.
+
+O projeto Supabase `SeekIn` está vinculado ao repositório `jukazilli/SeekIn`, com diretório de
+trabalho `.` e deploy de produção a partir da branch `main`. No plano Free, preview branches
+automáticas não estão disponíveis; por isso, nenhuma pull request pode executar testes destrutivos
+no projeto do beta. O comando `supabase:test` só deve ser usado contra um projeto cloud de
+desenvolvimento descartável ou antes da entrada de usuários reais.
 
 A Edge Function `health` possui dois modos:
 
 - `?mode=liveness` — resposta pública mínima, sem consultar dados;
 - `?mode=readiness` — exige Bearer token válido e chama `foundation_health()` com RLS e privilégios explícitos.
-
-Para encerrar os serviços:
-
-```bash
-pnpm supabase:stop
-```
 
 ## 5. Validação canônica
 
@@ -78,7 +89,9 @@ Esse comando executa, na ordem:
 4. testes Vitest;
 5. build de produção.
 
-O workflow `.github/workflows/ci.yml` repete a validação e executa reset e pgTAP em banco limpo. Nenhum item de banco é considerado concluído apenas por revisão estática.
+O workflow `.github/workflows/ci.yml` repete a validação da aplicação. Migrations são verificadas
+e aplicadas pelo GitHub Integration do Supabase depois de entrarem em `main`. pgTAP, Advisors e
+smoke remoto completam a evidência de banco; nenhum item é concluído apenas por revisão estática.
 
 ## 6. Estrutura
 
@@ -99,7 +112,7 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
 
 - workspace, contratos, web, build e testes unitários estão implementados;
 - Supabase CLI, migration inicial, RLS, pgTAP e health backend estão preparados;
-- a execução local de banco exige Docker;
-- o projeto remoto Supabase e o deploy Cloudflare permanecem pendentes de autorização e configuração explícitas;
+- o projeto Supabase cloud do SeekIn foi criado em São Paulo e vinculado ao GitHub;
+- o deploy Cloudflare permanece pendente de autorização e configuração explícitas;
 - autenticação, onboarding e planner ainda não foram iniciados, por decisão do portão de fundação.
 

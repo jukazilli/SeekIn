@@ -16,7 +16,7 @@ A sequência oficial é:
 
 ```mermaid
 flowchart TD
-    G0["G0 Planejamento"] --> G1["G1 Fundação local"]
+    G0["G0 Planejamento"] --> G1["G1 Fundação reproduzível"]
     G1 --> G2["G2 Fundação operacional"]
     G2 --> G3["G3 Núcleo utilizável"]
     G3 --> G4["G4 MVP completo"]
@@ -43,7 +43,7 @@ flowchart TD
 | Épico | Resultado | Portão |
 |---|---|---|
 | EP-00 — Controle de produto | decisões, UX, UI e contratos prontos | G0 |
-| EP-01 — Repositório e ambiente local | projeto reproduzível localmente | G1 |
+| EP-01 — Repositório e ambiente cloud | projeto reproduzível sem Docker | G1 |
 | EP-02 — Dados e backend base | banco e função protegidos e testados | G1 |
 | EP-03 — Deploy e CI/CD | versão única funcionando de ponta a ponta | G2 |
 | EP-04 — Autenticação e identidade | conta e sessão seguras | G3 |
@@ -81,16 +81,16 @@ flowchart TD
 
 ---
 
-# G1 — Fundação local reproduzível
+# G1 — Fundação cloud reproduzível
 
-## EP-01 — Repositório e ambiente local
+## EP-01 — Repositório e ambiente cloud
 
 | ID | P | Resultado e aceite | Dependências | Fontes | Evidência mínima |
 |---|---|---|---|---|---|
 | SKN-010 | P0 | Criar workspace `pnpm` com `apps/web`, `packages/domain`, `packages/contracts`, `packages/planner-core`, `supabase` e `tests/e2e`. Clone limpo instala sem alteração manual. | SKN-004 | Arquitetura §6 | `CODE` + `TEST`: instalação limpa |
-| SKN-011 | P0 | Fixar Node, pnpm e dependências; habilitar lockfile, TypeScript strict, formatação, lint e scripts canônicos. `pnpm validate` falha em erro real. | SKN-010 | Arquitetura §5; Engenharia §§4, 13 e 15 | `CODE` + `TEST`: versões e pipeline local |
+| SKN-011 | P0 | Fixar Node, pnpm e dependências; habilitar lockfile, TypeScript strict, formatação, lint e scripts canônicos. `pnpm validate` falha em erro real. | SKN-010 | Arquitetura §5; Engenharia §§4, 13 e 15 | `CODE` + `TEST`: versões e pipeline reproduzível |
 | SKN-012 | P0 | Criar contrato de configuração por ambiente com `.env.example`, validação Zod e separação cliente/servidor. Nenhum segredo entra no bundle ou Git. | SKN-011 | Engenharia §§6 e 11; Cloud Run §6.3 | `CODE` + `TEST`: configuração válida/inválida |
-| SKN-013 | P0 | Configurar Supabase CLI e runtime local conforme comandos descobertos por `--help`. `supabase start` e reset do banco funcionam a partir do repositório. | SKN-010 | Arquitetura §§7 e 13 | `CODE` + `DB`: status e reset local |
+| SKN-013 | P0 | Configurar Supabase CLI para projeto cloud explicitamente vinculado, sem Docker. `db push --dry-run`, migrations e pgTAP funcionam contra ambiente isolado, sem reset destrutivo do beta. | SKN-010 | Arquitetura §§7 e 13 | `CODE` + `DB`: vínculo, dry-run e testes remotos |
 | SKN-014 | P0 | Criar aplicação React Router/Vite mínima com shell, rota pública e rota `/health`; build de produção executa localmente. | SKN-011, SKN-012 | Arquitetura §§3–6 | `CODE` + `TEST`: build e health web |
 | SKN-015 | P0 | Implementar layout responsivo vazio, boundary de erro, carregamento e página não encontrada, sem ainda codificar funcionalidades do planner. | SKN-003, SKN-014 | PWA §§3–4 e 9; RNF-014 | `TEST` + `UX`: 360, 768, 1024 e 1280 px |
 | SKN-016 | P0 | Criar dados sintéticos e comandos de seed determinísticos para desenvolvimento e E2E. Nenhum dado real é utilizado. | SKN-013, SKN-004 | Engenharia §§7 e 11.2 | `CODE` + `DB`: seed repetível |
@@ -102,11 +102,11 @@ flowchart TD
 | SKN-017 | P0 | Criar migrations iniciais para perfil, preferência, disponibilidade, bloqueio, disciplina, atividade, plano, sessão, execução e alerta, com constraints e índices básicos. Banco vazio chega ao mesmo schema. | SKN-004, SKN-013 | PRD §10; Arquitetura §7.5 | `DB`: migrations, diff e lista |
 | SKN-018 | P0 | Aplicar grants explícitos e RLS por operação em toda tabela exposta. Usuário A não lê nem altera dados do usuário B; `anon` só recebe o necessário. | SKN-017 | RNF-005/006; Arquitetura §§7.3–7.4 | `DB` + `TEST`: pgTAP positivo e negativo |
 | SKN-019 | P0 | Gerar tipos TypeScript do banco e criar adaptadores de repositório sem importar Supabase no domínio ou nos componentes. | SKN-017, SKN-011 | Arquitetura §§4.2 e 7.2; Engenharia §6 | `CODE` + `TEST`: teste de fronteira |
-| SKN-020 | P0 | Criar Edge Function `/health` com liveness público mínimo e readiness protegido, contrato Zod, versão, correlação e códigos estáveis; nenhuma resposta expõe segredo, dado de aluno ou stack trace. | SKN-012, SKN-013 | Arquitetura §§3 e 14; Engenharia §6 | `CODE` + `TEST`: chamada local válida, inválida e sem permissão |
+| SKN-020 | P0 | Criar Edge Function `/health` com liveness público mínimo e readiness protegido, contrato Zod, versão, correlação e códigos estáveis; nenhuma resposta expõe segredo, dado de aluno ou stack trace. | SKN-012, SKN-013 | Arquitetura §§3 e 14; Engenharia §6 | `CODE` + `TEST`: chamada cloud válida, inválida e sem permissão |
 | SKN-021 | P0 | Criar health check de banco usado pelo backend, sem consulta privilegiada a dados de aluno. Falha de banco retorna indisponibilidade explícita. | SKN-017, SKN-020 | Engenharia §§7 e 12 | `TEST` + `OBS`: sucesso, falha e correlação |
 | SKN-022 | P0 | Validar schema com pgTAP, reset em banco limpo, Security Advisor e Performance Advisor. Bloquear grants excessivos, tabela exposta sem RLS e migration irreproduzível. | SKN-018, SKN-021 | Arquitetura §7; Engenharia §§7–8 | `DB` + `TEST`: relatório sem bloqueadores |
 
-**Saída do G1:** web, backend e banco funcionam localmente, mas nenhuma tela funcional do produto é iniciada.
+**Saída do G1:** web, backend e banco cloud funcionam de forma reproduzível, mas nenhuma tela funcional do produto é iniciada.
 
 ---
 
@@ -116,7 +116,7 @@ flowchart TD
 
 | ID | P | Resultado e aceite | Dependências | Fontes | Evidência mínima |
 |---|---|---|---|---|---|
-| SKN-023 | P0 | Configurar GitHub Actions para instalação, formato, lint, tipos, unidade, banco limpo, build e smoke. PR sem credencial de produção executa validação reproduzível. | SKN-011, SKN-022 | Arquitetura §13.2; Engenharia §15 | `TEST`: workflow verde e falha provocada |
+| SKN-023 | P0 | Configurar GitHub Actions para instalação, formato, lint, tipos, unidade e build; integrar o Supabase ao GitHub para validar e aplicar migrations. PR sem credencial de produção executa validação reproduzível e não altera o banco do beta. | SKN-011, SKN-022 | Arquitetura §13.2; Engenharia §15 | `TEST` + `DEPLOY`: workflow e integração verdes |
 | SKN-024 | P0 | Confirmar ou criar o projeto Supabase do beta na organização correta, região aprovada e configurações de Auth/Data API revisadas. A vinculação é explícita e não altera outro ambiente. | SKN-001, SKN-022 | Arquitetura §§7 e 13.1 | `DEPLOY` + `DB`: project ref, migrations e advisors |
 | SKN-025 | P0 | Configurar Cloudflare Workers + Static Assets e ambiente Preview com dados sintéticos ou backend isolado. Preview nunca aponta automaticamente para dados reais. | SKN-014, SKN-023 | Arquitetura §§3, 5 e 13 | `DEPLOY`: URL, SHA e health web |
 | SKN-026 | P0 | Configurar ambiente Beta com variáveis separadas, HTTPS, cabeçalhos básicos e acesso ao Supabase correto. | SKN-024, SKN-025 | Arquitetura §13; Engenharia §11.1 | `DEPLOY` + `TEST`: headers, ref e health |
@@ -135,7 +135,7 @@ flowchart TD
 
 | ID | P | Resultado e aceite | Dependências | Fontes | Evidência mínima |
 |---|---|---|---|---|---|
-| SKN-040 | P0 | Implementar criação de conta pelo método aprovado, validação, confirmação aplicável e mensagens sem enumeração indevida de usuários. | SKN-030, SKN-001 | RF-001; PRD §12.1 | `TEST` + `UX`: conta válida e erros |
+| SKN-040 | P0 | Implementar conta por e-mail e senha, verificação obrigatória via Resend e mensagens sem enumeração indevida de usuários. O domínio transacional deve possuir SPF, DKIM e DMARC; rastreamento de abertura/clique fica desativado. | SKN-030, SKN-001 | RF-001; PRD §§12.1 e 24.1 | `TEST` + `UX` + `DEPLOY`: conta válida, erros e entrega autenticada |
 | SKN-041 | P0 | Implementar entrada, renovação de sessão, guarda de rotas e retorno seguro à rota pretendida. Sessão inválida não acessa conteúdo protegido. | SKN-040 | RF-001; RNF-005/006 | `TEST`: E2E autenticado e não autenticado |
 | SKN-042 | P0 | Implementar saída com limpeza do estado e dados privados locais. Outro usuário no mesmo dispositivo não vê o plano anterior. | SKN-041 | RF-001; PWA §11 | `TEST`: logout e troca de usuário |
 | SKN-043 | P0 | Implementar recuperação de acesso com resposta segura para conta existente ou inexistente. | SKN-040 | RF-001 | `TEST` + `UX`: fluxo completo |
@@ -321,7 +321,7 @@ O primeiro ciclo deve seguir esta ordem:
 
 1. `SKN-001` — resolver decisões bloqueadoras;
 2. `SKN-002` a `SKN-007` — fechar especificações e provas;
-3. `SKN-010` a `SKN-022` — fazer web, backend e banco funcionarem localmente;
+3. `SKN-010` a `SKN-022` — fazer web, backend e banco cloud funcionarem de forma reproduzível;
 4. `SKN-023` a `SKN-030` — provar CI, preview, beta e smoke ponta a ponta;
 5. somente então iniciar `SKN-040` — autenticação.
 
@@ -336,7 +336,7 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Iniciar `SKN-001`. Após as decisões, executar `SKN-010` e `SKN-013` para levantar o workspace e o Supabase local, mantendo `SKN-002` a `SKN-007` em paralelo somente como trabalho documental ou prova técnica.
+Concluir as duas decisões pendentes de `SKN-001` e finalizar `SKN-013`/`SKN-024` no Supabase Cloud. Em seguida, executar `SKN-002` a `SKN-007` e fechar as provas de banco do portão G1 antes de iniciar autenticação.
 
 ---
 

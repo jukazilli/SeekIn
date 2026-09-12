@@ -117,7 +117,7 @@ Dependências sempre apontam para o domínio. Código de negócio não importa S
 | Testes unitários | Vitest | domínio e aplicação |
 | Testes de componentes | Testing Library | comportamento observável |
 | Testes ponta a ponta | Playwright | jornadas, navegadores e dispositivos |
-| Testes de banco | pgTAP e Supabase local | políticas, funções e invariantes SQL |
+| Testes de banco | pgTAP em projeto Supabase Cloud isolado | políticas, funções e invariantes SQL |
 
 Versões exatas serão definidas no início da implementação, fixadas no gerenciador de pacotes e registradas no lockfile. Dependências beta não entram no caminho crítico sem uma decisão arquitetural específica.
 
@@ -315,19 +315,23 @@ Reservas, ofertas, pagamentos e disputas formam um limite de domínio separado. 
 
 | Ambiente | Finalidade | Infraestrutura inicial |
 |---|---|---|
-| Local | desenvolvimento e testes | Supabase local e runtime local da aplicação |
-| Preview | revisão de interface e código | deploy efêmero; dados sintéticos |
+| Desenvolvimento | implementação e testes | runtime local da aplicação e projeto Supabase Cloud isolado |
+| Preview | revisão de interface e código | deploy efêmero no Cloudflare; dados sintéticos |
 | Beta | 1 a 5 usuários | Cloudflare Free e Supabase Free |
 | Produção | usuários reais e compromisso de disponibilidade | planos pagos definidos por capacidade e risco |
 
-O ambiente local deve ser reproduzível a partir do repositório. Preview nunca deve apontar automaticamente para dados reais de produção.
+O SeekIn não depende de Docker nem de Supabase local. A aplicação continua reproduzível a partir
+do repositório, enquanto banco, Auth e Edge Functions executam no Supabase Cloud. Preview nunca
+deve apontar automaticamente para dados reais do beta ou da produção. Enquanto o plano Free não
+oferecer preview branches automáticas, mudanças de banco entram em `main` somente após revisão e
+são aplicadas pela integração oficial do Supabase com o GitHub.
 
 ### 13.2 Pipeline
 
 1. validar formatação e lint;
 2. executar TypeScript;
 3. executar testes unitários e de integração;
-4. validar migrations em banco limpo;
+4. validar migrations em projeto cloud isolado ou pela verificação do Supabase GitHub Integration;
 5. executar build de produção;
 6. executar testes ponta a ponta essenciais;
 7. gerar preview;

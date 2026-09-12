@@ -247,7 +247,7 @@ Um ambiente só está pronto quando possui:
 | Portão | Libera | Condição obrigatória |
 |---|---|---|
 | `G0 — Planejamento controlado` | setup técnico | contrato, backlog, matriz e decisões bloqueadoras aprovados |
-| `G1 — Fundação local` | deploy remoto | workspace, web, backend, banco, migrations e testes funcionando localmente |
+| `G1 — Fundação reproduzível` | deploy beta | workspace, web, backend, banco cloud, migrations e testes reproduzíveis |
 | `G2 — Fundação operacional` | funcionalidades do produto | CI, preview, beta, health checks, RLS e smoke test verificados |
 | `G3 — Núcleo utilizável` | visões finais | auth, onboarding, rotina, atividade e primeira geração ponta a ponta |
 | `G4 — MVP completo` | beta com usuários | execução, replanejamento, Hoje, Lista, Calendário, Gantt e PWA aceitos |
@@ -260,7 +260,7 @@ O início exploratório de UX e provas técnicas pode ocorrer antes de `G2`. Có
 O portão só passa quando uma única versão comprova:
 
 1. instalação reproduzível a partir de clone limpo;
-2. aplicação web responde em ambiente local e remoto;
+2. aplicação web responde no runtime de desenvolvimento e no ambiente remoto;
 3. função backend `/health` responde com versão e correlação;
 4. banco aplica todas as migrations em instância vazia;
 5. consulta autenticada de saúde do banco funciona;

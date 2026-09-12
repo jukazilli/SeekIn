@@ -157,8 +157,8 @@ Nem todo módulo precisa iniciar com todas as pastas. A estrutura cresce quando 
 | Unidade | Vitest | regras puras e casos de uso |
 | Propriedades | fast-check | invariantes do planejador |
 | Componentes | Testing Library | estados e interação acessível |
-| Banco | pgTAP/Supabase local | constraints, funções, grants e RLS |
-| Integração | Vitest contra ambiente local | repositórios e funções |
+| Banco | pgTAP/Supabase Cloud isolado | constraints, funções, grants e RLS |
+| Integração | Vitest contra ambiente cloud isolado | repositórios e funções |
 | Ponta a ponta | Playwright | jornadas completas em navegadores e dispositivos |
 
 Cobertura é um indicador, não o objetivo. Código crítico sem teste é bloqueador mesmo quando a porcentagem global estiver alta.

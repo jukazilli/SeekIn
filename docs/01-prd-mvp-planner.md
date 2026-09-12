@@ -101,6 +101,9 @@ Estudantes de graduação, presenciais ou a distância, que conciliam estudos co
 
 ### 5.2 Premissas adotadas nesta versão
 
+- o público é acadêmico geral; estudantes da Unicesumar formam a primeira instituição de validação, sem regras exclusivas para ela;
+- a conta usa e-mail e senha, com verificação obrigatória do endereço;
+- os e-mails de autenticação são enviados pelo Resend usando o domínio `soberania.tech` e autenticação de domínio adequada;
 - o MVP será uma PWA responsiva;
 - a Lista será a visão principal em celulares e tablets em modo retrato;
 - o Gantt completo não será exibido em celulares;
@@ -122,15 +125,15 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 
 | Área | Capacidade |
 |---|---|
-| Conta | criar conta, entrar, sair e recuperar acesso |
+| Conta | criar conta por e-mail, verificar o endereço, entrar, sair e recuperar acesso |
 | Preferências | fuso, início da semana, duração de sessão e reserva |
 | Disponibilidade | cadastrar janelas semanais e exceções por data |
 | Rotina | registrar compromissos que consomem disponibilidade |
 | Disciplinas | criar, editar, arquivar e identificar por cor |
-| Atividades | cadastrar prazo, esforço, prioridade, notas e progresso |
+| Atividades | cadastrar com disciplina opcional, prazo, esforço, prioridade, notas e progresso |
 | Planejamento | gerar, explicar e versionar um plano |
 | Capacidade | comparar demanda e tempo líquido disponível |
-| Execução | iniciar, concluir, ignorar e registrar esforço real |
+| Execução | criar sessão manual, iniciar, concluir, ignorar e registrar esforço real |
 | Replanejamento | recalcular sessões afetadas e preservar sessões fixadas |
 | Hoje | mostrar próxima sessão, entregas e capacidade do dia |
 | Lista | agrupar sessões atrasadas, de hoje e dos próximos dias |
@@ -143,7 +146,6 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 ### 6.2 Preparado no domínio, mas sem interface completa
 
 - perfil social básico associado à conta;
-- origem da sessão: automática ou manual;
 - histórico de versões do plano;
 - estrutura para futura integração com calendários.
 
@@ -235,7 +237,7 @@ As prioridades usam:
 
 | ID | Prioridade | Requisito |
 |---|---|---|
-| RF-001 | P0 | O usuário deve criar uma conta, entrar, sair e recuperar acesso. |
+| RF-001 | P0 | O usuário deve criar uma conta por e-mail e senha, verificar o endereço, entrar, sair e recuperar acesso. Google e outros provedores sociais ficam fora do P0. |
 | RF-002 | P0 | Cada conta deve possuir um perfil básico com nome e fuso horário. |
 | RF-003 | P0 | O usuário deve configurar início da semana, duração padrão de sessão e reserva de capacidade. |
 | RF-004 | P0 | O sistema deve salvar datas e horários de forma segura para diferentes fusos. |
@@ -267,7 +269,7 @@ As prioridades usam:
 | ID | Prioridade | Requisito |
 |---|---|---|
 | RF-030 | P0 | O usuário deve criar uma atividade com título, prazo e esforço estimado. |
-| RF-031 | P0 | O usuário pode associar disciplina, tipo, prioridade e notas. |
+| RF-031 | P0 | O usuário pode associar disciplina, tipo, prioridade e notas. A disciplina é opcional para atividades gerais, extensionistas ou complementares. |
 | RF-032 | P0 | O esforço deve ser registrado em minutos, ainda que exibido em horas e minutos. |
 | RF-033 | P0 | O prazo deve conter data e, opcionalmente, hora. |
 | RF-034 | P0 | Quando a hora não for informada, o prazo será 23:59 no fuso do usuário. |
@@ -372,6 +374,11 @@ As prioridades usam:
 | RF-106 | P0 | Antes de aplicar mudanças relevantes, o sistema deve resumir sessões criadas, movidas e removidas. |
 | RF-107 | P0 | O usuário deve aceitar ou cancelar o novo plano. |
 | RF-108 | P0 | Cancelar deve manter o plano anterior válido. |
+
+Ao marcar uma sessão como não realizada, o motivo é opcional. As opções iniciais são:
+`imprevisto ou falta de tempo`, `cansaço ou saúde`, `prioridade mudou`, `horário inadequado`,
+`material indisponível`, `atividade já realizada fora do SeekIn`, `sessão não é mais necessária`
+e `outro`. Ao selecionar `outro`, o usuário pode descrever brevemente o motivo, sem obrigação.
 
 ### 9.13 Notas e materiais
 
@@ -925,6 +932,9 @@ O MVP pode ser liberado para o beta quando:
 
 ## 23. Decisões de produto registradas neste PRD
 
+- o produto atende o público acadêmico geral; a Unicesumar será a primeira instituição de validação;
+- o P0 terá conta por e-mail e senha com verificação obrigatória, sem login Google;
+- o envio transacional de autenticação usará Resend no domínio `soberania.tech`;
 - o MVP será uma PWA responsiva e continuará funcional sem instalação;
 - a tela “Hoje” é o ponto inicial após o onboarding;
 - Gantt é principal para planejamento no desktop;
@@ -934,26 +944,44 @@ O MVP pode ser liberado para o beta quando:
 - o Gantt em tablet paisagem depende de validação de usabilidade;
 - a priorização v1 será determinística e baseada em regras;
 - a reserva inicial de capacidade será 20%;
-- a sessão padrão será 50 minutos e a mínima 25 minutos;
+- a reserva de capacidade poderá ser alterada pelo aluno;
+- a sessão padrão será 50 minutos e a mínima 25 minutos; o aluno poderá alterar a duração padrão;
+- atividades poderão existir sem disciplina;
+- o aluno poderá criar sessões totalmente manuais no P0;
 - o motor buscará folga de 24 horas antes do prazo;
 - mudanças relevantes exigem confirmação;
+- ignorar uma sessão poderá usar um motivo sugerido ou a opção `outro` com texto opcional;
 - sessões concluídas e fixadas nunca serão movidas automaticamente;
 - Google Calendar, IA e recursos sociais ficam fora do P0.
 
-## 24. Questões para revisão do Product Owner
+## 24. Revisão do Product Owner
 
-Estas questões não bloqueiam a documentação, mas precisam ser confirmadas antes da implementação definitiva:
+| Decisão | Estado | Resultado |
+|---|---|---|
+| Público do beta | Aprovada | Público acadêmico geral, começando a validação por estudantes da Unicesumar. |
+| Criação de conta | Aprovada | E-mail e senha, com verificação pelo Resend; login Google fica fora do P0. |
+| Reserva padrão | Aprovada | Começa em 20% e pode ser alterada pelo aluno. |
+| Sessão padrão | Aprovada | Começa em 50 minutos e pode ser alterada pelo aluno. |
+| Atividade sem disciplina | Aprovada | Permitida para demandas gerais, extensionistas e complementares. |
+| Sessão totalmente manual | Aprovada | Permitida no P0 e contabilizada na capacidade. |
+| Distância entre criação e prazo | Pendente | Recomendação: não impor máximo; limitar somente o cálculo automático ao horizonte de 90 dias. |
+| Confirmação do plano | Aprovada | Exigida na primeira geração e apenas em mudanças relevantes posteriores. |
+| Motivo ao ignorar sessão | Aprovada | Lista inicial definida na seção 9.12, com `outro` e texto opcional. |
+| Analytics | Pendente | Recomendação: no beta, eventos próprios no Supabase, sem ferramenta externa nem conteúdo pessoal. |
 
-1. O beta inicial será focado em estudantes da Unicesumar ou terá público acadêmico geral?
-2. A criação de conta será por e-mail, Google ou ambos?
-3. A reserva padrão de 20% pode ser alterada livremente pelo aluno?
-4. O limite de 50 minutos representa bem a sessão padrão desejada?
-5. Atividades sem disciplina serão permitidas?
-6. O usuário poderá criar sessões totalmente manuais no P0?
-7. Qual será o período máximo permitido entre criação e prazo?
-8. O plano deve ser confirmado a cada alteração ou apenas quando a mudança for relevante?
-9. Quais motivos opcionais serão oferecidos ao ignorar uma sessão?
-10. Qual ferramenta de analytics será permitida considerando privacidade e custo?
+### 24.1 Requisitos de entrega dos e-mails de autenticação
+
+- usar remetente transacional em subdomínio dedicado de `soberania.tech`;
+- verificar SPF e DKIM no Resend e publicar política DMARC;
+- configurar SMTP próprio do Supabase Auth; o SMTP padrão não é aceito no beta;
+- manter confirmação de e-mail obrigatória e `mailer_autoconfirm` desativado;
+- alinhar o domínio dos links de autenticação ao domínio do produto quando o ambiente beta estiver disponível;
+- desativar rastreamento de abertura e clique nos e-mails de autenticação;
+- separar e-mails de autenticação de qualquer envio de marketing;
+- testar entrega, bounce e complaint antes de liberar o beta.
+
+Essas medidas aumentam a entregabilidade, mas nenhum provedor pode garantir que toda mensagem
+ficará fora da caixa de spam. A reputação será acompanhada no Resend durante o beta.
 
 ## 25. Execução rastreável
 

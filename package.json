@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@12.4.1",
   "engines": {
-    "node": ">=24 <25",
+    "node": ">=22.22.0 <23",
     "pnpm": ">=12 <13"
   },
   "scripts": {
@@ -18,10 +18,9 @@
     "test:watch": "vitest",
     "typecheck": "pnpm -r --if-present typecheck",
     "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
-    "supabase:start": "supabase start -x studio,imgproxy,mailpit,logflare,vector,supavisor",
-    "supabase:stop": "supabase stop",
-    "supabase:reset": "supabase db reset --local",
-    "supabase:test": "supabase test db --local supabase/tests/database"
+    "supabase:push:dry": "supabase db push --linked --dry-run",
+    "supabase:push": "supabase db push --linked",
+    "supabase:test": "supabase test db --linked supabase/tests/database"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",

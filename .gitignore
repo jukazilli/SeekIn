@@ -10,6 +10,7 @@ coverage/
 .react-router/
 playwright-report/
 test-results/
+.playwright-cli/
 worker-configuration.d.ts
 *.tsbuildinfo
 
