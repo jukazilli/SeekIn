@@ -128,4 +128,4 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-018 | Em desenvolvimento | [RLS e grants](SKN-018.md) |
 | SKN-020 | Em desenvolvimento | [Health backend](SKN-020.md) |
 | SKN-023 | Em desenvolvimento | [CI](SKN-023.md) |
-| SKN-024 | Em desenvolvimento | [Projeto Supabase do beta](SKN-024.md) |
+| SKN-024 | Em revisão | [Projeto Supabase do beta](SKN-024.md) |
