@@ -6,7 +6,7 @@
 
 **Versão:** 0.1
 
-**Documentação atual:** briefing e PRD do MVP do planner
+**Documentação atual:** briefing, PRD e requisitos técnicos do MVP
 
 ## Documentação do produto
 
@@ -14,6 +14,7 @@
 |---|---|---|
 | **Briefing de Produto** — este arquivo | Registrar visão, fases e decisões gerais | Versão 0.1 |
 | [PRD — MVP do Planner](docs/01-prd-mvp-planner.md) | Especificar o primeiro produto entregável | Pronto para revisão |
+| [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) | Definir instalação, layouts e visões por dispositivo | Decisão registrada |
 
 ---
 
@@ -259,11 +260,13 @@ Sessões fixadas pelo aluno devem ser preservadas sempre que possível. Mudança
 - prazo, esforço, prioridade e notas;
 - geração de sessões de estudo;
 - tela “Hoje” com próxima ação;
+- lista de tarefas de hoje e dos próximos dias;
 - Gantt simplificado;
 - calendário;
 - conclusão e replanejamento de sessões;
 - alertas de risco e conflito de capacidade;
 - progresso por atividade;
+- instalação como PWA quando suportada;
 - experiência responsiva para desktop, tablet e celular.
 
 ### P1 — após validar o núcleo
@@ -297,6 +300,7 @@ A direção escolhida é uma interface **clean e minimalista**, inspirada na cap
 ### 15.1 Navegação principal
 
 - **Hoje:** o que fazer agora e o que vence em seguida.
+- **Lista:** sessões atrasadas, de hoje e dos próximos dias.
 - **Plano:** visão Gantt das atividades e sessões.
 - **Calendário:** distribuição temporal e compromissos.
 - **Atividades:** cadastro, filtros e acompanhamento.
@@ -342,10 +346,11 @@ A tela “Hoje” deve reduzir a tomada de decisão. Sua hierarquia recomendada 
 
 ### 15.5 Adaptação para celular
 
-O celular não deve exibir um Gantt desktop comprimido. A adaptação usa:
+O celular não deve exibir um Gantt desktop comprimido. A Lista é a visão principal do plano e a adaptação usa:
 
-- agenda vertical;
-- cartões de sessão;
+- grupos de tarefas atrasadas, de hoje e dos próximos dias;
+- cartões de sessão com ações rápidas;
+- calendário em agenda vertical;
 - linha do tempo diária ou semanal;
 - prazos destacados;
 - ações rápidas na parte inferior;
@@ -545,7 +550,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 1. Criar uma conta e um perfil.
 2. Informar rotina, disponibilidade e limites.
 3. Cadastrar atividades com prazo, esforço, prioridade e notas.
-4. Receber um plano com Gantt, calendário e próxima sessão recomendada.
+4. Receber um plano com Lista, Gantt, calendário e próxima sessão recomendada.
 5. Executar, concluir ou replanejar sessões conforme a realidade.
 6. Compartilhar uma dúvida ou aprendizado no perfil, feed ou sala.
 7. Encontrar servidor, canal e sala compatíveis com seu contexto.
@@ -566,7 +571,7 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 | Marco | Objetivo | Condição para avançar |
 |---|---|---|
 | M0 — Descoberta | Validar prioridade, disponibilidade e esforço com estudantes | Modelo mental compreendido sem explicar MRP ou CRP |
-| M1 — Planner básico | Conta, rotina, atividades, Hoje, Gantt e calendário | Fluxo completo funciona com dados manuais |
+| M1 — Planner básico | Conta, rotina, atividades, Hoje, Lista, Gantt e calendário | Fluxo completo funciona com dados manuais |
 | M2 — Planejamento inteligente | Capacidade, risco, dependências e replanejamento | Planos continuam viáveis após mudanças |
 | M3 — Beta fechado | Testar com grupo pequeno e medir execução | Retenção e confiança suficientes para ampliar |
 | M4 — Identidade e feed | Perfis, conexões, seguidores e feed universal | Conteúdo útil e moderação operável |
@@ -632,6 +637,9 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - servidores e canais organizam; a conversa acontece nas salas;
 - a monetização futura inclui mentorias;
 - o MVP será uma aplicação web responsiva;
+- o MVP será instalável como PWA quando o navegador permitir;
+- a Lista será a visão principal do plano em celulares e tablets em retrato;
+- o Gantt completo ficará restrito a telas grandes, com avaliação específica para tablets em paisagem;
 - a priorização inicial será determinística e baseada em regras explicáveis;
 - o PRD do MVP do planner está registrado em [`docs/01-prd-mvp-planner.md`](docs/01-prd-mvp-planner.md).
 
@@ -649,7 +657,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 
 ## 31. Continuidade da documentação
 
-O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Depois de sua revisão, os próximos artefatos recomendados são a especificação de UX, a especificação de UI, a arquitetura técnica e o backlog canônico.
+O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. Depois da revisão, os próximos artefatos recomendados são a especificação de UX, a especificação de UI, a arquitetura técnica e o backlog canônico.
 
 ---
 

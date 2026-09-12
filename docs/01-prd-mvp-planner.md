@@ -14,7 +14,7 @@
 
 O MVP do SeekIn permitirá que um estudante informe sua rotina, disponibilidade e atividades acadêmicas para receber um plano de estudo viável. O sistema usará conceitos de MRP e CRP adaptados ao tempo para decompor o esforço de cada atividade em sessões, comparar a demanda com a capacidade disponível e indicar o que fazer agora.
 
-O MVP será uma aplicação web responsiva, utilizável em celular, tablet e desktop. A experiência terá baixa densidade visual, com uma tela “Hoje” orientada à execução, Gantt simplificado no desktop e calendário como visão complementar.
+O MVP será uma PWA responsiva, instalável quando o navegador permitir e utilizável como site em celular, tablet e desktop. A experiência terá baixa densidade visual, com “Hoje” orientado à execução, Lista como visão principal em telas compactas, Gantt no desktop e calendário como visão complementar.
 
 O produto deve provar três hipóteses:
 
@@ -45,7 +45,7 @@ Transformar atividades acadêmicas em um plano de sessões compatível com a cap
 - priorizar atividades por risco e prazo de forma explicável;
 - apresentar a próxima ação na tela “Hoje”;
 - permitir concluir, ignorar, mover, fixar e replanejar sessões;
-- oferecer Gantt e calendário coerentes com o mesmo plano;
+- oferecer Lista, Gantt e calendário coerentes com o mesmo plano;
 - medir ativação, execução, confiança e entrega no prazo.
 
 ### 3.3 Não objetivos
@@ -101,7 +101,9 @@ Estudantes de graduação, presenciais ou a distância, que conciliam estudos co
 
 ### 5.2 Premissas adotadas nesta versão
 
-- o MVP será uma aplicação web responsiva;
+- o MVP será uma PWA responsiva;
+- a Lista será a visão principal em celulares e tablets em modo retrato;
+- o Gantt completo não será exibido em celulares;
 - a semana começa na segunda-feira;
 - datas e horários serão armazenados com fuso e exibidos no fuso do usuário;
 - o usuário poderá alterar duração de sessão e reserva de capacidade;
@@ -131,10 +133,12 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 | Execução | iniciar, concluir, ignorar e registrar esforço real |
 | Replanejamento | recalcular sessões afetadas e preservar sessões fixadas |
 | Hoje | mostrar próxima sessão, entregas e capacidade do dia |
-| Gantt | exibir atividades, progresso, risco e prazo |
+| Lista | agrupar sessões atrasadas, de hoje e dos próximos dias |
+| Gantt | exibir atividades, progresso, risco e prazo em telas grandes |
 | Calendário | exibir sessões, rotina e entregas |
 | Alertas | informar conflito, risco e alteração relevante do plano |
-| Responsividade | funcionar em celular, tablet e desktop |
+| PWA | permitir uso pela web e instalação quando suportada |
+| Responsividade | adaptar conteúdo e interação para celular, tablet e desktop |
 
 ### 6.2 Preparado no domínio, mas sem interface completa
 
@@ -161,7 +165,8 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 | Destino | Tarefa mental principal |
 |---|---|
 | Hoje | executar a próxima sessão |
-| Plano | compreender a distribuição e os riscos |
+| Lista | visualizar tarefas de hoje e dos próximos dias |
+| Plano | compreender a distribuição e os riscos no Gantt |
 | Calendário | localizar sessões e compromissos no tempo |
 | Atividades | cadastrar e administrar demandas |
 | Perfil e ajustes | manter conta e preferências |
@@ -172,12 +177,14 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 flowchart TD
     A[SeekIn] --> H[Hoje]
     A --> P[Plano]
-    A --> C[Calendário]
     A --> T[Atividades]
     A --> S[Perfil e ajustes]
+    P --> L[Lista]
+    P --> C[Calendário]
+    P --> G[Gantt]
 ```
 
-No celular, os quatro primeiros destinos ficam na navegação inferior. Perfil e ajustes ficam no menu da conta.
+No celular, Hoje, Lista, Calendário e Atividades ficam na navegação inferior. Perfil e ajustes ficam no menu da conta. O Gantt não aparece na navegação compacta.
 
 ## 8. Jornadas principais
 
@@ -319,19 +326,29 @@ As prioridades usam:
 | RF-075 | P0 | O usuário deve visualizar carga e saldo de capacidade do dia. |
 | RF-076 | P0 | Sem sessão planejada, a tela deve oferecer criar atividade ou revisar disponibilidade. |
 
-### 9.9 Gantt
+### 9.9 Lista de tarefas
 
 | ID | Prioridade | Requisito |
 |---|---|---|
-| RF-080 | P0 | O desktop deve exibir atividades à esquerda e linha do tempo à direita. |
+| RF-077 | P0 | A Lista deve agrupar sessões em Atrasadas, Hoje, Amanhã, Próximos 7 dias e Depois. |
+| RF-078 | P0 | Cada item deve mostrar atividade, disciplina, horário ou data, duração, prazo, progresso e risco. |
+| RF-079 | P0 | O usuário deve iniciar, concluir, abrir detalhes, mudar horário e solicitar replanejamento a partir da Lista. |
+
+### 9.10 Gantt
+
+| ID | Prioridade | Requisito |
+|---|---|---|
+| RF-080 | P0 | O layout expandido deve exibir atividades à esquerda e linha do tempo à direita. |
 | RF-081 | P0 | Cada atividade deve mostrar início planejado, prazo, progresso e risco. |
 | RF-082 | P0 | Uma linha deve identificar o dia atual. |
 | RF-083 | P0 | O usuário deve filtrar por disciplina, status e risco. |
 | RF-084 | P0 | O usuário deve abrir os detalhes da atividade a partir da linha. |
 | RF-085 | P1 | O usuário poderá expandir uma atividade para visualizar suas sessões. |
 | RF-086 | P1 | O usuário poderá mover uma sessão diretamente no Gantt. |
+| RF-087 | P0 | O Gantt completo não deve ser exibido em celulares nem ser necessário para concluir ações P0. |
+| RF-088 | P1 | O Gantt poderá ser oferecido em tablets em paisagem após validação de usabilidade. |
 
-### 9.10 Calendário
+### 9.11 Calendário
 
 | ID | Prioridade | Requisito |
 |---|---|---|
@@ -342,7 +359,7 @@ As prioridades usam:
 | RF-094 | P0 | Movimentos inválidos devem ser impedidos e explicados. |
 | RF-095 | P0 | No celular, a visualização padrão deve ser agenda ou semana compacta. |
 
-### 9.11 Execução e replanejamento
+### 9.12 Execução e replanejamento
 
 | ID | Prioridade | Requisito |
 |---|---|---|
@@ -356,7 +373,7 @@ As prioridades usam:
 | RF-107 | P0 | O usuário deve aceitar ou cancelar o novo plano. |
 | RF-108 | P0 | Cancelar deve manter o plano anterior válido. |
 
-### 9.12 Notas e materiais
+### 9.13 Notas e materiais
 
 | ID | Prioridade | Requisito |
 |---|---|---|
@@ -365,7 +382,7 @@ As prioridades usam:
 | RF-112 | P1 | O usuário poderá anexar arquivos. |
 | RF-113 | P1 | Materiais poderão ser associados a uma sessão específica. |
 
-### 9.13 Alertas
+### 9.14 Alertas
 
 | ID | Prioridade | Requisito |
 |---|---|---|
@@ -373,6 +390,21 @@ As prioridades usam:
 | RF-121 | P0 | O alerta deve informar causa, impacto e ação possível. |
 | RF-122 | P0 | Alertas iguais não devem se repetir sem mudança de contexto. |
 | RF-123 | P1 | O usuário poderá receber notificações fora do produto. |
+
+### 9.15 PWA e responsividade
+
+| ID | Prioridade | Requisito |
+|---|---|---|
+| RF-130 | P0 | O SeekIn deve possuir Web App Manifest válido e ser servido por HTTPS em produção. |
+| RF-131 | P0 | O aplicativo deve poder abrir em modo `standalone` quando instalado. |
+| RF-132 | P0 | O uso completo do MVP não pode depender da instalação da PWA. |
+| RF-133 | P0 | Um service worker deve controlar o shell, a atualização e a experiência de indisponibilidade de rede. |
+| RF-134 | P0 | Sem conexão, o último plano disponível pode ser exibido em modo somente leitura com horário da sincronização. |
+| RF-135 | P0 | Nenhuma mutação pode indicar sucesso enquanto não tiver confirmação do servidor. |
+| RF-136 | P0 | Atualizações não devem interromper formulário ou sessão de estudo em andamento. |
+| RF-137 | P0 | A jornada principal deve funcionar por toque, teclado e mouse. |
+| RF-138 | P0 | O layout deve se adaptar às classes compacta, intermediária e expandida. |
+| RF-139 | P0 | A implementação deve seguir o documento de [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md). |
 
 ## 10. Modelo de dados conceitual
 
@@ -583,7 +615,20 @@ Estados vazios:
 - plano inviável: abrir resolução de conflito;
 - tudo concluído: reforçar progresso e preservar descanso.
 
-### 12.3 Plano/Gantt
+### 12.3 Lista de tarefas
+
+A Lista é a visão padrão do plano em celulares e tablets em modo retrato. Ela apresenta sessões executáveis agrupadas em:
+
+- atrasadas;
+- hoje;
+- amanhã;
+- próximos sete dias;
+- depois;
+- não planejadas.
+
+Cada item mostra atividade, disciplina, duração, data ou horário, prazo, progresso e risco. A ação principal permite iniciar ou continuar o estudo; ações secundárias ficam em menu contextual.
+
+### 12.4 Plano/Gantt
 
 No desktop:
 
@@ -597,9 +642,9 @@ No desktop:
 - risco por texto, ícone e cor;
 - filtros recolhíveis.
 
-No celular, essa rota usa uma linha do tempo vertical de atividades. Não será exibido um Gantt horizontal comprimido.
+No celular, o Gantt não será exibido. O usuário será atendido pela Lista e pelo calendário em formato de agenda. Em tablets, o Gantt poderá ser testado em paisagem, mas a Lista continuará disponível e será o padrão em retrato.
 
-### 12.4 Calendário
+### 12.5 Calendário
 
 - mês para visão de prazos;
 - semana para organização de sessões;
@@ -610,7 +655,7 @@ No celular, essa rota usa uma linha do tempo vertical de atividades. Não será 
 - arrastar e soltar somente onde o dispositivo oferecer precisão adequada;
 - alternativa por toque e seleção de novo horário.
 
-### 12.5 Atividades
+### 12.6 Atividades
 
 - lista simples com busca e filtros;
 - ordenação padrão por risco e prazo;
@@ -620,7 +665,7 @@ No celular, essa rota usa uma linha do tempo vertical de atividades. Não será 
 - ações destrutivas com confirmação;
 - atividade arquivada fora da lista padrão.
 
-### 12.6 Resolução de conflito
+### 12.7 Resolução de conflito
 
 Deve mostrar primeiro o diagnóstico e depois as alternativas:
 
@@ -688,7 +733,7 @@ Ações possíveis:
 ### CA-009 — Consistência entre visões
 
 **Dado** um plano publicado<br>
-**Quando** o usuário alternar entre Hoje, Gantt e calendário<br>
+**Quando** o usuário alternar entre Hoje, Lista, Gantt e calendário<br>
 **Então** horários, estados, progresso e riscos devem representar a mesma versão.
 
 ### CA-010 — Responsividade
@@ -696,6 +741,18 @@ Ações possíveis:
 **Dado** acesso por celular, tablet ou desktop suportado<br>
 **Quando** o usuário realizar a jornada principal<br>
 **Então** nenhuma ação obrigatória deve depender exclusivamente de hover, arrastar ou tela larga.
+
+### CA-011 — Lista em telas compactas
+
+**Dado** acesso por celular ou tablet em modo retrato<br>
+**Quando** o usuário abrir seu plano<br>
+**Então** a Lista deve ser a visão padrão, com tarefas atrasadas, de hoje e dos próximos dias, sem exibir um Gantt comprimido.
+
+### CA-012 — PWA progressiva
+
+**Dado** um navegador compatível e acesso por HTTPS<br>
+**Quando** os critérios de instalação forem atendidos<br>
+**Então** o SeekIn deve poder ser instalado e aberto em modo `standalone`, mantendo a jornada completa disponível também sem instalação.
 
 ## 14. Requisitos não funcionais
 
@@ -713,6 +770,10 @@ Ações possíveis:
 | RNF-010 | Localização | Textos não devem ser fixados na lógica de negócio; o lançamento será em português do Brasil. |
 | RNF-011 | Observabilidade | Falhas do motor devem gerar logs correlacionáveis sem expor conteúdo sensível. |
 | RNF-012 | Recuperação | Uma falha na geração não pode apagar o último plano válido. |
+| RNF-013 | PWA | Manifest, ícones, service worker e atualização devem passar pelos testes técnicos definidos. |
+| RNF-014 | Responsividade | Nenhuma rota P0 deve gerar rolagem horizontal na classe compacta. |
+| RNF-015 | Toque | Controles interativos devem ter área mínima de 44 × 44 CSS pixels. |
+| RNF-016 | Web Vitals | Buscar LCP até 2,5 s, INP até 200 ms e CLS até 0,1 no percentil 75. |
 
 ## 15. Acessibilidade e conteúdo
 
@@ -794,7 +855,7 @@ O desenvolvimento e os testes devem cobrir:
 - onboarding;
 - cadastro de atividade;
 - Hoje;
-- Gantt e calendário estáticos com dados realistas;
+- Lista, Gantt e calendário estáticos com dados realistas;
 - teste moderado com 5 a 8 estudantes.
 
 ### Etapa B — Motor mínimo
@@ -827,10 +888,11 @@ O desenvolvimento e os testes devem cobrir:
 O MVP pode ser liberado para o beta quando:
 
 - todos os requisitos P0 estiverem implementados ou formalmente dispensados;
-- os dez critérios de aceite principais passarem;
+- os doze critérios de aceite principais passarem;
 - o motor possuir testes para todos os casos extremos críticos;
 - não houver perda do último plano válido após falha;
-- a jornada principal funcionar em celular e desktop;
+- a jornada principal funcionar em celular, tablet e desktop;
+- a PWA puder ser instalada nos navegadores compatíveis sem prejudicar o uso pela web;
 - eventos de ativação, plano e execução estiverem validados;
 - a revisão básica de segurança e privacidade estiver concluída;
 - pelo menos cinco estudantes concluírem a jornada em teste;
@@ -842,6 +904,7 @@ O MVP pode ser liberado para o beta quando:
 - escolha de autenticação e infraestrutura;
 - modelo persistente de datas, recorrência e fuso;
 - biblioteca de calendário e Gantt com acessibilidade aceitável;
+- estratégia de manifest, service worker, cache e atualização da PWA;
 - instrumentação analítica;
 - termos de uso e política de privacidade para o beta;
 - grupo inicial de estudantes para validação.
@@ -855,17 +918,20 @@ O MVP pode ser liberado para o beta quando:
 | Plano excessivamente cheio | reserva padrão, limite diário e folga antes do prazo |
 | Falta de confiança | explicação, edição manual e histórico de mudanças |
 | Replanejamento instável | determinismo, sessões fixadas e comparação antes de aplicar |
-| Gantt complexo no celular | usar agenda vertical em vez de miniaturizar o desktop |
+| Gantt complexo no celular | não exibir Gantt compacto; usar Lista e agenda |
+| PWA desatualizada | versionar o shell e solicitar atualização em momento seguro |
 | Dados inconsistentes entre telas | uma versão vigente do plano como fonte única |
 | Complexidade prematura | manter integrações, rede social e IA fora do P0 |
 
 ## 23. Decisões de produto registradas neste PRD
 
-- o MVP será web responsivo;
+- o MVP será uma PWA responsiva e continuará funcional sem instalação;
 - a tela “Hoje” é o ponto inicial após o onboarding;
 - Gantt é principal para planejamento no desktop;
+- Lista é principal no celular e no tablet em modo retrato;
 - calendário é uma visão complementar do mesmo plano;
-- o celular usa agenda vertical em vez de Gantt comprimido;
+- o celular não exibirá o Gantt completo;
+- o Gantt em tablet paisagem depende de validação de usabilidade;
 - a priorização v1 será determinística e baseada em regras;
 - a reserva inicial de capacidade será 20%;
 - a sessão padrão será 50 minutos e a mínima 25 minutos;
