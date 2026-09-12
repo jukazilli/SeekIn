@@ -6,7 +6,14 @@
 
 **Versão:** 0.1
 
-**Próximo documento:** PRD do MVP do planner
+**Documentação atual:** briefing e PRD do MVP do planner
+
+## Documentação do produto
+
+| Documento | Finalidade | Status |
+|---|---|---|
+| **Briefing de Produto** — este arquivo | Registrar visão, fases e decisões gerais | Versão 0.1 |
+| [PRD — MVP do Planner](docs/01-prd-mvp-planner.md) | Especificar o primeiro produto entregável | Pronto para revisão |
 
 ---
 
@@ -639,7 +646,9 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - o feed permite compartilhar estudos, dúvidas, pedidos de ajuda e conhecimento científico;
 - servidores e canais organizam; a conversa acontece nas salas;
 - a monetização futura inclui mentorias;
-- o próximo artefato será o PRD do MVP do planner.
+- o MVP será uma aplicação web responsiva;
+- a priorização inicial será determinística e baseada em regras explicáveis;
+- o PRD do MVP do planner está registrado em [`docs/01-prd-mvp-planner.md`](docs/01-prd-mvp-planner.md).
 
 ## 31. Decisões em aberto
 
@@ -647,27 +656,15 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - nicho inicial do beta;
 - campos obrigatórios e visibilidade padrão do perfil;
 - modelo de estimativa de esforço;
-- fórmula e pesos da priorização;
-- regras finais de capacidade e reserva;
+- validação dos padrões de sessão, reserva e folga definidos no PRD;
 - quem aprova canais em servidores existentes;
 - formatos permitidos no primeiro feed;
 - critérios de ordenação e de contribuição útil;
 - qualificação necessária para mentores e áreas reguladas;
-- prioridade entre web responsiva e aplicativos nativos.
 
-## 32. Próximo documento
+## 32. Continuidade da documentação
 
-O próximo passo é criar o **PRD do MVP do planner**, detalhando:
-
-- objetivos e indicadores;
-- personas e casos de uso;
-- histórias de usuário;
-- requisitos funcionais e não funcionais;
-- regras do motor MRP/CRP;
-- fluxos e estados de interface;
-- critérios de aceite;
-- eventos analíticos;
-- dependências, restrições e escopo fora do MVP.
+O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Depois de sua revisão, os próximos artefatos recomendados são a especificação de UX, a especificação de UI, a arquitetura técnica e o backlog canônico.
 
 ---
 
