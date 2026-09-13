@@ -679,7 +679,8 @@ de [UX](docs/10-fluxos-e-estados-ux.md),
 [modelo físico e contratos](docs/12-modelo-fisico-contratos-http-datas-ids.md),
 [testes e fixtures](docs/13-plano-de-testes-e-fixtures-sinteticas.md),
 [analytics e consentimento](docs/14-contrato-eventos-analytics-consentimento-metricas.md),
-[governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md) e o
+[governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o
+[runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
 [modelo de evidências](docs/evidencias/README.md) controlam a execução. Com `G1` fechado e a
 fundação técnica implantada e protegida até o `SKN-028`, a próxima ação é ensaiar rollback no
 `SKN-029` e fechar o portão `G2` no `SKN-030` antes de iniciar autenticação.
