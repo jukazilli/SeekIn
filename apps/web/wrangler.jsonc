@@ -16,5 +16,17 @@
       "workers_dev": true,
       "preview_urls": true,
     },
+    "beta": {
+      "name": "seekin-web-beta",
+      "workers_dev": true,
+      "preview_urls": false,
+      "vars": {
+        "APP_ENV": "beta",
+        "SUPABASE_URL": "https://wgxolsfirwqbkeluxaak.supabase.co",
+      },
+      "secrets": {
+        "required": ["SUPABASE_PUBLISHABLE_KEY"],
+      },
+    },
   },
 }
