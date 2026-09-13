@@ -5,6 +5,6 @@ export default defineConfig({
     coverage: {
       reporter: ["text", "json-summary"],
     },
-    include: ["packages/**/*.test.ts"],
+    include: ["packages/**/*.test.ts", "supabase/functions/**/*.test.ts"],
   },
 });

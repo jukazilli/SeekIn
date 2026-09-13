@@ -2,6 +2,8 @@ import "@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 
+import { evaluateHealth, type HealthCode } from "./health-core.ts";
+
 const responseSchema = z.object({
   code: z.enum(["HEALTH_OK", "AUTH_REQUIRED", "DEPENDENCY_UNAVAILABLE"]),
   correlationId: z.string().min(1),
@@ -9,8 +11,6 @@ const responseSchema = z.object({
   status: z.enum(["up", "down"]),
   version: z.string().min(1),
 });
-
-type HealthCode = z.infer<typeof responseSchema>["code"];
 
 function response(statusCode: number, code: HealthCode, correlationId: string) {
   const body = responseSchema.parse({
@@ -34,34 +34,27 @@ Deno.serve(async (request) => {
   const correlationId =
     request.headers.get("x-correlation-id") ?? crypto.randomUUID();
   const mode = new URL(request.url).searchParams.get("mode") ?? "liveness";
-
-  if (mode === "liveness") {
-    return response(200, "HEALTH_OK", correlationId);
-  }
-
   const authorization = request.headers.get("authorization");
-  if (!authorization?.startsWith("Bearer ")) {
-    return response(401, "AUTH_REQUIRED", correlationId);
-  }
+  const decision = await evaluateHealth({
+    authorization,
+    correlationId,
+    mode,
+    async checkDatabase(bearerToken) {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL");
+      const publishableKey =
+        Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ??
+        Deno.env.get("SUPABASE_ANON_KEY");
 
-  const supabaseUrl = Deno.env.get("SUPABASE_URL");
-  const publishableKey =
-    Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ??
-    Deno.env.get("SUPABASE_ANON_KEY");
+      if (!supabaseUrl || !publishableKey) return false;
 
-  if (!supabaseUrl || !publishableKey) {
-    return response(503, "DEPENDENCY_UNAVAILABLE", correlationId);
-  }
-
-  const supabase = createClient(supabaseUrl, publishableKey, {
-    global: { headers: { Authorization: authorization } },
-    auth: { persistSession: false },
+      const supabase = createClient(supabaseUrl, publishableKey, {
+        global: { headers: { Authorization: bearerToken } },
+        auth: { persistSession: false },
+      });
+      const { data, error } = await supabase.rpc("foundation_health");
+      return !error && data === 1;
+    },
   });
-  const { data, error } = await supabase.rpc("foundation_health");
 
-  if (error || data !== 1) {
-    return response(503, "DEPENDENCY_UNAVAILABLE", correlationId);
-  }
-
-  return response(200, "HEALTH_OK", correlationId);
+  return response(decision.statusCode, decision.code, decision.correlationId);
 });
