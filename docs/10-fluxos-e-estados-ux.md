@@ -151,9 +151,11 @@ concluída sem confirmação do servidor.
 | carregamento/erro | aplicar o contrato global sem esconder o último plano válido |
 | offline | exibir última versão sincronizada; iniciar, concluir ou ignorar fica indisponível |
 
-Ignorar uma sessão abre motivos recomendados — imprevisto, conteúdo levou mais tempo, não me senti
-bem, outra prioridade e problema técnico — além de **Outro** opcional. A interface não culpa o
-estudante e oferece replanejamento depois do registro.
+Ignorar uma sessão oferece **Imprevisto ou falta de tempo**, **Cansaço ou saúde**,
+**Prioridade mudou**, **Horário inadequado**, **Material indisponível**,
+**Atividade já realizada fora do SeekIn**, **Sessão não é mais necessária** e **Outro**. O motivo é
+opcional; **Outro** aceita uma descrição curta também opcional. A interface não culpa o estudante e
+oferece replanejamento depois do registro.
 
 ## 7. Lista
 
