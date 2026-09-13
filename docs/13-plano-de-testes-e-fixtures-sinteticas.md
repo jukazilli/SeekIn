@@ -59,7 +59,7 @@ publicação atômica por `expectedCurrentPlanId`.
 | `fast-check` | ainda não instalado | SKN-085 e SKN-088 |
 | Testing Library | ainda não instalada | primeiro item de componente funcional |
 | Playwright | prova técnica executada, suíte de produto ainda ausente | SKN-026 e SKN-126 |
-| Seed determinístico | seed de fundação intencionalmente vazio | SKN-016 |
+| Seed determinístico | builders e seed SQL idempotente verificados no Cloud isolado | SKN-016 concluído |
 | Banco de teste | projeto Cloud isolado `ildvwjylcyhbpopjjasi` provisionado | SKN-013; preservar isolamento |
 
 Adicionar uma ferramenta antes do item que realmente a utiliza é proibido. A versão deve ser exata,
@@ -238,6 +238,13 @@ no período de referência. Os instantes de transição ficam escritos na fixtur
 
 SKN-016 materializa essas famílias como builders TypeScript e seed SQL idempotente. O seed padrão
 continua pequeno; `FX-STRESS-005` é gerada sob demanda e não polui testes comuns.
+
+Implementação canônica:
+
+- builders: `packages/planner-core/test/fixtures/planner-fixtures.ts`;
+- seed pequeno: `supabase/seed.sql`;
+- comando Cloud isolado: `pnpm supabase:seed:g1-dev`;
+- project ref fixo no comando: `ildvwjylcyhbpopjjasi`.
 
 ## 8. Matriz de invariantes do motor
 
@@ -550,7 +557,7 @@ título, nota, link privado ou snapshot completo do planner de um usuário.
 
 - instalar agora `fast-check`, Testing Library ou Playwright;
 - implementar testes de features ainda inexistentes;
-- materializar seed e builders, responsabilidade do SKN-016;
+- ampliar seed e builders apenas junto dos itens funcionais responsáveis;
 - provisionar o projeto Supabase Cloud isolado;
 - executar benchmark antes do motor completo;
 - declarar WCAG, cross-browser ou critérios do MVP aprovados antes dos respectivos itens;

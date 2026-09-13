@@ -20,7 +20,8 @@
     "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
     "supabase:push:dry": "supabase db push --linked --dry-run",
     "supabase:push": "supabase db push --linked",
-    "supabase:test": "supabase test db --linked supabase/tests/database"
+    "supabase:test": "supabase test db --linked supabase/tests/database",
+    "supabase:seed:g1-dev": "supabase db query --project-ref ildvwjylcyhbpopjjasi --file supabase/seed.sql"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",

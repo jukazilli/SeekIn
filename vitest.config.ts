@@ -5,6 +5,10 @@ export default defineConfig({
     coverage: {
       reporter: ["text", "json-summary"],
     },
-    include: ["packages/**/*.test.ts", "supabase/functions/**/*.test.ts"],
+    include: [
+      "apps/web/app/**/*.test.ts?(x)",
+      "packages/**/*.test.ts",
+      "supabase/functions/**/*.test.ts",
+    ],
   },
 });

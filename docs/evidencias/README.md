@@ -130,6 +130,8 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-012 | Verificado | [Contrato de ambiente](SKN-012.md) |
 | SKN-013 | Verificado | [Supabase Cloud sem Docker](SKN-013.md) |
 | SKN-014 | Verificado | [Web e health](SKN-014.md) |
+| SKN-015 | Verificado | [Shell responsivo e estados fundamentais](SKN-015.md) |
+| SKN-016 | Verificado | [Fixtures sintéticas e seed determinístico](SKN-016.md) |
 | SKN-017 | Verificado | [Schema P0 reproduzível](SKN-017.md) |
 | SKN-018 | Verificado | [RLS e grants](SKN-018.md) |
 | SKN-019 | Verificado | [Tipos e fronteira de repositório](SKN-019.md) |
@@ -138,3 +140,9 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-022 | Verificado | [Schema e advisors](SKN-022.md) |
 | SKN-023 | Verificado | [CI](SKN-023.md) |
 | SKN-024 | Verificado | [Projeto Supabase do beta](SKN-024.md) |
+
+## 6. Portões fechados
+
+| Portão | Estado | Registro |
+|---|---|---|
+| G1 — Fundação reproduzível | Verificado | [Fechamento do G1](G1.md) |

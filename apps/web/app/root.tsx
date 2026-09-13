@@ -9,7 +9,12 @@ import {
 } from "react-router";
 import type { LinksFunction, MetaFunction } from "react-router";
 
+import "@fontsource-variable/manrope";
+
 import stylesheet from "./app.css?url";
+import { AppShell } from "./ui/components/AppShell";
+import { FoundationLoading } from "./ui/components/FoundationLoading";
+import { Icon } from "./ui/icons/Icon";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
@@ -46,24 +51,26 @@ export default function App() {
   return <Outlet />;
 }
 
+export function HydrateFallback() {
+  return <FoundationLoading />;
+}
+
 export function ErrorBoundary({ error }: Readonly<{ error: unknown }>) {
-  const title = isRouteErrorResponse(error)
-    ? `${error.status}`
-    : "Algo deu errado";
-  const message = isRouteErrorResponse(error)
-    ? error.statusText
-    : "Não foi possível concluir esta solicitação.";
+  const status = isRouteErrorResponse(error) ? error.status : 500;
 
   return (
-    <main className="centered-page" aria-labelledby="error-title">
-      <section className="foundation-card">
-        <p className="eyebrow">SeekIn</p>
-        <h1 id="error-title">{title}</h1>
-        <p>{message}</p>
-        <a className="primary-link" href="/">
-          Voltar ao início
-        </a>
+    <AppShell>
+      <section className="state-page" aria-labelledby="error-title">
+        <div className="state-page__content">
+          <p className="eyebrow">Erro {status}</p>
+          <h1 id="error-title">Não foi possível abrir esta página</h1>
+          <p>Tente novamente ou volte ao início.</p>
+          <a className="primary-link" href="/">
+            <Icon name="arrow-left" size={18} />
+            Voltar ao início
+          </a>
+        </div>
       </section>
-    </main>
+    </AppShell>
   );
 }
