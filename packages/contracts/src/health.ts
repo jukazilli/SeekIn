@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const healthResponseSchema = z.object({
-  code: z.enum(["HEALTH_OK", "DEPENDENCY_UNAVAILABLE"]),
+  code: z.enum(["HEALTH_OK", "AUTH_REQUIRED", "DEPENDENCY_UNAVAILABLE"]),
   correlationId: z.string().trim().min(1),
   service: z.enum(["seekin-web", "seekin-backend"]),
   status: z.enum(["up", "down"]),

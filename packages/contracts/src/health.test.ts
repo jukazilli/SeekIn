@@ -17,4 +17,19 @@ describe("health response contract", () => {
       version: "0.1.0",
     });
   });
+
+  it.each([
+    ["AUTH_REQUIRED", "down"],
+    ["DEPENDENCY_UNAVAILABLE", "down"],
+  ] as const)("accepts the stable %s failure code", (code, status) => {
+    expect(
+      healthResponseSchema.parse({
+        code,
+        correlationId: "test-correlation-id",
+        service: "seekin-backend",
+        status,
+        version: "0.1.0",
+      }),
+    ).toMatchObject({ code, status });
+  });
 });
