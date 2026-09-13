@@ -3,7 +3,7 @@
 > Controle público e reproduzível do `SKN-028`. Dados pessoais da conta operacional e valores
 > secretos permanecem deliberadamente fora do repositório.
 
-**Status:** aprovado; fechamento condicionado à confirmação de MFA registrada na evidência do corte
+**Status:** aprovado
 
 **Versão:** 0.1
 
@@ -36,6 +36,10 @@ O e-mail de `ACC-INFRA-001` é dado pessoal e não deve aparecer em issues, comm
 ou arquivos públicos. A associação exata deve ficar no gerenciador de senhas privado do
 custodiante, junto dos fatores de recuperação. Tokens e códigos de recuperação nunca entram nesta
 documentação.
+
+Em 13 de setembro de 2026, o custodiante confirmou MFA ativa em `ACC-SCM-001` e nas duas plataformas
+administradas por `ACC-INFRA-001`. A confirmação registra apenas o estado do controle, sem método,
+telefone, fator, código ou e-mail.
 
 Não há proprietário substituto no momento. Perda de acesso do custodiante pode interromper deploy,
 administração do banco e recuperação do serviço.
