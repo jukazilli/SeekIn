@@ -682,8 +682,8 @@ de [UX](docs/10-fluxos-e-estados-ux.md),
 [governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o
 [runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
 [modelo de evidências](docs/evidencias/README.md) controlam a execução. Com `G1` fechado e a
-fundação técnica implantada e protegida até o `SKN-028`, a próxima ação é ensaiar rollback no
-`SKN-029` e fechar o portão `G2` no `SKN-030` antes de iniciar autenticação.
+fundação técnica implantada, protegida e com rollback verificado até o `SKN-029`, a próxima ação é
+fechar o portão `G2` no `SKN-030` antes de iniciar autenticação.
 
 ---
 

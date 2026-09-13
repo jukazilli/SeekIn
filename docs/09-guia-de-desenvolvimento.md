@@ -119,6 +119,9 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
   única e SHA do Worker; a identidade sintética de prova foi removida;
 - proteção da `main`, responsável único por promoção, inventário sanitizado e limites operacionais
   foram verificados no SKN-028, incluindo MFA confirmada pelo custodiante;
-- rollback da aplicação e recuperação de falha de migration permanecem pendentes para o SKN-029;
+- rollback da aplicação e recuperação de falha transacional de migration foram verificados no
+  SKN-029, com Worker restaurado e banco preservado;
+- a consolidação formal das doze condições da Fundação operacional permanece pendente para o
+  SKN-030;
 - autenticação, onboarding e planner ainda não foram iniciados, por decisão do portão de fundação.
 

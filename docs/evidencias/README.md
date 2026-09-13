@@ -144,7 +144,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-026 | Verificado | [Ambiente Beta protegido](SKN-026.md) |
 | SKN-027 | Verificado | [Smoke ponta a ponta da fundação](SKN-027.md) |
 | SKN-028 | Verificado | [Proteção operacional, responsáveis, segredos e custos](SKN-028.md) |
-| SKN-029 | Em validação | [Rollback da aplicação e recuperação de migration](SKN-029.md) |
+| SKN-029 | Verificado | [Rollback da aplicação e recuperação de migration](SKN-029.md) |
 
 ## 6. Portões fechados
 
