@@ -1,0 +1,13 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19.652 23.25H4.348C4.17078 23.2501 3.99526 23.2153 3.83153 23.1475C3.66779 23.0796 3.51905 22.9802 3.39382 22.8548C3.2686 22.7294 3.16935 22.5805 3.10177 22.4166C3.03419 22.2528 2.99961 22.0772 3 21.9V5.25H21V21.9C21.0004 22.0772 20.9658 22.2528 20.8982 22.4166C20.8307 22.5805 20.7314 22.7294 20.6062 22.8548C20.481 22.9802 20.3322 23.0796 20.1685 23.1475C20.0047 23.2153 19.8292 23.2501 19.652 23.25Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12 5.25V23.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M3 14.25H21" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M7.5 8.25V11.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6 9.75H9" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M9 17.25L6 20.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M6 17.25L9 20.25" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 9.75H18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 17.25H18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M15 20.25H18" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M21 5.25H3V2.25C3 1.85218 3.15804 1.47064 3.43934 1.18934C3.72064 0.908035 4.10218 0.75 4.5 0.75H19.5C19.8978 0.75 20.2794 0.908035 20.5607 1.18934C20.842 1.47064 21 1.85218 21 2.25V5.25Z" stroke="black" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
