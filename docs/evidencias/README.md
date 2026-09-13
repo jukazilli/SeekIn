@@ -125,13 +125,16 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-005 | Verificado | [Prova técnica de calendário e Gantt](SKN-005.md) |
 | SKN-006 | Verificado | [Plano de testes e fixtures sintéticas](SKN-006.md) |
 | SKN-007 | Verificado | [Eventos, consentimento e métricas do beta](SKN-007.md) |
-| SKN-010 | Em revisão | [Workspace pnpm](SKN-010.md) |
-| SKN-011 | Em revisão | [Toolchain e validação](SKN-011.md) |
-| SKN-012 | Em revisão | [Contrato de ambiente](SKN-012.md) |
-| SKN-013 | Em desenvolvimento | [Supabase Cloud sem Docker](SKN-013.md) |
-| SKN-014 | Em revisão | [Web e health](SKN-014.md) |
-| SKN-017 | Em desenvolvimento | [Migration inicial](SKN-017.md) |
-| SKN-018 | Em desenvolvimento | [RLS e grants](SKN-018.md) |
-| SKN-020 | Em desenvolvimento | [Health backend](SKN-020.md) |
-| SKN-023 | Em desenvolvimento | [CI](SKN-023.md) |
-| SKN-024 | Em revisão | [Projeto Supabase do beta](SKN-024.md) |
+| SKN-010 | Verificado | [Workspace pnpm](SKN-010.md) |
+| SKN-011 | Verificado | [Toolchain e validação](SKN-011.md) |
+| SKN-012 | Verificado | [Contrato de ambiente](SKN-012.md) |
+| SKN-013 | Verificado | [Supabase Cloud sem Docker](SKN-013.md) |
+| SKN-014 | Verificado | [Web e health](SKN-014.md) |
+| SKN-017 | Verificado | [Schema P0 reproduzível](SKN-017.md) |
+| SKN-018 | Verificado | [RLS e grants](SKN-018.md) |
+| SKN-019 | Verificado | [Tipos e fronteira de repositório](SKN-019.md) |
+| SKN-020 | Verificado | [Health backend](SKN-020.md) |
+| SKN-021 | Verificado | [Health do banco](SKN-021.md) |
+| SKN-022 | Verificado | [Schema e advisors](SKN-022.md) |
+| SKN-023 | Verificado | [CI](SKN-023.md) |
+| SKN-024 | Verificado | [Projeto Supabase do beta](SKN-024.md) |

@@ -55,12 +55,12 @@ publicação atômica por `expectedCurrentPlanId`.
 | Capacidade | Estado em SKN-006 | Adoção responsável |
 |---|---|---|
 | Vitest | instalado e executado pelo `pnpm validate` | ampliar por item funcional |
-| pgTAP | suíte de fundação existente | SKN-017, SKN-018 e SKN-022 |
+| pgTAP | 48 asserções aprovadas no Cloud isolado | ampliar por item funcional |
 | `fast-check` | ainda não instalado | SKN-085 e SKN-088 |
 | Testing Library | ainda não instalada | primeiro item de componente funcional |
 | Playwright | prova técnica executada, suíte de produto ainda ausente | SKN-026 e SKN-126 |
 | Seed determinístico | seed de fundação intencionalmente vazio | SKN-016 |
-| Banco de teste | exige projeto Supabase Cloud isolado | SKN-013 e SKN-024 |
+| Banco de teste | projeto Cloud isolado `ildvwjylcyhbpopjjasi` provisionado | SKN-013; preservar isolamento |
 
 Adicionar uma ferramenta antes do item que realmente a utiliza é proibido. A versão deve ser exata,
 ficar no lockfile e passar pela revisão de licença e manutenção definida em Engenharia §13.

@@ -641,21 +641,22 @@ Além da RLS:
 - Markdown é armazenado como texto e sanitizado na renderização;
 - respostas usam `404` para não confirmar a existência de recurso alheio.
 
-## 14. Consistência com a fundação existente
+## 14. Consistência com a implementação
 
 A migration `20260912205531_foundation_profiles.sql` já cria `profiles`, `user_preferences`, defaults,
 constraints básicas, RLS e `foundation_health()`. Ela é parcial por design e não deve ser reescrita.
 
-Convergências necessárias em migrations posteriores:
+Convergências entregues pelas migrations `20260913013000_g1_schema_rls.sql` e
+`20260913020000_g1_fk_indexes.sql`:
 
-| Diferença atual | Tratamento obrigatório | Item responsável |
+| Diferença da fundação | Tratamento aplicado | Item responsável |
 |---|---|---|
-| faltam `revision`, passo e conclusão do onboarding | adicionar colunas e constraints | SKN-017 |
-| demais tabelas P0 ainda não existem | criar conforme catálogo físico | SKN-017 |
-| `profiles` e `user_preferences` permitem DELETE direto | revogar grant e remover policies de DELETE | SKN-018 |
-| ownership composto ainda não existe | adicionar uniques/FKs e testar conta A × conta B | SKN-017/018 |
-| tipos TypeScript do banco ainda não foram gerados | gerar após schema aprovado | SKN-019 |
-| contrato compartilhado de health não aceita `AUTH_REQUIRED` | alinhar schema e testes sem mudar a resposta pública | SKN-020 |
+| faltavam `revision`, passo e conclusão do onboarding | colunas, constraints e triggers adicionados | SKN-017 |
+| demais tabelas P0 não existiam | catálogo físico criado e validado em banco Cloud limpo | SKN-017 |
+| `profiles` e `user_preferences` permitiam DELETE direto | grant revogado e policies removidas | SKN-018 |
+| ownership composto não existia | uniques/FKs adicionadas e teste conta A × conta B aprovado | SKN-017/018 |
+| tipos TypeScript do banco não existiam | tipos gerados do schema Cloud e exportados pelo contrato | SKN-019 |
+| contrato compartilhado não aceitava `AUTH_REQUIRED` | schema e testes alinhados sem mudar a resposta pública | SKN-020 |
 
 Não há conflito de nomes ou defaults entre as duas tabelas existentes e este contrato. A regra de
 `week_starts_on` permanece `0..6`, com segunda-feira (`1`) como padrão, compatível com a migration.
@@ -670,7 +671,7 @@ Não há conflito de nomes ou defaults entre as duas tabelas existentes e este c
 - [x] Data API e Edge Functions possuem fronteiras de responsabilidade;
 - [x] comandos críticos possuem contrato, erro, concorrência e idempotência definidos;
 - [x] segurança foi revisada contra RLS, grants, logs, conteúdo acadêmico e service role;
-- [x] divergências da fundação foram registradas sem reescrever migration aplicada.
+- [x] divergências da fundação foram resolvidas sem reescrever migration aplicada.
 
 ## 16. Fora do escopo
 
