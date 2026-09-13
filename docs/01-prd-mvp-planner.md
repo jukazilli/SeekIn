@@ -103,7 +103,7 @@ Estudantes de graduação, presenciais ou a distância, que conciliam estudos co
 
 - o público é acadêmico geral; estudantes da Unicesumar formam a primeira instituição de validação, sem regras exclusivas para ela;
 - a conta usa e-mail e senha, com verificação obrigatória do endereço;
-- os e-mails de autenticação são enviados pelo Resend usando o domínio `soberania.tech` e autenticação de domínio adequada;
+- os e-mails de autenticação são enviados pelo Resend usando o subdomínio dedicado `seekin.soberania.tech` e autenticação de domínio adequada;
 - o MVP será uma PWA responsiva;
 - a Lista será a visão principal em celulares e tablets em modo retrato;
 - o Gantt completo não será exibido em celulares;
@@ -936,7 +936,7 @@ O MVP pode ser liberado para o beta quando:
 
 - o produto atende o público acadêmico geral; a Unicesumar será a primeira instituição de validação;
 - o P0 terá conta por e-mail e senha com verificação obrigatória, sem login Google;
-- o envio transacional de autenticação usará Resend no domínio `soberania.tech`;
+- o envio transacional de autenticação usará Resend no subdomínio dedicado `seekin.soberania.tech`;
 - o MVP será uma PWA responsiva e continuará funcional sem instalação;
 - a tela “Hoje” é o ponto inicial após o onboarding;
 - Gantt é principal para planejamento no desktop;
@@ -975,7 +975,7 @@ O MVP pode ser liberado para o beta quando:
 
 ### 24.1 Requisitos de entrega dos e-mails de autenticação
 
-- usar remetente transacional em subdomínio dedicado de `soberania.tech`;
+- usar o remetente `no-reply@seekin.soberania.tech` no subdomínio transacional dedicado `seekin.soberania.tech`;
 - verificar SPF e DKIM no Resend e publicar política DMARC;
 - configurar SMTP próprio do Supabase Auth; o SMTP padrão não é aceito no beta;
 - manter confirmação de e-mail obrigatória e `mailer_autoconfirm` desativado;
