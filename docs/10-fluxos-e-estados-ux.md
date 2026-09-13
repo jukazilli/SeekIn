@@ -1,10 +1,10 @@
 # Fluxos e estados de UX do MVP
 
-**Item:** SKN-002  
-**Status:** Verificado  
-**Versão:** 0.1  
-**Verificado em:** 13 de setembro de 2026  
-**Fontes:** PRD §§7, 8, 12, 15 e 18; requisitos PWA §§3–7 e 9
+- **Item:** SKN-002
+- **Status:** Verificado
+- **Versão:** 0.1
+- **Verificado em:** 13 de setembro de 2026
+- **Fontes:** PRD §§7, 8, 12, 15 e 18; requisitos PWA §§3–7 e 9
 
 ## 1. Objetivo
 
