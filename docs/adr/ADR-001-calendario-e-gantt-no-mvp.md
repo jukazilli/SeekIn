@@ -138,6 +138,9 @@ a superfície distribuída e não equivalem ao bundle final após tree-shaking.
 - a grade própria exige testes do SeekIn para rolagem, cabeçalhos, cálculo temporal e equivalência;
 - a API visual do FullCalendar 7 usa classes internas não estáveis; customizações devem usar tokens,
   atributos semânticos e classes adicionadas pelo SeekIn, nunca nomes internos gerados;
+- cargas e redimensionamentos no servidor Vite podem emitir `ResizeObserver loop completed with
+  undelivered notifications`; a carga limpa não gerou `pageerror` nem quebrou a renderização, mas
+  SKN-112 deve repetir o diagnóstico no preview de produção antes de considerar o ruído dispensável;
 - o modo local padrão do plugin Cloudflare/Miniflare falhou no Windows desta prova; a verificação visual
   usou `SEEKIN_BROWSER_PROOF=true`, que remove o plugin somente do servidor local e não altera o build
   nem o deploy Cloudflare.
