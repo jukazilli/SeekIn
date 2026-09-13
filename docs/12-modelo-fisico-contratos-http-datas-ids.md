@@ -1,7 +1,7 @@
 # Modelo físico, contratos HTTP, datas e identificadores
 
 - **Item:** SKN-004
-- **Status:** Em revisão
+- **Status:** Verificado
 - **Versão:** 0.1
 - **Data:** 12 de setembro de 2026
 - **Fontes:** PRD §§9–11; Arquitetura §§7–10; Engenharia §§4–8; SKN-001
