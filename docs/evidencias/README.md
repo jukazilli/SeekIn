@@ -142,6 +142,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-024 | Verificado | [Projeto Supabase do beta](SKN-024.md) |
 | SKN-025 | Verificado | [Preview Cloudflare isolado](SKN-025.md) |
 | SKN-026 | Verificado | [Ambiente Beta protegido](SKN-026.md) |
+| SKN-027 | Verificado | [Smoke ponta a ponta da fundação](SKN-027.md) |
 
 ## 6. Portões fechados
 

@@ -336,8 +336,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `G1` e `SKN-023` a `SKN-026` verificados, a próxima ação é executar o smoke ponta a ponta do
-`SKN-027`. Depois, seguir por `SKN-028` a `SKN-030` e fechar o portão G2 antes de iniciar
+Com `G1` e `SKN-023` a `SKN-027` verificados, a próxima ação é configurar as proteções operacionais
+do `SKN-028`. Depois, seguir por `SKN-029` e `SKN-030` e fechar o portão G2 antes de iniciar
 autenticação.
 
 ---

@@ -115,6 +115,8 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
 - o projeto Supabase cloud do SeekIn foi criado em São Paulo e vinculado ao GitHub;
 - Preview e Beta estão publicados em Workers separados; o Beta usa HTTPS, headers de segurança e o
   projeto Supabase correto, sem seed ou reset;
-- o smoke completo navegador → web → backend → banco permanece pendente para o SKN-027;
+- o smoke navegador → web → Edge Function → banco está verificado com Bearer efêmero, correlação
+  única e SHA do Worker; a identidade sintética de prova foi removida;
+- proteção operacional dos ambientes, limites e responsáveis permanecem pendentes para o SKN-028;
 - autenticação, onboarding e planner ainda não foram iniciados, por decisão do portão de fundação.
 
