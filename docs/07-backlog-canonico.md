@@ -336,9 +336,9 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `G1` e `SKN-023` a `SKN-027` verificados, a próxima ação é configurar as proteções operacionais
-do `SKN-028`. Depois, seguir por `SKN-029` e `SKN-030` e fechar o portão G2 antes de iniciar
-autenticação.
+Com `G1` e `SKN-023` a `SKN-028` verificados, a próxima ação é ensaiar rollback da aplicação e
+recuperação de falha de migration compatível no `SKN-029`. Depois, consolidar o `SKN-030` e fechar o
+portão G2 antes de iniciar autenticação.
 
 ---
 

@@ -665,7 +665,24 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 
 ## 31. Continuidade da documentação
 
-O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) definem instalação, comportamento offline mínimo e visões por dispositivo. A [arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a fundação e o caminho de escala. O [contrato canônico](docs/06-contrato-canonico-entrega-rastreabilidade.md), o [backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md) e o [modelo de evidências](docs/evidencias/README.md) controlam a execução. A próxima ação é resolver SKN-001 e iniciar a fundação técnica; UX, UI, modelo físico e planos de teste são itens rastreados no próprio backlog.
+O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor
+MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de
+[PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md), a
+[arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os
+[requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a
+[estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a
+fundação e o caminho de escala. O
+[contrato canônico](docs/06-contrato-canonico-entrega-rastreabilidade.md), o
+[backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md), os documentos
+de [UX](docs/10-fluxos-e-estados-ux.md),
+[UI e acessibilidade](docs/11-Sistema-Visual-UI-Acessibilidade-e-Responsividade-do-SeekIn.md),
+[modelo físico e contratos](docs/12-modelo-fisico-contratos-http-datas-ids.md),
+[testes e fixtures](docs/13-plano-de-testes-e-fixtures-sinteticas.md),
+[analytics e consentimento](docs/14-contrato-eventos-analytics-consentimento-metricas.md),
+[governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md) e o
+[modelo de evidências](docs/evidencias/README.md) controlam a execução. Com `G1` fechado e a
+fundação técnica implantada e protegida até o `SKN-028`, a próxima ação é ensaiar rollback no
+`SKN-029` e fechar o portão `G2` no `SKN-030` antes de iniciar autenticação.
 
 ---
 
