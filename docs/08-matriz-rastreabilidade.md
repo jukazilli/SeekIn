@@ -130,14 +130,14 @@
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
 | Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Pendente |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
-| Arquitetura §13 | ambientes e pipeline | SKN-023–030 | Pendente |
+| Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
 | PRD §§16–17 | eventos, consentimento e métricas do beta | SKN-007/130 | [Contrato verificado](evidencias/SKN-007.md); implementação pendente |
 | Engenharia §§3–6 | código IA, TypeScript e contratos | SKN-011/019/023 | Pendente |
 | Engenharia §§7–8 | banco e pirâmide de testes | SKN-006/017/018/022/088/126 | Pendente |
 | Engenharia §§9–10 | acessibilidade e desempenho | SKN-124/125 | Pendente |
 | Engenharia §§11–13 | segurança, logs e dependências | SKN-011/012/131/132 | Pendente |
-| Engenharia §§14–16 | Git, CI e implantação | SKN-023/025/026/029 | Pendente |
+| Engenharia §§14–16 | Git, CI e implantação | SKN-023/025/026/029 | [G2 verificado](evidencias/SKN-030.md) |
 | Engenharia §§17–20 | ADR, dívida e definição de pronto | todos via contrato; SKN-005/400 | Pendente |
 | Cloud Run §§4–18 | migração incremental do motor | SKN-400–404 | Futuro |
 | Cloud Run §19 | migração opcional do servidor web | SKN-405 | Futuro |

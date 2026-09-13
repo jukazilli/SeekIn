@@ -145,9 +145,11 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-027 | Verificado | [Smoke ponta a ponta da fundação](SKN-027.md) |
 | SKN-028 | Verificado | [Proteção operacional, responsáveis, segredos e custos](SKN-028.md) |
 | SKN-029 | Verificado | [Rollback da aplicação e recuperação de migration](SKN-029.md) |
+| SKN-030 | Verificado | [Fechamento do G2](SKN-030.md) |
 
 ## 6. Portões fechados
 
 | Portão | Estado | Registro |
 |---|---|---|
 | G1 — Fundação reproduzível | Verificado | [Fechamento do G1](G1.md) |
+| G2 — Fundação operacional | Verificado | [Fechamento do G2](SKN-030.md) |
