@@ -370,6 +370,11 @@ privado não é copiado para logs ou analytics.
 `private.audit_events` guarda ator, ação, tipo/ID da entidade, correlação, instante e campos técnicos
 alterados. Não guarda e-mail, título, notas, links ou outro conteúdo acadêmico.
 
+`private.analytics_consents`, `private.analytics_consent_events` e `private.product_events` serão
+materializadas em SKN-130 conforme o contrato do SKN-007. Permanecem fora da Data API, separam
+consentimento de eventos pseudonimizados e não recebem conteúdo pessoal ou acadêmico. Agregados
+opcionais também ficam no schema privado.
+
 ## 8. Invariantes e índices
 
 ### 8.1 Invariantes obrigatórios

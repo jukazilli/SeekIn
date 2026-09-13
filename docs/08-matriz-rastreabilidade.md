@@ -132,6 +132,7 @@
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | Pendente |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
+| PRD §§16–17 | eventos, consentimento e métricas do beta | SKN-007/130 | [Contrato verificado](evidencias/SKN-007.md); implementação pendente |
 | Engenharia §§3–6 | código IA, TypeScript e contratos | SKN-011/019/023 | Pendente |
 | Engenharia §§7–8 | banco e pirâmide de testes | SKN-006/017/018/022/088/126 | Pendente |
 | Engenharia §§9–10 | acessibilidade e desempenho | SKN-124/125 | Pendente |
