@@ -113,6 +113,7 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
 - workspace, contratos, web, build e testes unitários estão implementados;
 - Supabase CLI, migration inicial, RLS, pgTAP e health backend estão preparados;
 - o projeto Supabase cloud do SeekIn foi criado em São Paulo e vinculado ao GitHub;
-- o deploy Cloudflare permanece pendente de autorização e configuração explícitas;
+- o Preview Cloudflare está publicado de forma isolada e versionada; a promoção ao Beta permanece
+  pendente para o SKN-026;
 - autenticação, onboarding e planner ainda não foram iniciados, por decisão do portão de fundação.
 

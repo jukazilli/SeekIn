@@ -336,8 +336,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `G1`, `SKN-023` e `SKN-024` verificados, a próxima ação é publicar o Preview isolado do
-`SKN-025`. Depois, seguir por `SKN-026` a `SKN-030` e fechar o portão G2 antes de iniciar
+Com `G1` e `SKN-023` a `SKN-025` verificados, a próxima ação é configurar o ambiente Beta no
+`SKN-026`. Depois, seguir por `SKN-027` a `SKN-030` e fechar o portão G2 antes de iniciar
 autenticação.
 
 ---
