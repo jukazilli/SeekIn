@@ -3,10 +3,14 @@
 > Estratégia canônica do SKN-006 para provar o motor de planejamento, o banco, os contratos, os
 > componentes, as jornadas ponta a ponta e o comportamento por dispositivo sem usar dados reais.
 
-**Status:** aprovado para implementação  
-**Versão:** 1.0  
-**Data:** 13 de setembro de 2026  
-**Item:** SKN-006  
+**Status:** aprovado para implementação
+
+**Versão:** 1.0
+
+**Data:** 13 de setembro de 2026
+
+**Item:** SKN-006
+
 **Documentos relacionados:** [PRD](01-prd-mvp-planner.md) ·
 [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) ·
 [Arquitetura](03-arquitetura-tecnica-e-infraestrutura.md) ·

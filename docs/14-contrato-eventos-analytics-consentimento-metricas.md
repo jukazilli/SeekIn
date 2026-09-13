@@ -3,10 +3,14 @@
 > Especificação canônica do SKN-007 para medir o beta com eventos first-party no Supabase, coleta
 > mínima, consentimento explícito e nenhuma captura de conteúdo pessoal ou acadêmico.
 
-**Status:** aprovado para implementação  
-**Versão:** 1.0  
-**Data:** 13 de setembro de 2026  
-**Item:** SKN-007  
+**Status:** aprovado para implementação
+
+**Versão:** 1.0
+
+**Data:** 13 de setembro de 2026
+
+**Item:** SKN-007
+
 **Documentos relacionados:** [PRD](01-prd-mvp-planner.md) ·
 [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) ·
 [Arquitetura](03-arquitetura-tecnica-e-infraestrutura.md) ·
