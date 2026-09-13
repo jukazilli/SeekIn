@@ -336,8 +336,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `G1` e `SKN-023` a `SKN-025` verificados, a próxima ação é configurar o ambiente Beta no
-`SKN-026`. Depois, seguir por `SKN-027` a `SKN-030` e fechar o portão G2 antes de iniciar
+Com `G1` e `SKN-023` a `SKN-026` verificados, a próxima ação é executar o smoke ponta a ponta do
+`SKN-027`. Depois, seguir por `SKN-028` a `SKN-030` e fechar o portão G2 antes de iniciar
 autenticação.
 
 ---
