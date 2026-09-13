@@ -123,6 +123,8 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-003 | Verificado | [Sistema visual, acessibilidade e responsividade](SKN-003.md) |
 | SKN-004 | Verificado | [Modelo físico, contratos HTTP, datas e IDs](SKN-004.md) |
 | SKN-005 | Verificado | [Prova técnica de calendário e Gantt](SKN-005.md) |
+| SKN-006 | Verificado | [Plano de testes e fixtures sintéticas](SKN-006.md) |
+| SKN-007 | Verificado | [Eventos, consentimento e métricas do beta](SKN-007.md) |
 | SKN-010 | Em revisão | [Workspace pnpm](SKN-010.md) |
 | SKN-011 | Em revisão | [Toolchain e validação](SKN-011.md) |
 | SKN-012 | Em revisão | [Contrato de ambiente](SKN-012.md) |
