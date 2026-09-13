@@ -117,6 +117,7 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
   projeto Supabase correto, sem seed ou reset;
 - o smoke navegador → web → Edge Function → banco está verificado com Bearer efêmero, correlação
   única e SHA do Worker; a identidade sintética de prova foi removida;
-- proteção operacional dos ambientes, limites e responsáveis permanecem pendentes para o SKN-028;
+- proteção da `main`, responsável único por promoção, inventário sanitizado e limites operacionais
+  foram configurados no SKN-028; o fechamento aguarda apenas a confirmação de MFA do custodiante;
 - autenticação, onboarding e planner ainda não foram iniciados, por decisão do portão de fundação.
 
