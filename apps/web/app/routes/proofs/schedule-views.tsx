@@ -143,47 +143,49 @@ export default function ScheduleViewsProof() {
           className="schedule-proof__surface"
           aria-label="Calendário de estudos"
         >
-          <FullCalendar
-            key={isCompact ? "compact" : "wide"}
-            ref={calendarRef}
-            plugins={[
-              dayGridPlugin,
-              timeGridPlugin,
-              listPlugin,
-              interactionPlugin,
-              classicThemePlugin,
-            ]}
-            locale={ptBrLocale}
-            initialDate="2026-09-14"
-            initialView={isCompact ? "listMonth" : "dayGridMonth"}
-            events={calendarEvents}
-            eventInteractive
-            eventClass={(info) =>
-              `is-${kindClass[info.event.extendedProps.kind as ScheduleKind]}`
-            }
-            eventClick={(info) => {
-              setSelectedEvent({
-                id: info.event.id,
-                title: info.event.title,
-                kind: info.event.extendedProps.kind as ScheduleKind,
-              });
-              setAnnouncement(`${info.event.title} selecionado.`);
-            }}
-            headerToolbar={{
-              start: "title",
-              center: "",
-              end: "dayGridMonth,timeGridWeek,listMonth prev,next today",
-            }}
-            buttons={{
-              dayGridMonth: { text: "Mês" },
-              timeGridWeek: { text: "Semana" },
-              listMonth: { text: "Agenda" },
-              today: { text: "Hoje" },
-            }}
-            height="auto"
-            nowIndicator
-            dayMaxEvents={3}
-          />
+          <div className="schedule-proof__calendar">
+            <FullCalendar
+              key={isCompact ? "compact" : "wide"}
+              ref={calendarRef}
+              plugins={[
+                dayGridPlugin,
+                timeGridPlugin,
+                listPlugin,
+                interactionPlugin,
+                classicThemePlugin,
+              ]}
+              locale={ptBrLocale}
+              initialDate="2026-09-14"
+              initialView={isCompact ? "listMonth" : "dayGridMonth"}
+              events={calendarEvents}
+              eventInteractive
+              eventClass={(info) =>
+                `is-${kindClass[info.event.extendedProps.kind as ScheduleKind]}`
+              }
+              eventClick={(info) => {
+                setSelectedEvent({
+                  id: info.event.id,
+                  title: info.event.title,
+                  kind: info.event.extendedProps.kind as ScheduleKind,
+                });
+                setAnnouncement(`${info.event.title} selecionado.`);
+              }}
+              headerToolbar={{
+                start: "title",
+                center: "",
+                end: "dayGridMonth,timeGridWeek,listMonth prev,next today",
+              }}
+              buttons={{
+                dayGridMonth: { text: "Mês" },
+                timeGridWeek: { text: "Semana" },
+                listMonth: { text: "Agenda" },
+                today: { text: "Hoje" },
+              }}
+              height="auto"
+              nowIndicator
+              dayMaxEvents={3}
+            />
+          </div>
 
           {selectedEvent ? (
             <aside

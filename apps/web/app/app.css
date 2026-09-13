@@ -1,3 +1,5 @@
+@import "./ui/tokens/colors.css";
+
 :root {
   color-scheme: light;
   font-family:
@@ -8,8 +10,8 @@
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-  color: #202124;
-  background: #f7f7fa;
+  color: var(--seek-ink);
+  background: var(--seek-canvas);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
 }
@@ -22,6 +24,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  background: var(--seek-canvas);
 }
 
 .centered-page {
@@ -34,15 +37,14 @@ body {
 .foundation-card {
   width: min(100%, 680px);
   padding: clamp(28px, 6vw, 56px);
-  border: 1px solid #e5e3ec;
-  border-radius: 24px;
-  background: #ffffff;
-  box-shadow: 0 18px 55px rgb(30 24 52 / 8%);
+  border: 1px solid var(--seek-border);
+  border-radius: 16px;
+  background: var(--seek-surface);
 }
 
 .eyebrow {
   margin: 0 0 12px;
-  color: #6554c0;
+  color: var(--seek-blue-600);
   font-size: 0.78rem;
   font-weight: 750;
   letter-spacing: 0.13em;
@@ -51,7 +53,7 @@ body {
 
 h1 {
   margin: 0;
-  color: #24202f;
+  color: var(--seek-ink);
   font-size: clamp(2rem, 8vw, 4rem);
   letter-spacing: -0.045em;
   line-height: 1;
@@ -60,7 +62,7 @@ h1 {
 p {
   max-width: 58ch;
   margin: 20px 0 0;
-  color: #5d5967;
+  color: var(--seek-text-secondary);
   font-size: clamp(1rem, 2vw, 1.125rem);
   line-height: 1.7;
 }
@@ -75,18 +77,18 @@ p {
 .foundation-status div {
   padding: 16px;
   border-radius: 14px;
-  background: #f5f3fa;
+  background: var(--seek-ice);
 }
 
 .foundation-status dt {
-  color: #777180;
+  color: var(--seek-blue-700);
   font-size: 0.76rem;
   text-transform: uppercase;
 }
 
 .foundation-status dd {
   margin: 6px 0 0;
-  color: #302a3b;
+  color: var(--seek-ink);
   font-weight: 700;
 }
 
@@ -94,14 +96,22 @@ p {
   display: inline-flex;
   margin-top: 28px;
   border-radius: 10px;
-  color: #5747ae;
+  color: var(--seek-link);
   font-weight: 700;
   text-underline-offset: 4px;
 }
 
 .primary-link:focus-visible {
-  outline: 3px solid #b6a9ff;
+  outline: 3px solid var(--seek-focus-ring);
   outline-offset: 4px;
+}
+
+.primary-link:hover {
+  color: var(--seek-blue-700);
+}
+
+.primary-link:active {
+  color: var(--seek-ink);
 }
 
 @media (max-width: 600px) {
@@ -112,7 +122,7 @@ p {
 
   .foundation-card {
     margin-top: 12px;
-    border-radius: 18px;
+    border-radius: 12px;
   }
 
   .foundation-status {

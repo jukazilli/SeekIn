@@ -1,12 +1,13 @@
 # SKN-003 — Sistema Visual, UI, Acessibilidade e Responsividade do SeekIn
 
 - **Item:** SKN-003
-- **Status:** Verificado
+- **Status:** Aprovado
 - **Tipo:** Contrato canônico de UI
 - **Produto:** SeekIn
-- **Versão:** 1.1
+- **Versão:** 1.2
 - **Aprovação de direção:** Product Owner
-- **Fontes:** SKN-002; PRD §§7, 12 e 15; requisitos PWA §§3–6 e 9
+- **Fontes:** atualização visual azul + branco aprovada pelo Product Owner; referência visual fornecida
+  em 2026-09-12; SKN-002; PRD §§7, 12 e 15; requisitos PWA §§3–6 e 9
 
 ---
 
@@ -135,56 +136,251 @@ A identidade deve vir de:
 
 ## 5. Paleta oficial
 
+A direção aprovada evolui para um **schema monocromático azul + branco**, com forte presença de
+neutros frios e azuis muito claros.
+
+O SeekIn deve parecer:
+
+- leve;
+- calmo;
+- preciso;
+- limpo;
+- editorial;
+- sofisticado;
+- consistentemente azul sem parecer um “dashboard azul”.
+
+A cor principal não deve disputar com o conteúdo. Ela deve aparecer em **camadas**, com intensidade
+crescente conforme a importância da ação.
+
+### Leitura da referência visual aprovada
+
+A imagem fornecida pelo Product Owner é referência canônica para **cor, equilíbrio de superfícies e
+hierarquia**, não um layout a ser copiado literalmente. Dela, o SeekIn adota:
+
+- canvas frio quase branco e superfícies principais brancas;
+- azul-gelo em grandes regiões contextuais, especialmente no Focus Field;
+- grafite azulado para títulos, números e estrutura;
+- azul profundo concentrado no CTA e no destino ativo;
+- navegação selecionada por fundo azul muito claro, ícone azul e uma linha lateral fina;
+- conteúdo organizado prioritariamente em linhas, divisores e whitespace;
+- cores semânticas restritas a pequenos indicadores, badges e segmentos de progresso;
+- painéis contextuais delimitados por borda suave, sem sombra decorativa;
+- ilustração abstrata monocromática apenas quando integrar o contexto e permanecer em segundo plano.
+
+A referência não autoriza preencher telas com cards, reconstruir funcionalidades ainda inexistentes ou
+transformar azuis claros em gradientes decorativos.
+
 ### 5.1. Core tokens
 
 | Token | Valor | Uso |
 |---|---:|---|
-| `--seek-canvas` | `#F6F8FB` | fundo geral da aplicação |
+| `--seek-canvas` | `#F7F9FC` | fundo geral da aplicação |
 | `--seek-surface` | `#FFFFFF` | superfícies principais |
-| `--seek-ice` | `#DCEAF5` | áreas contextuais / identidade |
-| `--seek-ink` | `#172033` | texto principal e ações fortes |
-| `--seek-text-secondary` | `#5F6B7A` | textos secundários |
-| `--seek-border` | `#DDE3EA` | divisores e contornos |
-| `--seek-blue` | `#3E5FA8` | interação principal / seleção |
-| `--seek-connect` | `#1F6E67` | contexto social / pessoas / comunidade |
+| `--seek-ice` | `#EEF5FB` | grandes áreas contextuais |
+| `--seek-ice-strong` | `#E5EFF7` | superfícies contextuais mais presentes |
+| `--seek-border` | `#DDE5ED` | divisores e contornos |
+| `--seek-ink` | `#13233F` | texto principal e ações fortes |
+| `--seek-text-secondary` | `#65758A` | textos secundários sobre superfície branca |
+| `--seek-blue-700` | `#244E86` | pressed e estados fortes |
+| `--seek-blue-600` | `#3266A8` | ação principal, CTA, links textuais e identidade |
+| `--seek-blue-500` | `#4E7FB8` | ícones ativos, bordas e elementos interativos secundários sem texto pequeno |
+| `--seek-blue-300` | `#9FBFDB` | gráficos, indicadores secundários e realces suaves |
+| `--seek-blue-100` | `#EAF2FA` | seleção, fundos ativos e superfícies discretas |
+| `--seek-active-bg` | `#EFF5FA` | estado selecionado discreto em navegação e listas |
 
-### 5.2. Regra de uso
+O token removido `--seek-connect` não possui substituto. Recursos sociais pertencem à mesma família
+azul da plataforma e não terão uma segunda cor estrutural de marca.
+
+### 5.2. Aliases semânticos
+
+Aliases evitam que componentes dependam de degraus cromáticos específicos:
+
+```css
+--seek-blue: var(--seek-blue-600);
+--seek-link: var(--seek-blue-600);
+--seek-interactive: var(--seek-blue-600);
+--seek-focus-ring: var(--seek-blue-500);
+--seek-selected-bg: var(--seek-active-bg);
+```
+
+`--seek-link` usa `--seek-blue-600`, e não `--seek-blue-500`, porque texto comum precisa manter
+contraste AA sobre branco. O azul 500 permanece válido para componentes gráficos, ícones, bordas e
+texto grande quando o contraste aplicável for atendido.
+
+### 5.3. Regra de uso
 
 A maior parte da UI deve permanecer em:
 
-**branco + gelo + grafite**
+**branco + azuis-gelo + grafite azulado**
 
-A cor deve aparecer apenas quando houver função.
+A distribuição visual desejada é aproximadamente:
 
-O SeekIn **não é um aplicativo azul**.
+- `80–85%` neutros claros;
+- `10–15%` azuis muito claros;
+- `2–4%` azul principal;
+- `1–2%` cores semânticas.
 
-O azul é uma cor de interação e identidade, não um preenchimento indiscriminado de componentes.
+Esses percentuais são uma diretriz de direção visual, não uma fórmula rígida de implementação.
 
-### 5.3. Semântica das cores principais
+O SeekIn deve parecer predominantemente claro e silencioso. O azul mais forte deve aparecer apenas
+quando houver:
 
-**Azul (`--seek-blue`)**
-
-Representa:
-
-- interação com o SeekIn;
 - ação principal;
 - seleção;
-- link;
-- foco;
-- contexto ativo.
+- link relevante;
+- ponto de foco;
+- dado importante em gráfico;
+- destaque de navegação.
 
-**Verde-petróleo (`--seek-connect`)**
+### 5.4. Semântica da família azul
 
-Representa:
+#### `--seek-ink`
 
-- pessoas;
-- comunidades;
-- colaboração;
-- presença;
-- atividades sociais;
-- conexão entre usuários.
+É o “preto” do SeekIn, porém levemente azul. Deve ser usado em:
 
-Essa separação deve permitir a futura evolução do produto para uma rede social sem necessidade de redesign estrutural.
+- títulos;
+- números;
+- labels importantes;
+- navegação;
+- ícones estruturais.
+
+#### `--seek-blue-600`
+
+É a principal cor de ação. Usar em:
+
+- botões primários;
+- CTA principal;
+- ação de começar ou iniciar;
+- ação de criação mais importante;
+- links textuais;
+- ícone ativo relevante.
+
+#### `--seek-blue-500`
+
+Usar em:
+
+- ícones interativos;
+- contornos de botões secundários;
+- estados ativos menos intensos;
+- elementos informativos secundários;
+- foco visível, acompanhado de espessura e afastamento adequados.
+
+Não usar em texto comum sobre fundos claros. Para links e labels pequenos, usar `--seek-blue-600`.
+
+#### `--seek-blue-300`
+
+Usar em:
+
+- donuts e gráficos;
+- tracks com maior ênfase;
+- indicadores informativos;
+- ícones ilustrativos suaves;
+- métricas visuais secundárias.
+
+#### `--seek-blue-100`, `--seek-ice` e `--seek-ice-strong`
+
+Usar em:
+
+- Focus Field;
+- fundos contextuais;
+- seleção discreta;
+- painéis informativos suaves;
+- superfícies de apoio.
+
+Esses tons nunca devem competir com o conteúdo principal.
+
+### 5.5. Aplicação prática nos componentes
+
+#### Botão primário
+
+```css
+background: var(--seek-blue-600);
+color: var(--seek-surface);
+```
+
+Hover e pressed:
+
+```css
+background: var(--seek-blue-700);
+```
+
+#### Botão secundário
+
+Preferir superfície branca com borda azul leve e texto com contraste AA:
+
+```css
+background: var(--seek-surface);
+color: var(--seek-blue-600);
+border: 1px solid var(--seek-blue-500);
+```
+
+#### Navegação selecionada
+
+```css
+background: var(--seek-active-bg);
+color: var(--seek-blue-600);
+border-inline-start: 2px solid var(--seek-blue-600);
+```
+
+#### Focus Field
+
+Usar `--seek-ice` ou `--seek-ice-strong`. Quando necessária, a ilustração abstrata deve ser
+monocromática, muito clara e subordinada ao conteúdo. Não usar gradiente chamativo.
+
+#### Gráficos
+
+- track quase invisível;
+- valor principal em azul;
+- pontos semânticos muito leves;
+- número principal em `--seek-ink`;
+- labels que tornem a leitura independente de cor.
+
+### 5.6. Social e comunidade
+
+A evolução para recursos sociais **não exige uma segunda cor de marca**. Comunidades, perfis, feed e
+colaboração continuam pertencendo à família azul + branco.
+
+A diferenciação social deve vir principalmente de:
+
+- conteúdo;
+- estrutura;
+- iconografia;
+- semântica textual;
+- pequenos indicadores de status quando necessários.
+
+Presença online, disponibilidade ou atividade coletiva pode usar cor semântica suave, nunca uma nova
+cor estrutural de marca.
+
+### 5.7. Regra de sofisticação
+
+Se um componente puder ser resolvido com:
+
+- branco;
+- azul muito claro;
+- grafite azulado;
+- um único ponto de azul principal;
+
+essa deve ser a escolha preferida.
+
+> **Quanto mais importante a ação, mais profundo o azul; quanto mais contextual a informação, mais
+> próxima do branco.**
+
+### 5.8. Contraste verificado
+
+As combinações abaixo foram medidas segundo contraste relativo WCAG:
+
+| Combinação | Razão | Uso permitido |
+|---|---:|---|
+| `--seek-ink` sobre branco | `15,67:1` | qualquer texto |
+| `--seek-text-secondary` sobre branco | `4,70:1` | texto comum; não usar sobre azul-gelo |
+| `--seek-blue-700` sobre branco | `8,37:1` | qualquer texto e estado forte |
+| `--seek-blue-600` sobre branco | `5,83:1` | links, labels e texto interativo |
+| branco sobre `--seek-blue-600` | `5,83:1` | texto de botão primário |
+| `--seek-blue-500` sobre branco | `4,16:1` | não usar em texto comum; válido para texto grande e elementos gráficos aplicáveis |
+
+Sobre `--seek-ice`, `--seek-ice-strong` e `--seek-active-bg`, textos comuns usam `--seek-ink` ou
+`--seek-blue-600`. `--seek-text-secondary` fica restrito a superfícies brancas porque mede menos de
+4,5:1 nos fundos azul-gelo.
 
 ---
 
@@ -512,19 +708,22 @@ O Focus Field é uma região da própria arquitetura da página, não um card.
 
 Pode aparecer em:
 
-- Hoje;
-- Plano/Gantt;
+- Início/Hoje;
+- Planejamento, incluindo Lista e Gantt quando disponíveis;
 - visão de disciplina;
-- futuras áreas de descoberta, comunidade e colaboração.
+- Explorar e Comunidades quando essas features estiverem disponíveis;
+- futuras áreas sociais e de colaboração.
 
 ### Características
 
-- fundo gelo/azul claro;
+- fundo `--seek-ice` ou `--seek-ice-strong`;
 - baixa saturação;
 - grande respiro;
 - mensagem contextual;
 - uma ação principal;
 - pode conter informação resumida de prioridade;
+- pode usar formas abstratas monocromáticas em azul muito claro, como na referência visual aprovada;
+- não utiliza gradiente chamativo;
 - não deve parecer banner promocional.
 
 ### Exemplo conceitual
@@ -746,11 +945,13 @@ Preferir:
 Exemplo:
 
 ```css
-background: #F4F7FC;
-border-left: 2px solid var(--seek-blue);
+background: var(--seek-active-bg);
+color: var(--seek-blue-600);
+border-inline-start: 2px solid var(--seek-blue-600);
 ```
 
-Evitar grandes blocos preenchidos de cor apenas para indicar seleção.
+O ícone e o texto selecionados podem assumir azul, desde que a superfície permaneça clara. Evitar
+grandes blocos preenchidos de cor apenas para indicar seleção.
 
 ---
 
@@ -945,22 +1146,36 @@ O modelo aprovado visualmente possui navegação lateral, porém ela deve ser:
 - labels curtos;
 - item selecionado com contraste leve.
 
-### Estrutura inicial esperada
+### Estrutura visual alvo
 
 ```text
 SeekIn
 
-Hoje
-Lista
-Calendário
+Início
+Planejamento
 Atividades
+Calendário
+Disciplinas
+Explorar
+Comunidades
+Mensagens
 ```
 
-No desktop, Plano/Gantt pode aparecer como destino adicional. Conta permanece no menu de perfil. No
-compacto, a navegação inferior usa Hoje, Lista, Calendário e Atividades; Gantt não aparece.
+Essa estrutura expressa a evolução visual do produto, mas não antecipa módulos vazios. Para preservar
+os contratos funcionais do PRD e do SKN-002 durante o P0:
 
-O shell pode evoluir conforme features entrarem no produto, preservando os destinos canônicos do
-SKN-002.
+- `Início` corresponde à experiência canônica `Hoje`;
+- `Planejamento` agrupa `Lista` e, no desktop, `Gantt` quando essa visão estiver disponível;
+- `Atividades` e `Calendário` permanecem destinos próprios;
+- `Disciplinas` entra na navegação quando possuir módulo e rota reais;
+- `Explorar`, `Comunidades` e `Mensagens` são destinos evolutivos e só aparecem quando suas features
+  estiverem implementadas;
+- Conta permanece no menu de perfil;
+- no compacto, a navegação inferior do P0 continua usando Hoje, Lista, Calendário e Atividades; Gantt
+  não aparece.
+
+O shell pode evoluir conforme features entrarem no produto, preservando os destinos e fluxos canônicos
+do SKN-002.
 
 Não criar itens de navegação para features ainda inexistentes apenas para preencher visualmente a tela.
 
@@ -996,7 +1211,7 @@ A composição pode usar:
 └────────────┴─────────────────────────────────────┴───────────┘
 ```
 
-A composição expandida aprovada para Hoje usa três áreas:
+A composição expandida aprovada para Início/Hoje usa três áreas:
 
 1. navegação;
 2. workspace principal;
@@ -1026,10 +1241,10 @@ A densidade deve seguir a tarefa:
 
 | Área | Densidade |
 |---|---|
-| Hoje | baixa |
-| Lista e Calendário | média |
+| Início/Hoje | baixa |
+| Lista, Agenda e Calendário | média |
 | Atividades | média |
-| Plano/Gantt | média/alta |
+| Planejamento/Gantt | média/alta |
 | Tabela avançada | alta |
 | Feed social | média |
 | Perfil | baixa/média |
@@ -1325,8 +1540,13 @@ Não devem existir decisões visuais atuais que obriguem uma reformulação comp
 
 ### Semântica futura
 
-- azul = interação com o produto;
-- verde-petróleo = interação social.
+- azul = linguagem principal da plataforma;
+- azuis mais profundos = ação e foco;
+- azuis claros = contexto e suporte;
+- cores semânticas suaves = apenas estado.
+
+A evolução social não cria uma segunda cor estrutural de marca. A diferenciação entre conteúdo,
+comunidade e colaboração deve vir de composição, iconografia, texto e pequenos indicadores de estado.
 
 ---
 
@@ -1448,8 +1668,12 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 
 ### Visual
 
-- [ ] respeita a paleta;
+- [ ] respeita o schema monocromático azul + branco;
 - [ ] usa tokens;
+- [ ] não reintroduz `--seek-connect` nem uma segunda cor estrutural de marca;
+- [ ] usa `--seek-blue-600` para links em texto comum; `--seek-blue-500` fica restrito a usos com
+  contraste compatível;
+- [ ] mantém cores semânticas em áreas pequenas e nunca depende somente delas;
 - [ ] não cria nova estética isolada;
 - [ ] usa whitespace antes de adicionar cards;
 - [ ] evita sombras desnecessárias;
@@ -1487,7 +1711,8 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 O SKN-003 é uma especificação, conforme o backlog canônico. Ele pode ser verificado quando houver:
 
 - [x] direção visual e proibições explícitas;
-- [x] tokens semânticos de cor com contraste AA para texto;
+- [x] tokens semânticos do schema azul + branco, sem segunda cor estrutural de marca;
+- [x] regras de contraste AA para texto e restrição explícita do `--seek-blue-500` em texto comum;
 - [x] escala de tipografia, peso e altura de linha baseada na referência aprovada;
 - [x] escalas de espaçamento, radius e movimento;
 - [x] catálogo mínimo de primitives e componentes de domínio;

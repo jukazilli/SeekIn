@@ -1,0 +1,39 @@
+:root {
+  --seek-canvas: #f7f9fc;
+  --seek-surface: #ffffff;
+  --seek-ice: #eef5fb;
+  --seek-ice-strong: #e5eff7;
+  --seek-border: #dde5ed;
+  --seek-ink: #13233f;
+  --seek-text-secondary: #65758a;
+  --seek-blue-700: #244e86;
+  --seek-blue-600: #3266a8;
+  --seek-blue-500: #4e7fb8;
+  --seek-blue-300: #9fbfdb;
+  --seek-blue-100: #eaf2fa;
+  --seek-active-bg: #eff5fa;
+
+  --seek-blue: var(--seek-blue-600);
+  --seek-link: var(--seek-blue-600);
+  --seek-interactive: var(--seek-blue-600);
+  --seek-focus-ring: var(--seek-blue-500);
+  --seek-selected-bg: var(--seek-active-bg);
+
+  --success-fg: #3e7a57;
+  --success-indicator: #a8d8b1;
+  --success-bg: #eef7f0;
+  --success-border: #dcede1;
+  --warning-fg: #8a681a;
+  --warning-indicator: #e6d27a;
+  --warning-bg: #fbf6e8;
+  --warning-border: #f0e5c5;
+  --danger-fg: #a85858;
+  --danger-indicator: #e8a3a3;
+  --danger-bg: #fcf1f1;
+  --danger-border: #f2dada;
+  --info-fg: #4b6f9e;
+  --info-indicator: #a9c2de;
+  --info-bg: #eff4fa;
+  --info-border: #dce7f3;
+  --semantic-track: #eef1f4;
+}
