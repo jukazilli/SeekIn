@@ -11,12 +11,13 @@ export const healthResponseSchema = z.object({
 export type HealthResponse = z.infer<typeof healthResponseSchema>;
 
 export function createHealthResponse(
-  input: Pick<HealthResponse, "correlationId" | "service">,
+  input: Pick<HealthResponse, "correlationId" | "service"> &
+    Partial<Pick<HealthResponse, "version">>,
 ): HealthResponse {
   return healthResponseSchema.parse({
     ...input,
     code: "HEALTH_OK",
     status: "up",
-    version: "0.1.0",
+    version: input.version ?? "0.1.0",
   });
 }

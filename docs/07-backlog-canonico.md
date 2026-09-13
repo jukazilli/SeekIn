@@ -24,7 +24,7 @@ flowchart TD
 ```
 
 - itens podem ser desenvolvidos em paralelo somente quando suas dependências permitirem;
-- nenhuma funcionalidade do produto entra na `main` antes de `SKN-027` comprovar o portão `G2`;
+- nenhuma funcionalidade do produto entra na `main` antes de `SKN-030` aprovar o portão `G2`;
 - UX, UI e provas técnicas podem avançar antes do portão, pois reduzem risco sem criar fundação paralela;
 - um item só muda para concluído conforme o [contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md);
 - o estado inicial dos itens deste documento é **Proposto**, exceto quando uma evidência publicada disser o contrário.
@@ -336,8 +336,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `SKN-001` a `SKN-007` verificados, o planejamento de G0 está completo. Finalizar
-`SKN-013`/`SKN-024` no Supabase Cloud e fechar as provas de banco do portão G1 antes de iniciar
+Com `G1`, `SKN-023` e `SKN-024` verificados, a próxima ação é publicar o Preview isolado do
+`SKN-025`. Depois, seguir por `SKN-026` a `SKN-030` e fechar o portão G2 antes de iniciar
 autenticação.
 
 ---

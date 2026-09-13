@@ -18,6 +18,19 @@ describe("health response contract", () => {
     });
   });
 
+  it("uses the deployed application version when provided", () => {
+    expect(
+      createHealthResponse({
+        correlationId: "preview-correlation",
+        service: "seekin-web",
+        version: "git-sha-preview",
+      }),
+    ).toMatchObject({
+      correlationId: "preview-correlation",
+      version: "git-sha-preview",
+    });
+  });
+
   it.each([
     ["AUTH_REQUIRED", "down"],
     ["DEPENDENCY_UNAVAILABLE", "down"],
