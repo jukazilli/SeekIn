@@ -4,8 +4,17 @@
   "main": "./workers/app.ts",
   "compatibility_date": "2026-09-11",
   "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": true,
   "observability": {
     "enabled": true,
   },
   "upload_source_maps": true,
+  "env": {
+    "preview": {
+      "name": "seekin-web-preview",
+      "workers_dev": true,
+      "preview_urls": true,
+    },
+  },
 }
