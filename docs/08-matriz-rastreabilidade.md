@@ -39,7 +39,7 @@
 | RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Pendente |
 | RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md); consulta e apresentação do SKN-063 pendentes |
 | RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Pendente |
-| RF-052–053 | SKN-084 | G3 | tabela de partições | Pendente |
+| RF-052–053 | SKN-084 | G3 | tabela de partições | [Partições e sobras verificadas](evidencias/SKN-084.md) |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | Pendente |
 | RF-056 | SKN-091 | G3 | transação e imutabilidade | Pendente |
 | RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Parcial: [ranking invariável a permutações](evidencias/SKN-083.md); propriedades amplas do SKN-088 pendentes |
