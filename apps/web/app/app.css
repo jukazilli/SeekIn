@@ -349,6 +349,20 @@ a {
   letter-spacing: -0.06em;
 }
 
+.onboarding-step--form {
+  align-content: start;
+  padding-block: var(--space-7);
+}
+
+.onboarding-step--form h1 {
+  max-width: 16ch;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+.onboarding-step--form .onboarding-lead {
+  font-size: var(--font-size-body);
+}
+
 .onboarding-lead {
   max-width: 46ch;
   margin-bottom: 0;

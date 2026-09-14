@@ -379,7 +379,10 @@ export default function Onboarding() {
             style={{ width: `${(state.step / onboardingStepCount) * 100}%` }}
           />
         </div>
-        <section className="onboarding-step" aria-labelledby="onboarding-title">
+        <section
+          className={`onboarding-step${state.step === 1 ? " onboarding-step--form" : ""}`}
+          aria-labelledby="onboarding-title"
+        >
           {state.step === 0 ? (
             <>
               <p className="eyebrow">Boas-vindas</p>
