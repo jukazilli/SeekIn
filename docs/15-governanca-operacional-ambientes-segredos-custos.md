@@ -104,16 +104,18 @@ senhas, e-mails privados e códigos de recuperação são proibidos.
 
 | Ambiente/sistema | Nome ou classe | Tipo | Local autorizado | Estado |
 |---|---|---|---|---|
-| local | `APP_ENV`, `APP_VERSION` | configuração não secreta | `.env.local`, ignorado pelo Git | quando necessário |
+| local | `APP_ENV`, `APP_ORIGIN`, `APP_VERSION`, `TURNSTILE_SITE_KEY` | configuração não secreta | `.env.local`, ignorado pelo Git | quando necessário |
 | local | `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY` | configuração pública do cliente | `.env.local`, ignorado pelo Git | somente desenvolvimento |
 | local/servidor | `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY` | binding de runtime | `.env.local`, ignorado pelo Git | somente desenvolvimento |
-| Cloudflare Beta | `APP_ENV`, `APP_VERSION`, `SUPABASE_URL` | configuração não secreta | vars do Worker | configurado |
+| Cloudflare Beta | `APP_ENV`, `APP_ORIGIN`, `APP_VERSION`, `SUPABASE_URL`, `TURNSTILE_SITE_KEY` | configuração não secreta | vars do Worker | configurado |
 | Cloudflare Beta | `SUPABASE_PUBLISHABLE_KEY` | secret de runtime | Cloudflare Workers Secrets | configurado |
 | Cloudflare Preview | acesso ao Beta | credencial | proibido | ausente |
 | GitHub Actions | secrets do repositório | credencial | GitHub Actions Secrets | nenhum necessário atualmente |
 | Supabase | integração GitHub | credencial gerenciada | integração do provedor | configurada, valor não exposto |
 | Supabase | `SUPABASE_ANON_KEY`, `SUPABASE_PUBLISHABLE_KEYS`, `SUPABASE_URL` | configuração gerenciada | plataforma Supabase | presente |
 | Supabase | `SUPABASE_DB_URL`, `SUPABASE_JWKS`, `SUPABASE_SECRET_KEYS`, `SUPABASE_SERVICE_ROLE_KEY` | segredo gerenciado | plataforma Supabase/Edge Functions | presente, uso exclusivo de servidor |
+| Supabase Auth | secret do CAPTCHA Turnstile e senha SMTP do Resend | segredo gerenciado | plataforma Supabase | configurado, valor não exposto |
+| Resend | credencial SMTP/API transacional | segredo | Resend + configuração SMTP do Supabase | configurado, valor não exposto |
 
 Uma chave publishable pode aparecer no cliente, mas continua sendo tratada como configuração
 controlada e nunca substitui RLS. `service_role`, secret keys e URL de banco nunca podem chegar ao
