@@ -125,10 +125,10 @@
 
 | Fonte | Decisão/requisito | Itens responsáveis | Evidência |
 |---|---|---|---|
-| Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | Pendente |
+| Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Pendente |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [schemas e versões do planner-core](evidencias/SKN-080.md); algoritmo, Edge Function e persistência pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |

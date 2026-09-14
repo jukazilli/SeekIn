@@ -350,8 +350,10 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-055` verificado em Preview/Beta, a próxima ação é o `SKN-056`: gerar a prévia, apresentar
-conflitos quando necessário e exigir confirmação antes de publicar o primeiro plano.
+O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
+exige primeiro o motor e o backend reais. Com o contrato versionado no `SKN-080`, a próxima ação é
+o `SKN-081`: calcular capacidade bruta, operacional e líquida. A sequência retorna ao `SKN-056`
+depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
 
