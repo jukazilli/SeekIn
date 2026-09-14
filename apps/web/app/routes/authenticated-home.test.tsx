@@ -31,6 +31,8 @@ describe("SKN-041 protected route", () => {
     vi.clearAllMocks();
     mockedEnsureProfile.mockResolvedValue({
       display_name: null,
+      onboarding_status: "completed",
+      onboarding_step: 7,
       revision: 1,
       timezone: "America/Sao_Paulo",
       user_id: "private-user-id",
@@ -85,6 +87,32 @@ describe("SKN-041 protected route", () => {
       },
     });
     expect(response.headers.get("set-cookie")).toContain("refreshed=session");
+  });
+
+  it("routes an incomplete profile to onboarding", async () => {
+    mockedSessionClient.mockReturnValue({
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: { id: "private-user-id" } },
+          error: null,
+        }),
+      } as never,
+      client: {} as never,
+      headers: new Headers({ "cache-control": "private, no-store" }),
+    });
+    mockedEnsureProfile.mockResolvedValue({
+      display_name: null,
+      onboarding_status: "in_progress",
+      onboarding_step: 1,
+      revision: 2,
+      timezone: "America/Sao_Paulo",
+      user_id: "private-user-id",
+    });
+
+    const response = await loader(loaderArguments());
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/onboarding");
   });
 
   it("fails closed when the Auth service cannot verify the session", async () => {
@@ -156,6 +184,8 @@ describe("SKN-044 profile update", () => {
     authenticatedClient();
     mockedUpdateProfile.mockResolvedValue({
       display_name: "Ana",
+      onboarding_status: "completed",
+      onboarding_step: 7,
       revision: 2,
       timezone: "America/Recife",
       user_id: "user-1",
