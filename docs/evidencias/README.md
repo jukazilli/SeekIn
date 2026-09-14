@@ -151,6 +151,8 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-041 | Verificado | [Entrada, sessão e guarda de rotas](SKN-041.md) |
 | SKN-042 | Verificado | [Saída e limpeza de dados privados](SKN-042.md) |
 | SKN-043 | Verificado | [Recuperação segura de acesso](SKN-043.md) |
+| SKN-044 | Verificado | [Perfil estável por conta](SKN-044.md) |
+| SKN-045 | Verificado | [Isolamento multiusuário nas APIs do Supabase](SKN-045.md) |
 
 ## 6. Portões fechados
 

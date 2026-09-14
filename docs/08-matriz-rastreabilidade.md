@@ -74,8 +74,8 @@
 | RNF-002 | SKN-125 | G4 | resposta visual e profiling | Pendente |
 | RNF-003 | SKN-088 / SKN-092 | G3 | determinismo e idempotência | Pendente |
 | RNF-004 | SKN-091 / SKN-092 | G3 | atomicidade e concorrência | Pendente |
-| RNF-005 | SKN-018 / SKN-045 / SKN-132 | G5 | RLS, E2E e revisão de segurança | Pendente |
-| RNF-006 | SKN-018 / SKN-045 | G3 | isolamento multiusuário | Pendente |
+| RNF-005 | SKN-018 / SKN-045 / SKN-132 | G5 | RLS, E2E e revisão de segurança | Parcial: [RLS/grants](evidencias/SKN-018.md) e [matriz negativa](evidencias/SKN-045.md) verificados; SKN-132 pendente |
+| RNF-006 | SKN-018 / SKN-045 | G3 | isolamento multiusuário | Verificado: [RLS/grants](evidencias/SKN-018.md) e [matriz negativa](evidencias/SKN-045.md) |
 | RNF-007 | SKN-091 / SKN-131 | G5 | auditoria e correlação | Pendente |
 | RNF-008 | SKN-003 / SKN-124 | G4 | auditoria WCAG 2.2 AA | Pendente |
 | RNF-009 | SKN-126 | G4 | Chromium, Firefox e WebKit | Pendente |
