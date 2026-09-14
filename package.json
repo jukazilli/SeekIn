@@ -21,6 +21,7 @@
     "supabase:push:dry": "supabase db push --linked --dry-run",
     "supabase:push": "supabase db push --linked",
     "supabase:test": "supabase test db --linked supabase/tests/database",
+    "supabase:test:isolation": "node scripts/verify-multiuser-isolation.mjs",
     "supabase:seed:g1-dev": "supabase db query --project-ref ildvwjylcyhbpopjjasi --file supabase/seed.sql"
   },
   "devDependencies": {
