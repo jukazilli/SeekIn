@@ -126,7 +126,8 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
 - criação e verificação de conta estão publicadas e verificadas no SKN-040, com Supabase Auth,
   Resend e Turnstile;
 - entrada, renovação de sessão e guarda de rotas estão publicadas e verificadas no SKN-041;
-- saída e limpeza de estado privado estão publicadas e verificadas no SKN-042; a próxima ação é
-  recuperação de acesso no `SKN-043`;
+- saída e limpeza de estado privado estão publicadas e verificadas no SKN-042;
+- recuperação de acesso está publicada e verificada no SKN-043; a próxima ação é perfil por conta
+  no `SKN-044`;
 - onboarding e planner ainda não foram iniciados.
 
