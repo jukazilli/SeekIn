@@ -505,8 +505,13 @@ A primeira versão será determinística e baseada em regras, sem pesos ocultos.
 3. menor prazo;
 4. menor folga de capacidade;
 5. maior prioridade informada pelo usuário;
-6. atividade já iniciada;
-7. data de criação mais antiga.
+6. maior esforço restante;
+7. atividade já iniciada;
+8. data de criação mais antiga.
+
+Quando todos os fatores de produto forem equivalentes, o identificador estável da atividade é usado
+somente como último desempate técnico. Esse fallback garante determinismo, mas não é apresentado ao
+aluno como justificativa de prioridade.
 
 Essa ordem pode ser apresentada ao aluno em linguagem natural. Uma fórmula ponderada ou modelo inteligente só deve substituir as regras após existirem dados suficientes para comparação.
 
