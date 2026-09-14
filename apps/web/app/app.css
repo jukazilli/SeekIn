@@ -519,6 +519,87 @@ a {
   margin-top: var(--space-4);
 }
 
+.onboarding-step--activity {
+  width: min(100%, 760px);
+}
+
+.onboarding-activity {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.onboarding-activity > .text-field:first-child,
+.activity-deadline,
+.activity-effort,
+.activity-notes {
+  grid-column: 1 / -1;
+}
+
+.onboarding-activity > label,
+.activity-deadline label,
+.activity-effort label,
+.activity-notes {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.onboarding-activity select,
+.onboarding-activity input,
+.onboarding-activity textarea {
+  width: 100%;
+  min-height: 48px;
+  padding-inline: var(--space-4);
+  color: var(--seek-ink);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-ink-a12);
+  border-radius: var(--radius-control);
+  font: inherit;
+}
+
+.onboarding-activity textarea {
+  min-height: 88px;
+  padding-block: var(--space-3);
+  resize: vertical;
+}
+
+.activity-deadline,
+.activity-effort {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.activity-effort {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.activity-effort legend {
+  margin-bottom: var(--space-2);
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.activity-deadline small,
+.activity-notes small {
+  color: var(--seek-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.onboarding-activity select:focus-visible,
+.onboarding-activity input:focus-visible,
+.onboarding-activity textarea:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 2px;
+}
+
 .recurring-blocks {
   display: grid;
   gap: var(--space-4);
@@ -648,6 +729,17 @@ a {
 
   .recurring-block {
     padding: var(--space-4);
+  }
+
+  .onboarding-activity {
+    grid-template-columns: 1fr;
+  }
+
+  .onboarding-activity > .text-field:first-child,
+  .activity-deadline,
+  .activity-effort,
+  .activity-notes {
+    grid-column: auto;
   }
 }
 
