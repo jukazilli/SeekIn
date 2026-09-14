@@ -350,9 +350,9 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-045` verificado em Supabase Dev/Beta e o RNF-006 completo, a próxima ação é o `SKN-050`:
-implementar o onboarding persistente com progresso, retorno sem perda de dados e retomada após nova
-sessão.
+Com o `SKN-050` verificado em Preview/Beta, a próxima ação é o `SKN-051`: capturar fuso, início da
+semana, duração padrão/mínima e reserva de capacidade com defaults documentados, unidades claras e
+limites válidos.
 
 ---
 

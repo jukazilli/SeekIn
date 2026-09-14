@@ -153,6 +153,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-043 | Verificado | [Recuperação segura de acesso](SKN-043.md) |
 | SKN-044 | Verificado | [Perfil estável por conta](SKN-044.md) |
 | SKN-045 | Verificado | [Isolamento multiusuário nas APIs do Supabase](SKN-045.md) |
+| SKN-050 | Verificado | [Fundação persistente do onboarding](SKN-050.md) |
 
 ## 6. Portões fechados
 
