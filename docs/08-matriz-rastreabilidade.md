@@ -27,7 +27,7 @@
 | RF-002 | SKN-044 | G3 | integração de perfil por conta | Verificado: [EV-SKN-044](evidencias/SKN-044.md) |
 | RF-003 | SKN-051 | G3 | componente + persistência | Verificado: [EV-SKN-051](evidencias/SKN-051.md) |
 | RF-004 | SKN-044 / SKN-051 / SKN-072 | G3 | testes de fuso e persistência | Parcial: [EV-SKN-044](evidencias/SKN-044.md) e [EV-SKN-051](evidencias/SKN-051.md); SKN-072 pendente |
-| RF-010–012 | SKN-052 / SKN-060 | G3 | unidade, integração e UI | Pendente |
+| RF-010–012 | SKN-052 / SKN-060 | G3 | unidade, integração e UI | Parcial: [EV-SKN-052](evidencias/SKN-052.md); CRUD completo do SKN-060 pendente |
 | RF-013–014 | SKN-053 / SKN-061 | G3 | recorrência e exceção | Pendente |
 | RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Pendente |
 | RF-020–023 | SKN-054 / SKN-070 | G3 | CRUD, integridade e contraste | Pendente |

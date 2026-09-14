@@ -155,6 +155,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-045 | Verificado | [Isolamento multiusuário nas APIs do Supabase](SKN-045.md) |
 | SKN-050 | Verificado | [Fundação persistente do onboarding](SKN-050.md) |
 | SKN-051 | Verificado | [Preferências iniciais do onboarding](SKN-051.md) |
+| SKN-052 | Verificado | [Disponibilidade semanal no onboarding](SKN-052.md) |
 
 ## 6. Portões fechados
 
