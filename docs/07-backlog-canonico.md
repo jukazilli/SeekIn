@@ -350,9 +350,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-050` verificado em Preview/Beta, a próxima ação é o `SKN-051`: capturar fuso, início da
-semana, duração padrão/mínima e reserva de capacidade com defaults documentados, unidades claras e
-limites válidos.
+Com o `SKN-051` verificado em Preview/Beta, a próxima ação é o `SKN-052`: capturar janelas semanais
+de disponibilidade com validação e feedback de sobreposição.
 
 ---
 
