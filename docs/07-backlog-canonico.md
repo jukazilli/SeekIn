@@ -350,8 +350,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-051` verificado em Preview/Beta, a próxima ação é o `SKN-052`: capturar janelas semanais
-de disponibilidade com validação e feedback de sobreposição.
+Com o `SKN-052` verificado em Preview/Beta, a próxima ação é o `SKN-053`: capturar compromissos
+recorrentes opcionais sem confundi-los com disponibilidade.
 
 ---
 
