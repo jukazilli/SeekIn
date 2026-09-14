@@ -856,11 +856,22 @@ html {
   display: inline-flex;
   min-height: 44px;
   align-items: center;
-  color: var(--seek-primary);
-  font-size: 1.55rem;
-  font-weight: var(--font-weight-medium);
-  letter-spacing: -0.055em;
   text-decoration: none;
+}
+
+.landing-wordmark img,
+.auth-wordmark img {
+  display: block;
+  width: 132px;
+  height: auto;
+  filter: url("#seekin-wordmark-alpha");
+}
+
+.brand-filter-definitions {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
 }
 
 .landing-wordmark:focus-visible,
@@ -1561,6 +1572,17 @@ html {
   transform: rotate(-18deg);
 }
 
+.auth-brand-panel__mascot {
+  position: absolute;
+  top: clamp(20px, 4vw, 56px);
+  right: clamp(20px, 4vw, 56px);
+  z-index: 1;
+  width: min(48%, 360px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 42px var(--seek-primary-a16));
+}
+
 .auth-brand-panel__copy {
   position: relative;
   z-index: 1;
@@ -1618,7 +1640,22 @@ html {
   }
 
   .auth-brand-panel {
-    display: none;
+    min-height: 340px;
+    padding: 36px;
+  }
+
+  .auth-brand-panel__mascot {
+    top: 18px;
+    right: 28px;
+    width: min(34%, 220px);
+  }
+
+  .auth-brand-panel__copy {
+    max-width: 58%;
+  }
+
+  .auth-brand-panel__copy h2 {
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
   }
 }
 
@@ -1637,6 +1674,35 @@ html {
 
   .landing-nav a {
     padding-inline: 14px;
+  }
+
+  .landing-wordmark img,
+  .auth-wordmark img {
+    width: 116px;
+  }
+
+  .auth-brand-panel {
+    min-height: 270px;
+    padding: 24px;
+  }
+
+  .auth-brand-panel__mascot {
+    top: 12px;
+    right: 10px;
+    width: min(43%, 180px);
+  }
+
+  .auth-brand-panel__copy {
+    max-width: 62%;
+  }
+
+  .auth-brand-panel__copy p {
+    margin-bottom: 10px;
+    font-size: 0.65rem;
+  }
+
+  .auth-brand-panel__copy h2 {
+    font-size: clamp(1.45rem, 7vw, 2rem);
   }
 
   .landing-hero {

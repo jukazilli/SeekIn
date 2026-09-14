@@ -18,7 +18,11 @@ import { Icon } from "./ui/icons/Icon";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesheet },
-  { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
+  {
+    rel: "icon",
+    href: "/brand/logo/seekin-symbol.png",
+    type: "image/png",
+  },
 ];
 
 export const meta: MetaFunction = () => [
@@ -40,6 +44,30 @@ export function Layout({ children }: Readonly<{ children: ReactNode }>) {
         <Links />
       </head>
       <body>
+        <svg
+          className="brand-filter-definitions"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <defs>
+            <filter id="seekin-wordmark-alpha" colorInterpolationFilters="sRGB">
+              <feColorMatrix
+                in="SourceGraphic"
+                type="matrix"
+                values="0 0 0 0 0
+                        0 0 0 0 0
+                        0 0 0 0 0
+                       -1 -1 -1 0 2.85"
+                result="wordmark-alpha"
+              />
+              <feComposite
+                in="SourceGraphic"
+                in2="wordmark-alpha"
+                operator="in"
+              />
+            </filter>
+          </defs>
+        </svg>
         {children}
         <ScrollRestoration />
         <Scripts />
