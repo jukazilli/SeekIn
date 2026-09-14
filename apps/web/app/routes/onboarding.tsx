@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   Form,
   redirect,
@@ -13,12 +13,15 @@ import {
   ensureProfile,
   ensureUserPreferences,
   listActiveAvailabilityWindows,
+  listRecurringCalendarBlocks,
   replaceActiveAvailabilityWindows,
+  replaceRecurringCalendarBlocks,
   updateOnboardingProgress,
   updateProfile,
   updateUserPreferences,
 } from "@seekin/data-access";
 import { parseAvailabilityWindows } from "../onboarding/availability-flow";
+import { parseRecurringBlocks } from "../onboarding/recurring-blocks-flow";
 import { readVerifiedSession } from "../auth/session-flow";
 import {
   clearPrivateBrowserDataHeaders,
@@ -41,6 +44,12 @@ type OnboardingState = {
     end_local: string;
     start_local: string;
   }>;
+  recurringBlocks: Array<{
+    days: number[];
+    end_local: string;
+    start_local: string;
+    title: string;
+  }>;
   preferences: {
     capacity_reserve_percent: number;
     minimum_session_minutes: number;
@@ -49,7 +58,7 @@ type OnboardingState = {
     week_starts_on: number;
   };
   revision: number;
-  step: 0 | 1 | 2 | 3;
+  step: 0 | 1 | 2 | 3 | 4;
   timezone: string;
 };
 
@@ -108,10 +117,21 @@ async function loadOnboarding(
       status: 503,
     });
   }
+  const recurringBlocks = await listRecurringCalendarBlocks(
+    session.client,
+    verified.userId,
+  );
+  if (!recurringBlocks) {
+    throw new Response("Serviço indisponível", {
+      headers: session.headers,
+      status: 503,
+    });
+  }
   return {
     availability,
     preferences,
     profile,
+    recurringBlocks,
     session,
     userId: verified.userId,
   };
@@ -123,6 +143,9 @@ function publicState(loaded: {
   >;
   preferences: NonNullable<Awaited<ReturnType<typeof ensureUserPreferences>>>;
   profile: NonNullable<Awaited<ReturnType<typeof ensureProfile>>>;
+  recurringBlocks: NonNullable<
+    Awaited<ReturnType<typeof listRecurringCalendarBlocks>>
+  >;
 }): OnboardingState {
   const step = isAvailableOnboardingStep(loaded.profile.onboarding_step)
     ? loaded.profile.onboarding_step
@@ -140,6 +163,7 @@ function publicState(loaded: {
       revision: loaded.preferences.revision,
       week_starts_on: loaded.preferences.week_starts_on,
     },
+    recurringBlocks: groupRecurringBlocks(loaded.recurringBlocks),
     revision: loaded.profile.revision,
     step,
     timezone: loaded.profile.timezone,
@@ -194,8 +218,11 @@ export async function action({ context, request }: ActionFunctionArgs) {
     );
   }
   const targetStep =
-    currentStep === 2 && formData.get("intent") === "skip"
-      ? 3
+    (currentStep === 2 || currentStep === 3) &&
+    formData.get("intent") === "skip"
+      ? currentStep === 2
+        ? 3
+        : 4
       : parseOnboardingMove(formData, currentStep);
   if (targetStep === null)
     throw new Response("Solicitação inválida", { status: 400 });
@@ -204,6 +231,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
   let savedPreferences = loaded.preferences;
   let savedTimezone = loaded.profile.timezone;
   let savedAvailability = loaded.availability;
+  let savedRecurringBlocks = loaded.recurringBlocks;
   if (currentStep === 1 && targetStep === 2) {
     const input = parseOnboardingPreferences(formData);
     const preferencesRevision = Number(formData.get("preferencesRevision"));
@@ -279,6 +307,37 @@ export async function action({ context, request }: ActionFunctionArgs) {
     savedAvailability = replaced;
   }
 
+  if (currentStep === 3 && targetStep === 4) {
+    const skip = formData.get("intent") === "skip";
+    const validation = skip
+      ? { blocks: [], ok: true as const }
+      : parseRecurringBlocks(formData);
+    if (!validation.ok) {
+      return Response.json(
+        { error: validation.message },
+        { headers: loaded.session.headers, status: 400 },
+      );
+    }
+    const replaced = await replaceRecurringCalendarBlocks(
+      loaded.session.client,
+      loaded.userId,
+      loaded.profile.timezone,
+      localDateInTimezone(loaded.profile.timezone),
+      loaded.recurringBlocks,
+      validation.blocks,
+    );
+    if (!replaced) {
+      return Response.json(
+        {
+          error:
+            "Não foi possível salvar os compromissos. Recarregue e tente novamente.",
+        },
+        { headers: loaded.session.headers, status: 409 },
+      );
+    }
+    savedRecurringBlocks = replaced;
+  }
+
   const updated = await updateOnboardingProgress(
     loaded.session.client,
     loaded.userId,
@@ -304,12 +363,43 @@ export async function action({ context, request }: ActionFunctionArgs) {
         revision: savedPreferences.revision,
         week_starts_on: savedPreferences.week_starts_on,
       },
+      recurringBlocks: groupRecurringBlocks(savedRecurringBlocks),
       revision: updated.revision,
       step: targetStep,
       timezone: savedTimezone,
     } satisfies OnboardingState,
     { headers: loaded.session.headers },
   );
+}
+
+function groupRecurringBlocks(
+  blocks: NonNullable<Awaited<ReturnType<typeof listRecurringCalendarBlocks>>>,
+) {
+  const grouped = new Map<string, OnboardingState["recurringBlocks"][number]>();
+  for (const block of blocks) {
+    if (
+      block.day_of_week === null ||
+      block.start_local === null ||
+      block.end_local === null
+    )
+      continue;
+    const start = block.start_local.slice(0, 5);
+    const end = block.end_local.slice(0, 5);
+    const key = `${block.title}\u0000${start}\u0000${end}`;
+    const existing = grouped.get(key);
+    if (existing) existing.days.push(block.day_of_week);
+    else
+      grouped.set(key, {
+        days: [block.day_of_week],
+        end_local: end,
+        start_local: start,
+        title: block.title,
+      });
+  }
+  return [...grouped.values()].map((block) => ({
+    ...block,
+    days: block.days.sort((left, right) => left - right),
+  }));
 }
 
 function localDateInTimezone(timezone: string) {
@@ -504,6 +594,125 @@ function AvailabilityFields({ state }: Readonly<{ state: OnboardingState }>) {
   );
 }
 
+type EditableBlock = OnboardingState["recurringBlocks"][number] & {
+  key: number;
+};
+
+function RecurringBlocksFields({
+  state,
+}: Readonly<{ state: OnboardingState }>) {
+  const nextKey = useRef(state.recurringBlocks.length);
+  const [blocks, setBlocks] = useState<EditableBlock[]>(() =>
+    state.recurringBlocks.map((block, key) => ({ ...block, key })),
+  );
+
+  function addBlock() {
+    const key = nextKey.current++;
+    setBlocks((current) => [
+      ...current,
+      {
+        days: [],
+        end_local: "11:00",
+        key,
+        start_local: "10:00",
+        title: "",
+      },
+    ]);
+  }
+
+  function toggleDay(key: number, day: number) {
+    setBlocks((current) =>
+      current.map((block) =>
+        block.key !== key
+          ? block
+          : {
+              ...block,
+              days: block.days.includes(day)
+                ? block.days.filter((value) => value !== day)
+                : [...block.days, day].sort((left, right) => left - right),
+            },
+      ),
+    );
+  }
+
+  return (
+    <div className="recurring-blocks">
+      <button className="recurring-add" type="button" onClick={addBlock}>
+        Adicionar compromisso
+      </button>
+      {blocks.length === 0 ? (
+        <p className="recurring-empty">Nenhum compromisso adicionado.</p>
+      ) : (
+        blocks.map((block, index) => (
+          <fieldset className="recurring-block" key={block.key}>
+            <legend>Compromisso {index + 1}</legend>
+            <label className="recurring-title">
+              <span>Nome</span>
+              <input
+                defaultValue={block.title}
+                maxLength={120}
+                name="blockTitle"
+                placeholder="Ex.: Academia"
+                required
+              />
+            </label>
+            <input
+              name="blockDays"
+              type="hidden"
+              value={block.days.join(",")}
+            />
+            <div className="recurring-days" aria-label="Dias da semana">
+              {weekDays.map((dayLabel, day) => (
+                <button
+                  aria-pressed={block.days.includes(day)}
+                  key={dayLabel}
+                  type="button"
+                  onClick={() => toggleDay(block.key, day)}
+                >
+                  {dayLabel.slice(0, 3)}
+                </button>
+              ))}
+            </div>
+            <div className="recurring-time">
+              <label>
+                <span>Início</span>
+                <input
+                  defaultValue={block.start_local}
+                  name="blockStart"
+                  required
+                  type="time"
+                />
+              </label>
+              <span aria-hidden="true">até</span>
+              <label>
+                <span>Fim</span>
+                <input
+                  defaultValue={block.end_local}
+                  name="blockEnd"
+                  required
+                  type="time"
+                />
+              </label>
+            </div>
+            <button
+              aria-label={`Remover compromisso ${index + 1}`}
+              className="recurring-remove"
+              type="button"
+              onClick={() =>
+                setBlocks((current) =>
+                  current.filter((item) => item.key !== block.key),
+                )
+              }
+            >
+              Remover
+            </button>
+          </fieldset>
+        ))
+      )}
+    </div>
+  );
+}
+
 export default function Onboarding() {
   const loaded = useLoaderData() as OnboardingState;
   const actionData = useActionData() as
@@ -511,10 +720,6 @@ export default function Onboarding() {
   const navigation = useNavigation();
   const state = actionData && "step" in actionData ? actionData : loaded;
   const isBusy = navigation.state !== "idle";
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  useEffect(() => {
-    if (actionData && "step" in actionData) titleRef.current?.focus();
-  }, [actionData]);
 
   return (
     <div className="onboarding-shell">
@@ -557,13 +762,13 @@ export default function Onboarding() {
           />
         </div>
         <section
-          className={`onboarding-step${state.step === 1 || state.step === 2 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}`}
+          className={`onboarding-step${state.step >= 1 && state.step <= 3 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}`}
           aria-labelledby="onboarding-title"
         >
           {state.step === 0 ? (
             <>
               <p className="eyebrow">Boas-vindas</p>
-              <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
+              <h1 id="onboarding-title">
                 Vamos montar um plano que caiba na sua rotina.
               </h1>
               <p className="onboarding-lead">
@@ -574,9 +779,7 @@ export default function Onboarding() {
           ) : state.step === 1 ? (
             <>
               <p className="eyebrow">Preferências</p>
-              <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
-                Primeiro, acerte o ritmo.
-              </h1>
+              <h1 id="onboarding-title">Primeiro, acerte o ritmo.</h1>
               <p className="onboarding-lead">
                 Defina como sua semana funciona.
               </p>
@@ -584,19 +787,25 @@ export default function Onboarding() {
           ) : state.step === 2 ? (
             <>
               <p className="eyebrow">Disponibilidade</p>
-              <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
+              <h1 id="onboarding-title">
                 Quando você costuma ter tempo livre?
               </h1>
               <p className="onboarding-lead">
                 Adicione os horários que se repetem na sua semana.
               </p>
             </>
-          ) : (
+          ) : state.step === 3 ? (
             <>
               <p className="eyebrow">Rotina</p>
-              <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
-                O que já ocupa seu tempo?
-              </h1>
+              <h1 id="onboarding-title">O que já ocupa seu tempo?</h1>
+              <p className="onboarding-lead">
+                Marque compromissos que se repetem na semana.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow">Disciplina</p>
+              <h1 id="onboarding-title">Qual matéria vem primeiro?</h1>
             </>
           )}
           {actionData && "error" in actionData ? (
@@ -609,6 +818,7 @@ export default function Onboarding() {
             <input name="currentStep" type="hidden" value={state.step} />
             {state.step === 1 ? <PreferencesFields state={state} /> : null}
             {state.step === 2 ? <AvailabilityFields state={state} /> : null}
+            {state.step === 3 ? <RecurringBlocksFields state={state} /> : null}
             <div className="onboarding-actions">
               {state.step > 0 ? (
                 <Button
@@ -639,6 +849,21 @@ export default function Onboarding() {
                     loading={isBusy}
                   >
                     Configurar depois
+                  </Button>
+                  <Button name="intent" value="next" loading={isBusy}>
+                    Continuar
+                  </Button>
+                </>
+              ) : null}
+              {state.step === 3 ? (
+                <>
+                  <Button
+                    name="intent"
+                    value="skip"
+                    variant="secondary"
+                    loading={isBusy}
+                  >
+                    Pular por agora
                   </Button>
                   <Button name="intent" value="next" loading={isBusy}>
                     Continuar
