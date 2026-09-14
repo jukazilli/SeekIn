@@ -63,6 +63,32 @@ export function createRequestSessionClient(
   return { auth: client.auth, headers: responseHeaders };
 }
 
+export function clearPrivateBrowserDataHeaders(
+  request: Request,
+  headers = new Headers(),
+) {
+  headers.set("cache-control", "private, no-store");
+  headers.set("clear-site-data", '"cache", "storage"');
+
+  for (const { name } of parseCookieHeader(
+    request.headers.get("cookie") ?? "",
+  )) {
+    if (!/^sb-[a-z0-9]+-auth-token(?:\.\d+)?$/.test(name)) continue;
+    headers.append(
+      "set-cookie",
+      serializeCookieHeader(name, "", {
+        expires: new Date(0),
+        maxAge: 0,
+        path: "/",
+        sameSite: "lax",
+        secure: new URL(request.url).protocol === "https:",
+      }),
+    );
+  }
+
+  return headers;
+}
+
 export function isSameOriginSubmission(request: Request) {
   const origin = request.headers.get("origin");
   if (!origin) return false;

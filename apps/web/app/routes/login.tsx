@@ -42,6 +42,7 @@ export function headers() {
 
 interface LoginLoaderData {
   next: string;
+  signedOut: boolean;
   siteKey: string | null;
 }
 
@@ -56,6 +57,8 @@ export async function loader({
   request,
 }: LoaderFunctionArgs): Promise<LoginLoaderData | Response> {
   const next = safeReturnPath(new URL(request.url).searchParams.get("next"));
+  const signedOut =
+    new URL(request.url).searchParams.get("status") === "signed-out";
   const session = createRequestSessionClient(request, context);
   if (session) {
     const verified = await readVerifiedSession(session.auth);
@@ -63,12 +66,12 @@ export async function loader({
       return redirect(next, { headers: session.headers });
     }
     return Response.json(
-      { next, siteKey: turnstileSiteKey(context) },
+      { next, signedOut, siteKey: turnstileSiteKey(context) },
       { headers: session.headers },
     );
   }
 
-  return { next, siteKey: turnstileSiteKey(context) };
+  return { next, signedOut, siteKey: turnstileSiteKey(context) };
 }
 
 export async function action({
@@ -129,7 +132,7 @@ export async function action({
 
 export default function Login() {
   const actionData = useActionData<LoginActionData>();
-  const { next, siteKey } = useLoaderData<LoginLoaderData>();
+  const { next, signedOut, siteKey } = useLoaderData<LoginLoaderData>();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const [offlineMessage, setOfflineMessage] = useState("");
@@ -150,6 +153,12 @@ export default function Login() {
         <p className="eyebrow">Que bom ter você de volta</p>
         <h1 id="login-title">Entre na sua conta</h1>
         <p className="auth-intro">Continue de onde parou.</p>
+
+        {signedOut ? (
+          <p className="form-message form-message--success" role="status">
+            Você saiu da sua conta.
+          </p>
+        ) : null}
 
         <Form className="auth-form" method="post" onSubmit={handleSubmit}>
           <input name="next" type="hidden" value={next} />

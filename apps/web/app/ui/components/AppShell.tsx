@@ -6,6 +6,7 @@ interface AppShellProps {
   busy?: boolean;
   children: ReactNode;
   homeHref?: string;
+  utility?: ReactNode;
 }
 
 function HomeLink({
@@ -28,6 +29,7 @@ export function AppShell({
   busy = false,
   children,
   homeHref = "/",
+  utility,
 }: AppShellProps) {
   return (
     <div className="app-shell">
@@ -44,6 +46,7 @@ export function AppShell({
             height={724}
           />
         </a>
+        {utility ? <div className="topbar-utility">{utility}</div> : null}
       </header>
 
       <aside className="sidebar">
