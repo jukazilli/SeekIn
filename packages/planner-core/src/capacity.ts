@@ -29,6 +29,10 @@ export type CapacitySummary = {
   totals: Omit<CapacityWeek, "weekStartDate">;
 };
 
+export type CapacityOptions = {
+  availableUntil?: string;
+};
+
 function isoDateAtOffset(date: string, offset: number): string {
   const instant = new Date(`${date}T00:00:00Z`);
   instant.setUTCDate(instant.getUTCDate() + offset);
@@ -148,8 +152,17 @@ function addCapacity<T extends Omit<CapacityWeek, "weekStartDate">>(
 }
 
 /** Calculates capacity only; session partitioning and allocation belong to later planner stages. */
-export function calculateCapacity(rawInput: PlannerInput): CapacitySummary {
+export function calculateCapacity(
+  rawInput: PlannerInput,
+  options: CapacityOptions = {},
+): CapacitySummary {
   const input = plannerInputSchema.parse(rawInput);
+  const availableUntil = options.availableUntil
+    ? Date.parse(options.availableUntil)
+    : Number.POSITIVE_INFINITY;
+  if (Number.isNaN(availableUntil)) {
+    throw new RangeError("availableUntil deve ser um instante ISO válido");
+  }
   const unavailable = mergeIntervals([
     ...input.blocks.map(({ startsAt, endsAt }) => ({
       start: Date.parse(startsAt),
@@ -176,7 +189,10 @@ export function calculateCapacity(rawInput: PlannerInput): CapacitySummary {
             generatedAt,
             localInstant(date, startLocal, input.timezone),
           ),
-          end: localInstant(date, endLocal, input.timezone),
+          end: Math.min(
+            availableUntil,
+            localInstant(date, endLocal, input.timezone),
+          ),
         })),
     );
     const grossMinutes = sumMinutes(windows);
