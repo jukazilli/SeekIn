@@ -1,6 +1,6 @@
 # SKN-032 — Plano da landing page do SeekIn
 
-- **Status:** pronto para revisão e implementação após aprovação documental
+- **Status:** em revisão; código e deploy concluídos, assets oficiais isolados pendentes
 - **Tipo:** direção de produto, conteúdo, UX e plano técnico
 - **Dependências:** `SKN-031`, `SKN-014`, `SKN-015` e `SKN-040`
 - **Versão:** 1.0
@@ -467,7 +467,7 @@ Antes de criar arquivos, confirmar os padrões reais do repositório e reutiliza
 - conteúdo de termos, privacidade e contato só entra no rodapé quando os destinos reais existirem;
 - animação pode ser removida se comprometer clareza, desempenho ou movimento reduzido.
 
-## 15. Bloqueio real antes do código visual final
+## 15. Bloqueio real antes do aceite visual final
 
 Os assets da prancha ainda não estão isolados. A implementação pode preparar estrutura e tokens, mas
 o logo, a wordmark e o mascote finais só devem entrar no produto quando forem entregues em arquivos
