@@ -347,8 +347,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-042` verificado em Preview/Beta, a próxima ação é o `SKN-043`: recuperação de acesso com
-resposta segura para conta existente ou inexistente.
+Com o `SKN-043` verificado em Preview/Beta e o RF-001 completo, a próxima ação é o `SKN-044`: perfil
+estável junto da conta, com nome e fuso.
 
 ---
 

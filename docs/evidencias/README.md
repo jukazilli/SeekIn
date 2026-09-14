@@ -150,6 +150,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-040 | Verificado | [Conta por e-mail e verificação obrigatória](SKN-040.md) |
 | SKN-041 | Verificado | [Entrada, sessão e guarda de rotas](SKN-041.md) |
 | SKN-042 | Verificado | [Saída e limpeza de dados privados](SKN-042.md) |
+| SKN-043 | Verificado | [Recuperação segura de acesso](SKN-043.md) |
 
 ## 6. Portões fechados
 
