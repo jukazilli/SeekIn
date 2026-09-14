@@ -164,6 +164,7 @@ const rationaleCodeSchema = z.enum([
   "earliest_deadline",
   "lowest_slack",
   "manual_priority",
+  "largest_remaining_effort",
   "already_started",
   "oldest_activity",
 ]);
