@@ -351,9 +351,10 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com o contrato versionado no `SKN-080`, a próxima ação é
-o `SKN-081`: calcular capacidade bruta, operacional e líquida. A sequência retorna ao `SKN-056`
-depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
+exige primeiro o motor e o backend reais. Com contratos e capacidade fechados nos `SKN-080/081`, a
+próxima ação é o `SKN-082`: calcular horizontes, folga, taxa de carga, déficit e níveis de risco. A
+sequência retorna ao `SKN-056` depois que geração, persistência e confirmação estiverem implementadas
+até o `SKN-096`.
 
 ---
 

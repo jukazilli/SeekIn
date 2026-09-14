@@ -160,6 +160,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-054 | Verificado | [Primeira disciplina no onboarding](SKN-054.md) |
 | SKN-055 | Verificado | [Primeira atividade no onboarding](SKN-055.md) |
 | SKN-080 | Verificado | [Contratos versionados do planner-core](SKN-080.md) |
+| SKN-081 | Verificado | [Cálculo de capacidade do planner-core](SKN-081.md) |
 
 ## 6. Portões fechados
 
