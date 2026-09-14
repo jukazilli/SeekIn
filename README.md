@@ -682,8 +682,8 @@ de [UX](docs/10-fluxos-e-estados-ux.md),
 [governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o
 [runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
 [modelo de evidências](docs/evidencias/README.md) controlam a execução. Com a Fundação operacional
-aprovada e o portão `G2` fechado no `SKN-030`, a próxima ação é iniciar a autenticação pelo
-`SKN-040`.
+aprovada, o portão `G2` fechado no `SKN-030` e a criação/verificação de conta concluída no
+`SKN-040`, a próxima ação é implementar entrada e sessão pelo `SKN-041`.
 
 ---
 

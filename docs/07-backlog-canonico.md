@@ -336,8 +336,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com `G2` e suas doze condições verificados no `SKN-030`, a próxima ação é iniciar o `SKN-040`:
-conta por e-mail e senha, verificação obrigatória via Resend e domínio transacional autenticado.
+Com o `SKN-040` verificado, a próxima ação é iniciar o `SKN-041`: entrada, renovação de sessão,
+guarda de rotas e retorno seguro à rota pretendida.
 
 ---
 

@@ -146,6 +146,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-028 | Verificado | [Proteção operacional, responsáveis, segredos e custos](SKN-028.md) |
 | SKN-029 | Verificado | [Rollback da aplicação e recuperação de migration](SKN-029.md) |
 | SKN-030 | Verificado | [Fechamento do G2](SKN-030.md) |
+| SKN-040 | Verificado | [Conta por e-mail e verificação obrigatória](SKN-040.md) |
 
 ## 6. Portões fechados
 
