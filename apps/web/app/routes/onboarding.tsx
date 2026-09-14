@@ -12,6 +12,7 @@ import {
 import {
   ensureProfile,
   ensureUserPreferences,
+  createSupabaseActivityRepository,
   listActiveDisciplines,
   listActiveAvailabilityWindows,
   listRecurringCalendarBlocks,
@@ -23,6 +24,7 @@ import {
   updateUserPreferences,
 } from "@seekin/data-access";
 import { parseAvailabilityWindows } from "../onboarding/availability-flow";
+import { parseOnboardingActivity } from "../onboarding/activity-flow";
 import { parseOnboardingDiscipline } from "../onboarding/discipline-flow";
 import { parseRecurringBlocks } from "../onboarding/recurring-blocks-flow";
 import { readVerifiedSession } from "../auth/session-flow";
@@ -43,6 +45,18 @@ import { Button } from "../ui/components/Button";
 import { TextField } from "../ui/components/TextField";
 
 type OnboardingState = {
+  activity: {
+    activity_type: string;
+    deadline_local_date: string;
+    deadline_local_time: string | null;
+    discipline_id: string | null;
+    estimated_minutes: number;
+    id: string;
+    notes_markdown: string | null;
+    priority: number;
+    revision: number;
+    title: string;
+  } | null;
   availability: Array<{
     day_of_week: number;
     end_local: string;
@@ -61,6 +75,7 @@ type OnboardingState = {
     name: string;
     revision: number;
   } | null;
+  disciplines: Array<{ id: string; name: string }>;
   preferences: {
     capacity_reserve_percent: number;
     minimum_session_minutes: number;
@@ -69,7 +84,7 @@ type OnboardingState = {
     week_starts_on: number;
   };
   revision: number;
-  step: 0 | 1 | 2 | 3 | 4 | 5;
+  step: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   timezone: string;
 };
 
@@ -148,7 +163,18 @@ async function loadOnboarding(
       status: 503,
     });
   }
+  const activitiesRepository = createSupabaseActivityRepository(session.client);
+  let activities;
+  try {
+    activities = await activitiesRepository.list(verified.userId);
+  } catch {
+    throw new Response("Serviço indisponível", {
+      headers: session.headers,
+      status: 503,
+    });
+  }
   return {
+    activities,
     availability,
     disciplines,
     preferences,
@@ -160,6 +186,9 @@ async function loadOnboarding(
 }
 
 function publicState(loaded: {
+  activities: Awaited<
+    ReturnType<ReturnType<typeof createSupabaseActivityRepository>["list"]>
+  >;
   availability: NonNullable<
     Awaited<ReturnType<typeof listActiveAvailabilityWindows>>
   >;
@@ -174,12 +203,17 @@ function publicState(loaded: {
     ? loaded.profile.onboarding_step
     : 1;
   return {
+    activity: toPublicActivity(
+      loaded.activities.find((activity) => activity.status === "active") ??
+        null,
+    ),
     availability: loaded.availability.map((window) => ({
       day_of_week: window.day_of_week,
       end_local: window.end_local.slice(0, 5),
       start_local: window.start_local.slice(0, 5),
     })),
     discipline: loaded.disciplines[0] ?? null,
+    disciplines: loaded.disciplines.map(({ id, name }) => ({ id, name })),
     preferences: {
       capacity_reserve_percent: loaded.preferences.capacity_reserve_percent,
       minimum_session_minutes: loaded.preferences.minimum_session_minutes,
@@ -257,6 +291,8 @@ export async function action({ context, request }: ActionFunctionArgs) {
   let savedPreferences = loaded.preferences;
   let savedTimezone = loaded.profile.timezone;
   let savedAvailability = loaded.availability;
+  let savedActivity =
+    loaded.activities.find((activity) => activity.status === "active") ?? null;
   let savedDiscipline = loaded.disciplines[0] ?? null;
   let savedRecurringBlocks = loaded.recurringBlocks;
   if (currentStep === 1 && targetStep === 2) {
@@ -394,6 +430,45 @@ export async function action({ context, request }: ActionFunctionArgs) {
     }
   }
 
+  if (currentStep === 5 && targetStep === 6) {
+    const input = parseOnboardingActivity(
+      formData,
+      loaded.profile.timezone,
+      new Set(loaded.disciplines.map((discipline) => discipline.id)),
+    );
+    if (!input) {
+      return Response.json(
+        { error: "Revise os dados da atividade antes de continuar." },
+        { headers: loaded.session.headers, status: 400 },
+      );
+    }
+    const repository = createSupabaseActivityRepository(loaded.session.client);
+    try {
+      savedActivity = savedActivity
+        ? await repository.update(
+            loaded.userId,
+            savedActivity.id,
+            savedActivity.revision,
+            input,
+          )
+        : await repository.create({
+            ...input,
+            actual_minutes: 0,
+            source: "manual",
+            status: "active",
+            user_id: loaded.userId,
+          });
+    } catch {
+      return Response.json(
+        {
+          error:
+            "Não foi possível salvar a atividade. Recarregue e tente novamente.",
+        },
+        { headers: loaded.session.headers, status: 409 },
+      );
+    }
+  }
+
   const updated = await updateOnboardingProgress(
     loaded.session.client,
     loaded.userId,
@@ -407,12 +482,14 @@ export async function action({ context, request }: ActionFunctionArgs) {
     );
   return Response.json(
     {
+      activity: toPublicActivity(savedActivity),
       availability: savedAvailability.map((window) => ({
         day_of_week: window.day_of_week,
         end_local: window.end_local.slice(0, 5),
         start_local: window.start_local.slice(0, 5),
       })),
       discipline: savedDiscipline,
+      disciplines: loaded.disciplines.map(({ id, name }) => ({ id, name })),
       preferences: {
         capacity_reserve_percent: savedPreferences.capacity_reserve_percent,
         minimum_session_minutes: savedPreferences.minimum_session_minutes,
@@ -427,6 +504,26 @@ export async function action({ context, request }: ActionFunctionArgs) {
     } satisfies OnboardingState,
     { headers: loaded.session.headers },
   );
+}
+
+function toPublicActivity(
+  activity: Awaited<
+    ReturnType<ReturnType<typeof createSupabaseActivityRepository>["findById"]>
+  >,
+): OnboardingState["activity"] {
+  if (!activity) return null;
+  return {
+    activity_type: activity.activity_type,
+    deadline_local_date: activity.deadline_local_date,
+    deadline_local_time: activity.deadline_local_time?.slice(0, 5) ?? null,
+    discipline_id: activity.discipline_id,
+    estimated_minutes: activity.estimated_minutes,
+    id: activity.id,
+    notes_markdown: activity.notes_markdown,
+    priority: activity.priority,
+    revision: activity.revision,
+    title: activity.title,
+  };
 }
 
 function groupRecurringBlocks(
@@ -786,6 +883,130 @@ function DisciplineField({ state }: Readonly<{ state: OnboardingState }>) {
   );
 }
 
+const activityTypeOptions = [
+  ["assignment", "Trabalho"],
+  ["exam", "Prova"],
+  ["reading", "Leitura"],
+  ["project", "Projeto"],
+  ["exercise", "Exercícios"],
+  ["extension", "Extensão"],
+  ["other", "Outro"],
+] as const;
+
+function ActivityFields({ state }: Readonly<{ state: OnboardingState }>) {
+  const activity = state.activity;
+  const effortHours = Math.floor((activity?.estimated_minutes ?? 60) / 60);
+  const effortMinutes = (activity?.estimated_minutes ?? 60) % 60;
+  return (
+    <div className="onboarding-activity">
+      <TextField
+        autoComplete="off"
+        defaultValue={activity?.title ?? ""}
+        label="Atividade"
+        maxLength={200}
+        name="activityTitle"
+        placeholder="Ex.: Lista de exercícios"
+        required
+      />
+      <label>
+        <span>Disciplina</span>
+        <select
+          defaultValue={activity?.discipline_id ?? state.discipline?.id ?? ""}
+          name="disciplineId"
+        >
+          <option value="">Sem disciplina</option>
+          {state.disciplines.map((discipline) => (
+            <option key={discipline.id} value={discipline.id}>
+              {discipline.name}
+            </option>
+          ))}
+        </select>
+      </label>
+      <label>
+        <span>Tipo</span>
+        <select
+          defaultValue={activity?.activity_type ?? "assignment"}
+          name="activityType"
+        >
+          {activityTypeOptions.map(([value, label]) => (
+            <option key={value} value={value}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </label>
+      <div className="activity-deadline">
+        <label>
+          <span>Data de entrega</span>
+          <input
+            defaultValue={activity?.deadline_local_date ?? ""}
+            name="deadlineDate"
+            required
+            type="date"
+          />
+        </label>
+        <label>
+          <span>Hora</span>
+          <input
+            defaultValue={activity?.deadline_local_time ?? ""}
+            name="deadlineTime"
+            type="time"
+          />
+          <small>Sem hora: até 23:59</small>
+        </label>
+      </div>
+      <fieldset className="activity-effort">
+        <legend>Tempo estimado</legend>
+        <label>
+          <span>Horas</span>
+          <input
+            defaultValue={effortHours}
+            inputMode="numeric"
+            max={999}
+            min={0}
+            name="effortHours"
+            required
+            type="number"
+          />
+        </label>
+        <label>
+          <span>Minutos</span>
+          <input
+            defaultValue={effortMinutes}
+            inputMode="numeric"
+            max={59}
+            min={0}
+            name="effortMinutes"
+            required
+            type="number"
+          />
+        </label>
+      </fieldset>
+      <label>
+        <span>Prioridade</span>
+        <select defaultValue={activity?.priority ?? 2} name="activityPriority">
+          <option value="0">Muito baixa</option>
+          <option value="1">Baixa</option>
+          <option value="2">Normal</option>
+          <option value="3">Alta</option>
+          <option value="4">Muito alta</option>
+        </select>
+      </label>
+      <label className="activity-notes">
+        <span>
+          Notas <small>opcional</small>
+        </span>
+        <textarea
+          defaultValue={activity?.notes_markdown ?? ""}
+          maxLength={20_000}
+          name="activityNotes"
+          rows={3}
+        />
+      </label>
+    </div>
+  );
+}
+
 export default function Onboarding() {
   const loaded = useLoaderData() as OnboardingState;
   const actionData = useActionData() as
@@ -835,7 +1056,7 @@ export default function Onboarding() {
           />
         </div>
         <section
-          className={`onboarding-step${state.step >= 1 && state.step <= 4 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}`}
+          className={`onboarding-step${state.step >= 1 && state.step <= 5 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}${state.step === 5 ? " onboarding-step--activity" : ""}`}
           aria-labelledby="onboarding-title"
         >
           {state.step === 0 ? (
@@ -880,10 +1101,15 @@ export default function Onboarding() {
               <p className="eyebrow">Disciplina</p>
               <h1 id="onboarding-title">Qual matéria vem primeiro?</h1>
             </>
-          ) : (
+          ) : state.step === 5 ? (
             <>
               <p className="eyebrow">Atividade</p>
               <h1 id="onboarding-title">Qual é a sua primeira entrega?</h1>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow">Seu plano</p>
+              <h1 id="onboarding-title">Veja como sua rotina pode ficar.</h1>
             </>
           )}
           {actionData && "error" in actionData ? (
@@ -898,6 +1124,7 @@ export default function Onboarding() {
             {state.step === 2 ? <AvailabilityFields state={state} /> : null}
             {state.step === 3 ? <RecurringBlocksFields state={state} /> : null}
             {state.step === 4 ? <DisciplineField state={state} /> : null}
+            {state.step === 5 ? <ActivityFields state={state} /> : null}
             <div className="onboarding-actions">
               {state.step > 0 ? (
                 <Button
@@ -963,6 +1190,11 @@ export default function Onboarding() {
                     Continuar
                   </Button>
                 </>
+              ) : null}
+              {state.step === 5 ? (
+                <Button name="intent" value="next" loading={isBusy}>
+                  Criar atividade
+                </Button>
               ) : null}
             </div>
           </Form>

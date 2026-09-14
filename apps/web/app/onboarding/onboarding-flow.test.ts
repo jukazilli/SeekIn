@@ -21,7 +21,8 @@ describe("SKN-050 onboarding navigation", () => {
     expect(parseOnboardingMove(form("next"), 2)).toBe(3);
     expect(parseOnboardingMove(form("next"), 3)).toBe(4);
     expect(parseOnboardingMove(form("next"), 4)).toBe(5);
-    expect(parseOnboardingMove(form("next"), 5)).toBeNull();
+    expect(parseOnboardingMove(form("next"), 5)).toBe(6);
+    expect(parseOnboardingMove(form("next"), 6)).toBeNull();
     expect(isAvailableOnboardingStep(7)).toBe(false);
   });
 

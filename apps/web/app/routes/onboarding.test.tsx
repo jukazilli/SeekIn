@@ -1,6 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import {
+  createSupabaseActivityRepository,
   ensureProfile,
   ensureUserPreferences,
   listActiveDisciplines,
@@ -23,6 +24,7 @@ vi.mock("../auth/runtime-auth", async (importOriginal) => ({
 }));
 vi.mock("@seekin/data-access", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@seekin/data-access")>()),
+  createSupabaseActivityRepository: vi.fn(),
   ensureProfile: vi.fn(),
   ensureUserPreferences: vi.fn(),
   listActiveDisciplines: vi.fn(),
@@ -37,6 +39,7 @@ vi.mock("@seekin/data-access", async (importOriginal) => ({
 }));
 
 const mockedSessionClient = vi.mocked(createRequestSessionClient);
+const mockedActivityRepository = vi.mocked(createSupabaseActivityRepository);
 const mockedEnsureProfile = vi.mocked(ensureProfile);
 const mockedEnsurePreferences = vi.mocked(ensureUserPreferences);
 const mockedListDisciplines = vi.mocked(listActiveDisciplines);
@@ -69,8 +72,10 @@ const preferences = {
 
 function state(revision = 4, step = 1) {
   return {
+    activity: null,
     availability: [],
     discipline: null,
+    disciplines: [],
     recurringBlocks: [],
     preferences: {
       capacity_reserve_percent: 20,
@@ -109,6 +114,12 @@ describe("SKN-050 persistent onboarding route", () => {
     mockedEnsureProfile.mockResolvedValue(profile);
     mockedEnsurePreferences.mockResolvedValue(preferences);
     mockedListDisciplines.mockResolvedValue([]);
+    mockedActivityRepository.mockReturnValue({
+      create: vi.fn(),
+      findById: vi.fn(),
+      list: vi.fn().mockResolvedValue([]),
+      update: vi.fn(),
+    });
     mockedListAvailability.mockResolvedValue([]);
     mockedListRecurring.mockResolvedValue([]);
   });
@@ -545,6 +556,92 @@ describe("SKN-050 persistent onboarding route", () => {
     });
     expect(mockedSaveDiscipline).not.toHaveBeenCalled();
     expect(mockedUpdateProgress).not.toHaveBeenCalled();
+  });
+
+  it("creates the first activity with a resolved local deadline", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 5 });
+    mockedListDisciplines.mockResolvedValue([
+      {
+        color_key: null,
+        description: null,
+        id: "discipline-1",
+        name: "Cálculo I",
+        revision: 1,
+      },
+    ]);
+    const created = {
+      actual_minutes: 0,
+      activity_type: "exercise",
+      completed_at: null,
+      created_at: "2026-09-14T18:00:00Z",
+      deadline_at: "2026-09-19T02:59:00Z",
+      deadline_has_time: false,
+      deadline_local_date: "2026-09-18",
+      deadline_local_time: null,
+      deadline_timezone: "America/Sao_Paulo",
+      discipline_id: "discipline-1",
+      estimated_minutes: 100,
+      id: "activity-1",
+      notes_markdown: null,
+      priority: 3,
+      revision: 1,
+      source: "manual",
+      source_external_id: null,
+      status: "active",
+      title: "Lista de exercícios",
+      updated_at: "2026-09-14T18:00:00Z",
+      user_id: "user-1",
+    };
+    const create = vi.fn().mockResolvedValue(created);
+    mockedActivityRepository.mockReturnValue({
+      create,
+      findById: vi.fn(),
+      list: vi.fn().mockResolvedValue([]),
+      update: vi.fn(),
+    });
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 6,
+      revision: 5,
+    });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            activityNotes: "",
+            activityPriority: "3",
+            activityTitle: "Lista de exercícios",
+            activityType: "exercise",
+            currentStep: "5",
+            deadlineDate: "2026-09-18",
+            deadlineTime: "",
+            disciplineId: "discipline-1",
+            effortHours: "1",
+            effortMinutes: "40",
+            intent: "next",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(create).toHaveBeenCalledWith(
+      expect.objectContaining({
+        deadline_at: "2026-09-19T02:59:00Z",
+        deadline_has_time: false,
+        deadline_local_time: null,
+        discipline_id: "discipline-1",
+        estimated_minutes: 100,
+        user_id: "user-1",
+      }),
+    );
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 6);
+    await expect(response.json()).resolves.toMatchObject({
+      activity: { id: "activity-1", title: "Lista de exercícios" },
+      step: 6,
+    });
   });
 
   it("redirects completed onboarding to the app", async () => {
