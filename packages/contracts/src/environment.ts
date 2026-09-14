@@ -19,9 +19,11 @@ export const clientEnvironmentSchema = z
 export const serverEnvironmentSchema = z
   .object({
     APP_ENV: appEnvironmentSchema,
+    APP_ORIGIN: z.url(),
     APP_VERSION: z.string().trim().min(1),
     SUPABASE_PUBLISHABLE_KEY: z.string().trim().min(1),
     SUPABASE_URL: z.url(),
+    TURNSTILE_SITE_KEY: z.string().trim().min(1),
   })
   .strict();
 

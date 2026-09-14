@@ -3,9 +3,10 @@ import {
   healthResponseSchema,
   type HealthResponse,
 } from "@seekin/contracts";
-import { createRequestHandler } from "react-router";
+import { createRequestHandler, RouterContextProvider } from "react-router";
 
 import { checkFoundationReadiness } from "../app/http/foundation-readiness";
+import { cloudflareEnvironmentContext } from "../app/http/runtime-context";
 import { applySecurityHeaders } from "../app/http/security-headers";
 
 const requestHandler = createRequestHandler(
@@ -69,7 +70,9 @@ export default {
         status,
       });
     } else {
-      response = await requestHandler(request);
+      const context = new RouterContextProvider();
+      context.set(cloudflareEnvironmentContext, env);
+      response = await requestHandler(request, context);
     }
 
     return applySecurityHeaders(response, {
@@ -77,11 +80,4 @@ export default {
       supabaseUrl: env.SUPABASE_URL,
     });
   },
-} satisfies ExportedHandler<CloudflareEnvironment>;
-
-interface CloudflareEnvironment {
-  APP_ENV?: string;
-  APP_VERSION?: string;
-  SUPABASE_PUBLISHABLE_KEY?: string;
-  SUPABASE_URL?: string;
-}
+} satisfies ExportedHandler<Partial<CloudflareBindings>>;

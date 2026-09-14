@@ -208,6 +208,9 @@ importers:
       '@seekin/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
+      '@seekin/data-access':
+        specifier: workspace:*
+        version: link:../../packages/data-access
       isbot:
         specifier: ^5
         version: 5.2.2

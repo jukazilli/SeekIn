@@ -10,6 +10,7 @@
     "workers/**/*",
     ".react-router/types/**/*",
     "react-router.config.ts",
-    "vite.config.ts"
+    "vite.config.ts",
+    "worker-configuration.d.ts"
   ]
 }

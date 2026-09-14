@@ -12,6 +12,9 @@ export default function Home() {
         <div className="focus-field__copy">
           <h2 id="welcome-title">Um dia de cada vez.</h2>
           <p>Seu planejamento vai ganhar forma aqui.</p>
+          <a className="primary-link" href="/criar-conta">
+            Criar conta
+          </a>
         </div>
         <div className="focus-field__mark" aria-hidden="true">
           <span />
