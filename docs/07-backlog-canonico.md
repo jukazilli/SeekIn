@@ -350,8 +350,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-054` verificado em Preview/Beta, a próxima ação é o `SKN-055`: criar a primeira atividade
-com prazo e esforço usando o mesmo comando canônico previsto para a criação posterior.
+Com o `SKN-055` verificado em Preview/Beta, a próxima ação é o `SKN-056`: gerar a prévia, apresentar
+conflitos quando necessário e exigir confirmação antes de publicar o primeiro plano.
 
 ---
 
