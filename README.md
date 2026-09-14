@@ -23,6 +23,8 @@
 | [Matriz de rastreabilidade](docs/08-matriz-rastreabilidade.md) | Ligar requisitos, itens, verificações e evidências | Cobertura inicial completa |
 | [Modelo de evidências](docs/evidencias/README.md) | Padronizar a comprovação de cada entrega | Obrigatório |
 | [Guia de desenvolvimento](docs/09-guia-de-desenvolvimento.md) | Instalar, validar e executar a fundação cloud | Em execução |
+| [Brand Guide](docs/nova-logo/ajustes-design-system.md) | Governar identidade, voz, paleta, símbolo e mascote | Direção aprovada; implementação em curso |
+| [Plano da landing page](docs/nova-logo/plano-landing-page.md) | Definir copy, composição, responsividade e slices da entrada pública | Em execução no `SKN-032` |
 
 ---
 
@@ -653,7 +655,7 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 
 ## 30. Decisões em aberto
 
-- domínio oficial, identidade visual e registro da marca;
+- domínio oficial e registro da marca; a identidade visual está definida no Brand Guide;
 - nicho inicial do beta;
 - campos obrigatórios e visibilidade padrão do perfil;
 - modelo de estimativa de esforço;
@@ -676,6 +678,8 @@ fundação e o caminho de escala. O
 [backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md), os documentos
 de [UX](docs/10-fluxos-e-estados-ux.md),
 [UI e acessibilidade](docs/11-Sistema-Visual-UI-Acessibilidade-e-Responsividade-do-SeekIn.md),
+[Brand Guide](docs/nova-logo/ajustes-design-system.md),
+[plano da landing pública](docs/nova-logo/plano-landing-page.md),
 [modelo físico e contratos](docs/12-modelo-fisico-contratos-http-datas-ids.md),
 [testes e fixtures](docs/13-plano-de-testes-e-fixtures-sinteticas.md),
 [analytics e consentimento](docs/14-contrato-eventos-analytics-consentimento-metricas.md),
@@ -683,7 +687,8 @@ de [UX](docs/10-fluxos-e-estados-ux.md),
 [runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
 [modelo de evidências](docs/evidencias/README.md) controlam a execução. Com a Fundação operacional
 aprovada, o portão `G2` fechado no `SKN-030` e a criação/verificação de conta concluída no
-`SKN-040`, a próxima ação é implementar entrada e sessão pelo `SKN-041`.
+`SKN-040`, a intervenção `SKN-032` entrega marca e landing pública antes de a sequência retornar à
+entrada e sessão pelo `SKN-041`.
 
 ---
 

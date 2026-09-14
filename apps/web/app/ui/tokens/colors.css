@@ -1,23 +1,39 @@
 :root {
-  --seek-canvas: #f7f9fc;
+  --seek-primary: #5b9de6;
+  --seek-sky: #8ec5f5;
+  --seek-soft: #cfe6ff;
+  --seek-veil: #eaf4ff;
+  --seek-canvas: #f7fbff;
   --seek-surface: #ffffff;
-  --seek-ice: #eef5fb;
-  --seek-ice-strong: #e5eff7;
-  --seek-border: #dde5ed;
   --seek-ink: #13233f;
-  --seek-text-secondary: #65758a;
-  --seek-blue-700: #244e86;
-  --seek-blue-600: #3266a8;
-  --seek-blue-500: #4e7fb8;
-  --seek-blue-300: #9fbfdb;
-  --seek-blue-100: #eaf2fa;
-  --seek-active-bg: #eff5fa;
 
-  --seek-blue: var(--seek-blue-600);
-  --seek-link: var(--seek-blue-600);
-  --seek-interactive: var(--seek-blue-600);
-  --seek-focus-ring: var(--seek-blue-500);
-  --seek-selected-bg: var(--seek-active-bg);
+  --seek-primary-a08: rgb(91 157 230 / 8%);
+  --seek-primary-a16: rgb(91 157 230 / 16%);
+  --seek-primary-a28: rgb(91 157 230 / 28%);
+  --seek-sky-a24: rgb(142 197 245 / 24%);
+  --seek-soft-a56: rgb(207 230 255 / 56%);
+  --seek-ink-a08: rgb(19 35 63 / 8%);
+  --seek-ink-a12: rgb(19 35 63 / 12%);
+  --seek-ink-a64: rgb(19 35 63 / 64%);
+  --seek-ink-a72: rgb(19 35 63 / 72%);
+
+  --seek-border: var(--seek-ink-a08);
+  --seek-text-secondary: var(--seek-ink-a72);
+  --seek-link: var(--seek-ink);
+  --seek-interactive: var(--seek-primary);
+  --seek-focus-ring: var(--seek-primary);
+  --seek-selected-bg: var(--seek-veil);
+
+  /* Aliases temporários para superfícies ainda não migradas do app. */
+  --seek-blue: var(--seek-primary);
+  --seek-blue-700: var(--seek-primary);
+  --seek-blue-600: var(--seek-primary);
+  --seek-blue-500: var(--seek-sky);
+  --seek-blue-300: var(--seek-soft);
+  --seek-blue-100: var(--seek-veil);
+  --seek-ice: var(--seek-veil);
+  --seek-ice-strong: var(--seek-soft);
+  --seek-active-bg: var(--seek-veil);
 
   --success-fg: #3e7a57;
   --success-indicator: #a8d8b1;
@@ -31,9 +47,9 @@
   --danger-indicator: #e8a3a3;
   --danger-bg: #fcf1f1;
   --danger-border: #f2dada;
-  --info-fg: #4b6f9e;
-  --info-indicator: #a9c2de;
-  --info-bg: #eff4fa;
-  --info-border: #dce7f3;
+  --info-fg: var(--seek-ink);
+  --info-indicator: var(--seek-sky);
+  --info-bg: var(--seek-veil);
+  --info-border: var(--seek-soft);
   --semantic-track: #eef1f4;
 }

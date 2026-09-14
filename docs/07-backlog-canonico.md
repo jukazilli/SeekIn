@@ -127,6 +127,17 @@ flowchart TD
 
 **Regra de bloqueio:** itens `SKN-040` em diante só podem entrar na `main` após `SKN-030` concluído.
 
+## EP-03B — Marca e entrada pública
+
+| ID | P | Resultado e aceite | Dependências | Fontes | Evidência mínima |
+|---|---|---|---|---|---|
+| SKN-031 | P0 | Consolidar brand guide, voz, paleta oficial, translucidez, símbolo, wordmark, mascote e regras de fixação visual sem substituir cores aprovadas. O `SKN-003` permanece coerente com a nova direção. | SKN-003 | [Brand Guide](nova-logo/ajustes-design-system.md); prancha aprovada | `DOC` + `UX`: guia e sistema visual consistentes |
+| SKN-032 | P0 | Implementar landing pública responsiva em `/`, migrar tokens para a paleta aprovada e alinhar superfícies de autenticação sem alterar contratos. A página comunica tempo, plano e próximo passo sem prometer recursos futuros ou parecer um SaaS genérico. | SKN-015, SKN-031, SKN-040 | [Plano da landing](nova-logo/plano-landing-page.md); PRD §§3, 5 e 23 | `CODE` + `TEST` + `UX` + `DEPLOY`: viewports, acessibilidade, Preview/Beta e SHA |
+
+**Intervenção aprovada:** o `SKN-032` interrompe temporariamente a sequência após o `SKN-040`. Seu
+fechamento devolve a próxima ação ao `SKN-041`; não altera dependências de autenticação ou escopo do
+planner.
+
 ---
 
 # G3 — Núcleo utilizável
@@ -336,8 +347,9 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-040` verificado, a próxima ação é iniciar o `SKN-041`: entrada, renovação de sessão,
-guarda de rotas e retorno seguro à rota pretendida.
+Com o `SKN-040` verificado e a intervenção visual autorizada pelo Product Owner, a próxima ação é
+fechar o `SKN-032` em Preview/Beta com evidência do mesmo SHA. Depois disso, a sequência retorna ao
+`SKN-041`: entrada, renovação de sessão, guarda de rotas e retorno seguro à rota pretendida.
 
 ---
 
