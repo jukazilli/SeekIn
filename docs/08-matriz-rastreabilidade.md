@@ -24,9 +24,9 @@
 | Requisito | Item responsável | Portão | Verificação principal | Evidência |
 |---|---|---|---|---|
 | RF-001 | SKN-040–043 | G3 | E2E criar, entrar, recuperar e sair | Verificado: [EV-SKN-040](evidencias/SKN-040.md), [EV-SKN-041](evidencias/SKN-041.md), [EV-SKN-042](evidencias/SKN-042.md) e [EV-SKN-043](evidencias/SKN-043.md) |
-| RF-002 | SKN-044 | G3 | integração de perfil por conta | Pendente |
+| RF-002 | SKN-044 | G3 | integração de perfil por conta | Verificado: [EV-SKN-044](evidencias/SKN-044.md) |
 | RF-003 | SKN-051 | G3 | componente + persistência | Pendente |
-| RF-004 | SKN-044 / SKN-051 / SKN-072 | G3 | testes de fuso e persistência | Pendente |
+| RF-004 | SKN-044 / SKN-051 / SKN-072 | G3 | testes de fuso e persistência | Parcial: [EV-SKN-044](evidencias/SKN-044.md); SKN-051/072 pendentes |
 | RF-010–012 | SKN-052 / SKN-060 | G3 | unidade, integração e UI | Pendente |
 | RF-013–014 | SKN-053 / SKN-061 | G3 | recorrência e exceção | Pendente |
 | RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Pendente |
