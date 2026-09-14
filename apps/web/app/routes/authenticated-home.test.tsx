@@ -1,14 +1,22 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createRequestSessionClient } from "../auth/runtime-auth";
+import { ensureProfile, updateProfile } from "@seekin/data-access";
 import { action, loader } from "./authenticated-home";
 
 vi.mock("../auth/runtime-auth", async (importOriginal) => ({
   ...(await importOriginal<typeof import("../auth/runtime-auth")>()),
   createRequestSessionClient: vi.fn(),
 }));
+vi.mock("@seekin/data-access", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("@seekin/data-access")>()),
+  ensureProfile: vi.fn(),
+  updateProfile: vi.fn(),
+}));
 
 const mockedSessionClient = vi.mocked(createRequestSessionClient);
+const mockedEnsureProfile = vi.mocked(ensureProfile);
+const mockedUpdateProfile = vi.mocked(updateProfile);
 
 function loaderArguments(url = "https://seekin.example.test/app") {
   return {
@@ -19,7 +27,15 @@ function loaderArguments(url = "https://seekin.example.test/app") {
 }
 
 describe("SKN-041 protected route", () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+    mockedEnsureProfile.mockResolvedValue({
+      display_name: null,
+      revision: 1,
+      timezone: "America/Sao_Paulo",
+      user_id: "private-user-id",
+    });
+  });
 
   it("redirects an invalid session to login with the requested route", async () => {
     mockedSessionClient.mockReturnValue({
@@ -29,6 +45,7 @@ describe("SKN-041 protected route", () => {
           error: { code: "session_not_found", status: 403 },
         }),
       } as never,
+      client: {} as never,
       headers: new Headers({ "cache-control": "no-store" }),
     });
 
@@ -51,6 +68,7 @@ describe("SKN-041 protected route", () => {
           error: null,
         }),
       } as never,
+      client: {} as never,
       headers: new Headers({
         "cache-control": "private, no-store",
         "set-cookie": "refreshed=session; Path=/; SameSite=Lax",
@@ -59,7 +77,13 @@ describe("SKN-041 protected route", () => {
 
     const response = await loader(loaderArguments());
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ authenticated: true });
+    await expect(response.json()).resolves.toEqual({
+      profile: {
+        display_name: null,
+        revision: 1,
+        timezone: "America/Sao_Paulo",
+      },
+    });
     expect(response.headers.get("set-cookie")).toContain("refreshed=session");
   });
 
@@ -71,12 +95,94 @@ describe("SKN-041 protected route", () => {
           error: { code: "service_unavailable", status: 503 },
         }),
       } as never,
+      client: {} as never,
       headers: new Headers({ "cache-control": "no-store" }),
     });
 
     await expect(loader(loaderArguments())).rejects.toMatchObject({
       status: 503,
     });
+  });
+
+  it("fails closed when the profile cannot be recovered", async () => {
+    mockedEnsureProfile.mockResolvedValue(null);
+    mockedSessionClient.mockReturnValue({
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: { id: "private-user-id" } },
+          error: null,
+        }),
+      } as never,
+      client: {} as never,
+      headers: new Headers({ "cache-control": "no-store" }),
+    });
+
+    await expect(loader(loaderArguments())).rejects.toMatchObject({
+      status: 503,
+    });
+  });
+});
+
+describe("SKN-044 profile update", () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  function profileRequest() {
+    return new Request("https://seekin.example.test/app", {
+      body: new URLSearchParams({
+        displayName: " Ana ",
+        intent: "save-profile",
+        revision: "1",
+        timezone: "America/Recife",
+      }),
+      headers: { origin: "https://seekin.example.test" },
+      method: "POST",
+    });
+  }
+
+  function authenticatedClient() {
+    mockedSessionClient.mockReturnValue({
+      auth: {
+        getUser: vi.fn().mockResolvedValue({
+          data: { user: { id: "user-1" } },
+          error: null,
+        }),
+      } as never,
+      client: {} as never,
+      headers: new Headers({ "cache-control": "no-store" }),
+    });
+  }
+
+  it("updates only the verified user's current revision", async () => {
+    authenticatedClient();
+    mockedUpdateProfile.mockResolvedValue({
+      display_name: "Ana",
+      revision: 2,
+      timezone: "America/Recife",
+      user_id: "user-1",
+    });
+
+    const response = await action({
+      context: {},
+      params: {},
+      request: profileRequest(),
+    } as never);
+    expect(mockedUpdateProfile).toHaveBeenCalledWith({}, "user-1", 1, {
+      displayName: "Ana",
+      timezone: "America/Recife",
+    });
+    expect(response.status).toBe(200);
+  });
+
+  it("reports a revision conflict without overwriting newer data", async () => {
+    authenticatedClient();
+    mockedUpdateProfile.mockResolvedValue(null);
+
+    const response = await action({
+      context: {},
+      params: {},
+      request: profileRequest(),
+    } as never);
+    expect(response.status).toBe(409);
   });
 });
 
@@ -87,6 +193,7 @@ describe("SKN-042 logout", () => {
     const signOut = vi.fn().mockResolvedValue({ error: null });
     mockedSessionClient.mockReturnValue({
       auth: { signOut } as never,
+      client: {} as never,
       headers: new Headers({ "cache-control": "no-store" }),
     });
     const request = new Request("https://seekin.example.test/app", {
@@ -132,6 +239,7 @@ describe("SKN-042 logout", () => {
       auth: {
         signOut: vi.fn().mockRejectedValue(new Error("network unavailable")),
       } as never,
+      client: {} as never,
       headers: new Headers(),
     });
     const request = new Request("https://seekin.example.test/app", {
