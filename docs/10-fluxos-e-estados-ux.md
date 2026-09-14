@@ -2,7 +2,7 @@
 
 - **Item:** SKN-002
 - **Status:** Verificado
-- **Versão:** 0.1
+- **Versão:** 0.2
 - **Verificado em:** 13 de setembro de 2026
 - **Fontes:** PRD §§7, 8, 12, 15 e 18; requisitos PWA §§3–7 e 9
 
@@ -22,6 +22,60 @@ hierarquia; tokens e aparência visual pertencem ao SKN-003.
 - offline é um modo de leitura identificado, nunca uma simulação de salvamento;
 - erros explicam o que aconteceu e oferecem uma próxima ação possível;
 - títulos, notas e demais conteúdos acadêmicos não aparecem em logs ou analytics.
+
+### 2.1. Decisões de composição antes do código
+
+Uma descrição funcional não autoriza escolher automaticamente o padrão visual mais rápido de
+implementar. Antes de iniciar uma família de telas, a entrega responsável deve registrar e revisar:
+
+1. tarefa principal e informação que recebe a maior ênfase;
+2. padrão de interação escolhido e alternativas descartadas;
+3. hierarquia, agrupamento e posição das ações;
+4. comportamento compacto, intermediário e expandido;
+5. estados carregando, vazio, erro, offline e sucesso aplicáveis;
+6. referência visual da tela principal e dos estados que alteram sua estrutura.
+
+A referência pode ser wireframe, prancha ou protótipo, mas precisa mostrar dados plausíveis e ser
+aprovada antes de a composição se espalhar em componentes. Screenshot gerado, tendência de mercado
+ou conveniência do framework não substituem essa decisão.
+
+### 2.2. Padrões já decididos
+
+| Superfície | Padrão obrigatório | Evitar |
+|---|---|---|
+| onboarding | fluxo multi-step, um contexto decisório por etapa, progresso textual, voltar sem perder dados e retomada persistente | formulário longo, wizard decorativo ou todas as perguntas na mesma página |
+| navegação compacta | barra inferior com destinos primários e Conta em menu próprio | menu hambúrguer como único acesso à jornada principal |
+| navegação expandida | lateral fina e discreta, com texto e estado ativo; conteúdo continua sendo o foco | sidebar administrativa larga, árvore profunda ou painel ocupado por explicações |
+| Hoje | uma recomendação dominante, motivo curto, ação imediata e sequência temporal | dashboard de métricas, mosaico de cards ou feed genérico |
+| Lista | linhas agrupadas por horizonte, ação principal visível e secundárias em menu contextual | cards independentes para cada item sem necessidade estrutural |
+| atividade | painel contextual no expandido e tela dedicada no compacto | modal estreito para formulário longo |
+| Calendário | mês/semana no expandido e agenda no compacto, sempre com alternativa ao arraste | comprimir grade desktop no celular |
+| Gantt | visão simplificada apenas onde houver largura e precisão; tabela textual equivalente | miniaturizar a linha do tempo ou ocultar ações essenciais em hover |
+| conflito | diagnóstico primeiro, impacto verificável e alternativas concretas antes da confirmação | alerta abstrato, linguagem alarmista ou decisão automática pelo sistema |
+
+### 2.3. Regra contra UX genérica de IA
+
+O SeekIn não deve parecer uma interface montada a partir do repertório padrão de geradores de UI. É
+vedado adotar um padrão apenas porque ele é comum, rápido de gerar ou já existe pronto em uma
+biblioteca. Em particular:
+
+- não transformar toda informação em card arredondado;
+- não usar dashboard administrativo como estrutura padrão;
+- não preencher espaços com métricas, gráficos, badges, ilustrações ou texto sem função na tarefa;
+- não usar gradientes, halos, glassmorphism, estrelas ou copy vaga para sugerir “inteligência”;
+- não criar um chat ou assistente personificado quando a tarefa pede planejamento direto;
+- não esconder uma hierarquia fraca atrás de parágrafos explicativos;
+- não copiar uma referência sem justificar sua adequação à jornada do estudante.
+
+A interface deve ser reconhecível pelo fluxo, pela hierarquia e pelo comportamento do SeekIn, não por
+clichês visuais associados a produtos de IA.
+
+### 2.4. Estado das superfícies atuais
+
+Landing e autenticação materializam a direção aprovada para essas superfícies. O shell autenticado e
+o conteúdo atual de `/app` são incrementais: comprovam sessão, responsividade e perfil, mas não
+representam a composição final de Hoje, da navegação completa ou do onboarding. Uma tela provisória
+não se torna referência visual apenas por já estar publicada.
 
 ## 3. Estrutura de navegação
 
@@ -262,6 +316,9 @@ análise antes de confirmar.
 
 ## 13. Critérios de revisão do SKN-002
 
+- [x] padrões de interação estão decididos por superfície e incluem alternativas proibidas;
+- [x] cada família de telas exige decisão de composição e referência visual antes do código;
+- [x] superfícies provisórias estão identificadas e não se tornam referência por já estarem publicadas;
 - [x] autenticação cobre criação, confirmação, entrada, recuperação e sessão expirada;
 - [x] onboarding conduz até o primeiro plano sem tornar disciplina obrigatória;
 - [x] Hoje, Lista, Atividades, Calendário e Gantt possuem hierarquia e ações explícitas;
