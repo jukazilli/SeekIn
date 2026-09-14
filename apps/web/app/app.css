@@ -355,6 +355,66 @@ a {
   font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
+.onboarding-form {
+  display: grid;
+  gap: var(--space-6);
+}
+
+.onboarding-preferences {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.onboarding-preferences label {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.onboarding-preferences label:first-of-type {
+  grid-column: 1 / -1;
+}
+
+.onboarding-preferences input,
+.onboarding-preferences select {
+  width: 100%;
+  min-height: 48px;
+  padding-inline: var(--space-4);
+  color: var(--seek-ink);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-ink-a12);
+  border-radius: var(--radius-control);
+}
+
+.onboarding-preferences input:focus-visible,
+.onboarding-preferences select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.onboarding-input-with-unit {
+  position: relative;
+  display: block;
+}
+
+.onboarding-input-with-unit input {
+  padding-right: 52px;
+}
+
+.onboarding-input-with-unit > span {
+  position: absolute;
+  top: 50%;
+  right: var(--space-4);
+  color: var(--seek-text-secondary);
+  font-weight: var(--font-weight-medium);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
 .onboarding-actions {
   display: flex;
   gap: var(--space-3);
@@ -1887,6 +1947,14 @@ html {
   .onboarding-actions {
     align-items: stretch;
     flex-direction: column-reverse;
+  }
+
+  .onboarding-preferences {
+    grid-template-columns: 1fr;
+  }
+
+  .onboarding-preferences label:first-of-type {
+    grid-column: auto;
   }
 
   .onboarding-actions .button {
