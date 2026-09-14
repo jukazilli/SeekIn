@@ -1,13 +1,13 @@
 # SKN-003 — Sistema Visual, UI, Acessibilidade e Responsividade do SeekIn
 
 - **Item:** SKN-003
-- **Status:** Aprovado
+- **Status:** direção aprovada; migração de código pendente no `SKN-032`
 - **Tipo:** Contrato canônico de UI
 - **Produto:** SeekIn
-- **Versão:** 1.2
+- **Versão:** 1.3
 - **Aprovação de direção:** Product Owner
-- **Fontes:** atualização visual azul + branco aprovada pelo Product Owner; referência visual fornecida
-  em 2026-09-12; SKN-002; PRD §§7, 12 e 15; requisitos PWA §§3–6 e 9
+- **Fontes:** [Brand Guide SeekIn 1.1](nova-logo/ajustes-design-system.md) e prancha aprovados pelo
+  Product Owner em 2026-09-13; SKN-002; PRD §§7, 12 e 15; requisitos PWA §§3–6 e 9
 
 ---
 
@@ -63,6 +63,7 @@ A interface deve parecer:
 - inteligente;
 - extremamente focada;
 - comunicativa;
+- séria e parceira;
 - profissional;
 - calma;
 - precisa;
@@ -119,7 +120,8 @@ Na UI isso significa:
 
 ## 4. Regra principal de identidade
 
-A personalidade do SeekIn **não deve depender de ilustrações, gradientes ou efeitos especiais**.
+A personalidade do SeekIn **não deve depender de ilustrações, gradientes ou efeitos especiais** na
+interface operacional.
 
 A identidade deve vir de:
 
@@ -132,12 +134,17 @@ A identidade deve vir de:
 - maneira de organizar informação;
 - maneira de comunicar decisões do sistema.
 
+Landing e autenticação podem empregar o gradiente oficial, curvas translúcidas e o mascote nos papéis
+definidos pelo Brand Guide. Essa exceção institucional não autoriza levar decoração para tabelas,
+listas, navegação ou estados rotineiros do produto.
+
 ---
 
 ## 5. Paleta oficial
 
-A direção aprovada evolui para um **schema monocromático azul + branco**, com forte presença de
-neutros frios e azuis muito claros.
+A direção aprovada usa exclusivamente a família azul + branco da prancha de marca. Seus seis valores
+são imutáveis: `#5B9DE6`, `#8EC5F5`, `#CFE6FF`, `#EAF4FF`, `#F7FBFF` e `#13233F`.
+`#FFFFFF` permanece disponível como superfície neutra.
 
 O SeekIn deve parecer:
 
@@ -160,52 +167,64 @@ hierarquia**, não um layout a ser copiado literalmente. Dela, o SeekIn adota:
 - canvas frio quase branco e superfícies principais brancas;
 - azul-gelo em grandes regiões contextuais, especialmente no Focus Field;
 - grafite azulado para títulos, números e estrutura;
-- azul profundo concentrado no CTA e no destino ativo;
+- azul primário concentrado na marca, no CTA e no destino ativo;
 - navegação selecionada por fundo azul muito claro, ícone azul e uma linha lateral fina;
 - conteúdo organizado prioritariamente em linhas, divisores e whitespace;
 - cores semânticas restritas a pequenos indicadores, badges e segmentos de progresso;
 - painéis contextuais delimitados por borda suave, sem sombra decorativa;
-- ilustração abstrata monocromática apenas quando integrar o contexto e permanecer em segundo plano.
+- ilustração abstrata monocromática apenas quando integrar o contexto e permanecer em segundo plano;
+- translucidez e transições tonais orientadas pela wordmark da prancha, sempre derivadas das cores
+  oficiais.
 
 A referência não autoriza preencher telas com cards, reconstruir funcionalidades ainda inexistentes ou
-transformar azuis claros em gradientes decorativos.
+transformar os azuis em grandes preenchimentos chapados.
 
 ### 5.1. Core tokens
 
 | Token | Valor | Uso |
 |---|---:|---|
-| `--seek-canvas` | `#F7F9FC` | fundo geral da aplicação |
+| `--seek-canvas` | `#F7FBFF` | fundo geral da aplicação |
 | `--seek-surface` | `#FFFFFF` | superfícies principais |
-| `--seek-ice` | `#EEF5FB` | grandes áreas contextuais |
-| `--seek-ice-strong` | `#E5EFF7` | superfícies contextuais mais presentes |
-| `--seek-border` | `#DDE5ED` | divisores e contornos |
+| `--seek-veil` | `#EAF4FF` | véus, seleção e grandes áreas contextuais |
+| `--seek-soft` | `#CFE6FF` | superfícies contextuais mais presentes |
+| `--seek-sky` | `#8EC5F5` | transições e apoio visual |
+| `--seek-primary` | `#5B9DE6` | símbolo, marca e destaques interativos |
 | `--seek-ink` | `#13233F` | texto principal e ações fortes |
-| `--seek-text-secondary` | `#65758A` | textos secundários sobre superfície branca |
-| `--seek-blue-700` | `#244E86` | pressed e estados fortes |
-| `--seek-blue-600` | `#3266A8` | ação principal, CTA, links textuais e identidade |
-| `--seek-blue-500` | `#4E7FB8` | ícones ativos, bordas e elementos interativos secundários sem texto pequeno |
-| `--seek-blue-300` | `#9FBFDB` | gráficos, indicadores secundários e realces suaves |
-| `--seek-blue-100` | `#EAF2FA` | seleção, fundos ativos e superfícies discretas |
-| `--seek-active-bg` | `#EFF5FA` | estado selecionado discreto em navegação e listas |
+| `--seek-text-secondary` | `rgb(19 35 63 / 72%)` | texto secundário derivado do ink |
+| `--seek-border` | `rgb(19 35 63 / 8%)` | divisores e contornos derivados do ink |
+
+Camadas translúcidas permitidas derivam somente desses valores:
+
+```css
+--seek-primary-a08: rgb(91 157 230 / 8%);
+--seek-primary-a16: rgb(91 157 230 / 16%);
+--seek-primary-a28: rgb(91 157 230 / 28%);
+--seek-sky-a24: rgb(142 197 245 / 24%);
+--seek-soft-a56: rgb(207 230 255 / 56%);
+--seek-ink-a08: rgb(19 35 63 / 8%);
+```
+
+A wordmark e a prancha orientam a proporção entre transparência, branco e cor. Esses tokens não
+autorizam novos hexadecimais nem grandes preenchimentos uniformes.
 
 O token removido `--seek-connect` não possui substituto. Recursos sociais pertencem à mesma família
 azul da plataforma e não terão uma segunda cor estrutural de marca.
 
 ### 5.2. Aliases semânticos
 
-Aliases evitam que componentes dependam de degraus cromáticos específicos:
+Aliases evitam que componentes dependam de papéis cromáticos incorretos:
 
 ```css
---seek-blue: var(--seek-blue-600);
---seek-link: var(--seek-blue-600);
---seek-interactive: var(--seek-blue-600);
---seek-focus-ring: var(--seek-blue-500);
---seek-selected-bg: var(--seek-active-bg);
+--seek-blue: var(--seek-primary);
+--seek-link: var(--seek-ink);
+--seek-interactive: var(--seek-primary);
+--seek-focus-ring: var(--seek-primary);
+--seek-selected-bg: var(--seek-veil);
 ```
 
-`--seek-link` usa `--seek-blue-600`, e não `--seek-blue-500`, porque texto comum precisa manter
-contraste AA sobre branco. O azul 500 permanece válido para componentes gráficos, ícones, bordas e
-texto grande quando o contraste aplicável for atendido.
+`--seek-link` usa `--seek-ink`, sublinhado e estado de foco porque `--seek-primary` mede `2,83:1`
+sobre branco e não atende texto comum. O azul primário permanece correto para marca e elementos
+gráficos, sem ser forçado a um papel que viola contraste.
 
 ### 5.3. Regra de uso
 
@@ -215,9 +234,9 @@ A maior parte da UI deve permanecer em:
 
 A distribuição visual desejada é aproximadamente:
 
-- `80–85%` neutros claros;
-- `10–15%` azuis muito claros;
-- `2–4%` azul principal;
+- `80–85%` branco e `--seek-canvas`;
+- `10–15%` `--seek-veil` e `--seek-soft`;
+- `2–4%` `--seek-sky` e `--seek-primary`;
 - `1–2%` cores semânticas.
 
 Esses percentuais são uma diretriz de direção visual, não uma fórmula rígida de implementação.
@@ -227,7 +246,7 @@ quando houver:
 
 - ação principal;
 - seleção;
-- link relevante;
+- ação relevante;
 - ponto de foco;
 - dado importante em gráfico;
 - destaque de navegação.
@@ -244,40 +263,23 @@ quando houver:
 - navegação;
 - ícones estruturais.
 
-#### `--seek-blue-600`
+#### `--seek-primary`
 
-É a principal cor de ação. Usar em:
+É o azul principal da marca. Usar em:
 
-- botões primários;
-- CTA principal;
-- ação de começar ou iniciar;
-- ação de criação mais importante;
-- links textuais;
-- ícone ativo relevante.
+- símbolo e lockups oficiais;
+- fundo de ação com texto em `--seek-ink`;
+- ícones ativos e indicadores gráficos;
+- foco visível com espessura e afastamento adequados.
 
-#### `--seek-blue-500`
+Não usar como texto normal sobre branco e não preencher grandes regiões com esse tom chapado.
 
-Usar em:
+#### `--seek-sky`
 
-- ícones interativos;
-- contornos de botões secundários;
-- estados ativos menos intensos;
-- elementos informativos secundários;
-- foco visível, acompanhado de espessura e afastamento adequados.
+Usar em transições, apoio visual, gráficos e partes claras do gesto institucional. O texto sobre esse
+tom usa `--seek-ink`.
 
-Não usar em texto comum sobre fundos claros. Para links e labels pequenos, usar `--seek-blue-600`.
-
-#### `--seek-blue-300`
-
-Usar em:
-
-- donuts e gráficos;
-- tracks com maior ênfase;
-- indicadores informativos;
-- ícones ilustrativos suaves;
-- métricas visuais secundárias.
-
-#### `--seek-blue-100`, `--seek-ice` e `--seek-ice-strong`
+#### `--seek-soft` e `--seek-veil`
 
 Usar em:
 
@@ -285,24 +287,27 @@ Usar em:
 - fundos contextuais;
 - seleção discreta;
 - painéis informativos suaves;
-- superfícies de apoio.
+- camadas translúcidas e superfícies de apoio.
 
-Esses tons nunca devem competir com o conteúdo principal.
+Esses tons nunca devem competir com o conteúdo principal. Sua função é produzir a luminosidade da
+prancha, não colorir cada componente.
 
 ### 5.5. Aplicação prática nos componentes
 
 #### Botão primário
 
 ```css
-background: var(--seek-blue-600);
-color: var(--seek-surface);
+background: var(--seek-primary);
+color: var(--seek-ink);
 ```
 
-Hover e pressed:
+Hover e pressed reforçam contorno, elevação funcional ou deslocamento sem inventar outro azul:
 
 ```css
-background: var(--seek-blue-700);
+box-shadow: inset 0 0 0 2px rgb(19 35 63 / 16%);
 ```
+
+Um CTA de contraste máximo pode inverter para fundo `--seek-ink` e texto branco.
 
 #### Botão secundário
 
@@ -310,22 +315,22 @@ Preferir superfície branca com borda azul leve e texto com contraste AA:
 
 ```css
 background: var(--seek-surface);
-color: var(--seek-blue-600);
-border: 1px solid var(--seek-blue-500);
+color: var(--seek-ink);
+border: 1px solid var(--seek-border);
 ```
 
 #### Navegação selecionada
 
 ```css
-background: var(--seek-active-bg);
-color: var(--seek-blue-600);
-border-inline-start: 2px solid var(--seek-blue-600);
+background: var(--seek-veil);
+color: var(--seek-ink);
+border-inline-start: 2px solid var(--seek-primary);
 ```
 
 #### Focus Field
 
-Usar `--seek-ice` ou `--seek-ice-strong`. Quando necessária, a ilustração abstrata deve ser
-monocromática, muito clara e subordinada ao conteúdo. Não usar gradiente chamativo.
+Usar `--seek-veil` ou `--seek-soft`. Quando necessária, a ilustração abstrata deve ser muito clara,
+derivada da paleta e subordinada ao conteúdo. O gradiente oficial fica restrito ao gesto de marca.
 
 #### Gráficos
 
@@ -362,8 +367,8 @@ Se um componente puder ser resolvido com:
 
 essa deve ser a escolha preferida.
 
-> **Quanto mais importante a ação, mais profundo o azul; quanto mais contextual a informação, mais
-> próxima do branco.**
+> **Quanto mais importante a ação, mais claro deve ser seu contraste; quanto mais contextual a
+> informação, mais próxima do branco deve permanecer.**
 
 ### 5.8. Contraste verificado
 
@@ -372,15 +377,14 @@ As combinações abaixo foram medidas segundo contraste relativo WCAG:
 | Combinação | Razão | Uso permitido |
 |---|---:|---|
 | `--seek-ink` sobre branco | `15,67:1` | qualquer texto |
-| `--seek-text-secondary` sobre branco | `4,70:1` | texto comum; não usar sobre azul-gelo |
-| `--seek-blue-700` sobre branco | `8,37:1` | qualquer texto e estado forte |
-| `--seek-blue-600` sobre branco | `5,83:1` | links, labels e texto interativo |
-| branco sobre `--seek-blue-600` | `5,83:1` | texto de botão primário |
-| `--seek-blue-500` sobre branco | `4,16:1` | não usar em texto comum; válido para texto grande e elementos gráficos aplicáveis |
+| `--seek-ink` sobre `--seek-canvas` | `15,07:1` | qualquer texto |
+| `--seek-ink` sobre `--seek-primary` | `5,53:1` | texto normal e botão |
+| `--seek-ink` sobre `--seek-sky` | `8,55:1` | texto normal e botão |
+| `--seek-primary` sobre branco | `2,83:1` | não usar em texto normal |
+| branco sobre `--seek-primary` | `2,83:1` | não usar em texto normal |
 
-Sobre `--seek-ice`, `--seek-ice-strong` e `--seek-active-bg`, textos comuns usam `--seek-ink` ou
-`--seek-blue-600`. `--seek-text-secondary` fica restrito a superfícies brancas porque mede menos de
-4,5:1 nos fundos azul-gelo.
+Sobre `--seek-veil`, `--seek-soft`, `--seek-sky` e `--seek-primary`, textos comuns usam
+`--seek-ink`. Transparências e `--seek-text-secondary` devem ser medidos sobre o fundo composto final.
 
 ---
 
@@ -716,7 +720,7 @@ Pode aparecer em:
 
 ### Características
 
-- fundo `--seek-ice` ou `--seek-ice-strong`;
+- fundo `--seek-veil` ou `--seek-soft`;
 - baixa saturação;
 - grande respiro;
 - mensagem contextual;
@@ -945,9 +949,9 @@ Preferir:
 Exemplo:
 
 ```css
-background: var(--seek-active-bg);
-color: var(--seek-blue-600);
-border-inline-start: 2px solid var(--seek-blue-600);
+background: var(--seek-veil);
+color: var(--seek-ink);
+border-inline-start: 2px solid var(--seek-primary);
 ```
 
 O ícone e o texto selecionados podem assumir azul, desde que a superfície permaneça clara. Evitar
@@ -1671,8 +1675,8 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 - [ ] respeita o schema monocromático azul + branco;
 - [ ] usa tokens;
 - [ ] não reintroduz `--seek-connect` nem uma segunda cor estrutural de marca;
-- [ ] usa `--seek-blue-600` para links em texto comum; `--seek-blue-500` fica restrito a usos com
-  contraste compatível;
+- [ ] links em texto comum usam `--seek-ink`, sublinhado e foco; `--seek-primary` fica restrito a
+  marca, superfícies e usos gráficos com contraste compatível;
 - [ ] mantém cores semânticas em áreas pequenas e nunca depende somente delas;
 - [ ] não cria nova estética isolada;
 - [ ] usa whitespace antes de adicionar cards;
@@ -1712,7 +1716,7 @@ O SKN-003 é uma especificação, conforme o backlog canônico. Ele pode ser ver
 
 - [x] direção visual e proibições explícitas;
 - [x] tokens semânticos do schema azul + branco, sem segunda cor estrutural de marca;
-- [x] regras de contraste AA para texto e restrição explícita do `--seek-blue-500` em texto comum;
+- [x] regras de contraste AA para texto e restrição explícita do `--seek-primary` em texto comum;
 - [x] escala de tipografia, peso e altura de linha baseada na referência aprovada;
 - [x] escalas de espaçamento, radius e movimento;
 - [x] catálogo mínimo de primitives e componentes de domínio;

@@ -1,6 +1,12 @@
 :root {
-  --radius-control: 8px;
-  --radius-panel: 12px;
-  --radius-large: 16px;
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
+
+  --radius-control: var(--radius-sm);
+  --radius-panel: var(--radius-md);
+  --radius-large: var(--radius-lg);
 }

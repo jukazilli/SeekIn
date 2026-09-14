@@ -25,7 +25,8 @@ export const meta: MetaFunction = () => [
   { title: "SeekIn" },
   {
     name: "description",
-    content: "Planejamento de estudos orientado por capacidade e prioridade.",
+    content:
+      "Você diz o que precisa fazer e quanto tempo tem. O SeekIn transforma isso em um plano possível.",
   },
 ];
 

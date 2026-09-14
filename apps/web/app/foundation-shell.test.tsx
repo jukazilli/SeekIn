@@ -6,16 +6,18 @@ import Home from "./routes/home";
 import NotFound, { loader as notFoundLoader } from "./routes/not-found";
 
 describe("CT foundation shell — responsive states", () => {
-  it("renders semantic navigation and the focused empty workspace", () => {
+  it("renders the public landing with a concise value path", () => {
     const markup = renderToStaticMarkup(<Home />);
 
-    expect(markup).toContain('aria-label="Navegação principal"');
-    expect(markup).toContain('aria-current="page"');
+    expect(markup).toContain('aria-label="Navegação da página"');
     expect(markup).toContain('id="main-content"');
-    expect(markup).toContain("Um dia de cada vez.");
+    expect(markup).toContain("Mais tempo para aprender.");
+    expect(markup).toContain("O SeekIn organiza.");
     expect(markup).toContain('href="/criar-conta"');
+    expect(markup).toContain("dados sintéticos");
     expect(markup).not.toContain("Cloudflare Worker");
     expect(markup).not.toContain("Supabase");
+    expect(markup).not.toContain("milhares de estudantes");
   });
 
   it("keeps the loading shell stable and announces progress", () => {
