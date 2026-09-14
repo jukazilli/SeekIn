@@ -275,6 +275,40 @@ describe("SKN-050 persistent onboarding route", () => {
     expect(mockedReplaceAvailability).not.toHaveBeenCalled();
   });
 
+  it("allows an explicit decision to configure availability later", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 2 });
+    mockedReplaceAvailability.mockResolvedValue([]);
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 3,
+      revision: 5,
+    });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "2",
+            intent: "skip",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(mockedReplaceAvailability).toHaveBeenCalledWith(
+      {},
+      "user-1",
+      "America/Sao_Paulo",
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      [],
+      [],
+    );
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 3);
+    expect(response.status).toBe(200);
+  });
+
   it("redirects completed onboarding to the app", async () => {
     mockedEnsureProfile.mockResolvedValue({
       ...profile,
