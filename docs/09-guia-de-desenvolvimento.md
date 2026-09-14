@@ -124,6 +124,8 @@ Funcionalidades do planner só entram depois do portão `G2`, conforme o backlog
 - as doze condições da Fundação operacional foram consolidadas e aprovadas no SKN-030; o portão
   `G2` está fechado;
 - criação e verificação de conta estão publicadas e verificadas no SKN-040, com Supabase Auth,
-  Resend e Turnstile; a próxima ação é entrada e sessão no `SKN-041`;
+  Resend e Turnstile;
+- entrada, renovação de sessão e guarda de rotas estão publicadas e verificadas no SKN-041; a
+  próxima ação é saída e limpeza de estado privado no `SKN-042`;
 - onboarding e planner ainda não foram iniciados.
 

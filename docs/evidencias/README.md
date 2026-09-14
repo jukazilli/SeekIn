@@ -148,6 +148,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-030 | Verificado | [Fechamento do G2](SKN-030.md) |
 | SKN-032 | Verificado | [Landing pública e sistema de marca](SKN-032.md) |
 | SKN-040 | Verificado | [Conta por e-mail e verificação obrigatória](SKN-040.md) |
+| SKN-041 | Verificado | [Entrada, sessão e guarda de rotas](SKN-041.md) |
 
 ## 6. Portões fechados
 
