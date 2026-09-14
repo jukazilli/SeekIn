@@ -1,10 +1,10 @@
 # SeekIn — Brand Guide para implementação
 
-- **Status:** direção aprovada pelo Product Owner; implementação pendente
+- **Status:** direção aprovada e assets raster integrados no `SKN-032`
 - **Tipo:** contrato canônico de marca
 - **Produto:** SeekIn
-- **Versão:** 1.1
-- **Data da revisão:** 13 de setembro de 2026
+- **Versão:** 1.2
+- **Data da revisão:** 14 de setembro de 2026
 - **Item de origem:** `SKN-031`
 - **Referências visuais:** [prancha da marca](./image.png),
   [composição de login](./image%20copy.png) e
@@ -23,8 +23,7 @@ A precedência é:
 1. este guia governa identidade, significado, logo, wordmark, mascote e paleta de marca;
 2. o `SKN-003` governa componentes, acessibilidade e comportamento da interface;
 3. o plano da landing governa somente sua composição, conteúdo e execução;
-4. o código deve ser migrado para esses contratos no `SKN-032` e não é fonte de verdade enquanto a
-   migração estiver pendente.
+4. o código implementa esses contratos no `SKN-032`, mas não pode substituir as decisões deste guia.
 
 As cores da prancha são decisões aprovadas. Não devem ser substituídas, escurecidas ou “corrigidas”
 por interpretação da implementação.
@@ -364,29 +363,26 @@ Movimento deve sugerir fluxo de conhecimento, não entretenimento:
 
 ## 13. Assets de produção
 
-Os PNGs desta pasta são referências, não devem ser recortados para produção. Antes do código final,
-exportar arquivos isolados e transparentes:
+Em 14 de setembro de 2026, o Product Owner autorizou explicitamente a extração dos elementos da
+prancha aprovada para concluir o `SKN-032`. Os arquivos raster abaixo são os assets em uso; a
+prancha inteira não deve ser carregada pela interface:
 
 ```text
 apps/web/public/brand/
   logo/
-    seekin-symbol.svg
-    seekin-wordmark.svg
-    seekin-lockup-horizontal.svg
-    seekin-lockup-vertical.svg
-    seekin-symbol-monochrome.svg
+    seekin-symbol.png
+    seekin-wordmark.png
   mascot/
-    seekin-dolphin.svg
     seekin-dolphin.png
-  app-icons/
-    favicon.svg
-    apple-touch-icon.png
-    android-chrome-192x192.png
-    android-chrome-512x512.png
 ```
 
-Não redesenhar o símbolo com CSS, não vetorizar automaticamente sem revisão e não usar a prancha
-inteira como imagem de interface.
+O símbolo e o golfinho possuem transparência real. A wordmark raster usa a superfície oficial clara
+da prancha; na interface, uma máscara alfa remove somente essa superfície sem alterar os canais RGB
+da marca. Um futuro pacote vetorial, quando fornecido e revisado, substitui esses PNGs sem alterar
+proporção, gradiente ou cor.
+
+Não redesenhar o símbolo com CSS, não vetorizar automaticamente sem revisão, não recolorir os
+arquivos extraídos e não usar a prancha inteira como imagem de interface.
 
 ---
 
@@ -394,10 +390,10 @@ inteira como imagem de interface.
 
 ### Marca
 
-- [ ] assets oficiais isolados estão disponíveis;
-- [ ] proporção, gradiente e área de respiro foram preservados;
-- [ ] wordmark usa a grafia `SeekIn`;
-- [ ] mascote não substitui o símbolo.
+- [x] assets raster autorizados estão isolados em `apps/web/public/brand`;
+- [x] proporção, gradiente e área de respiro foram preservados na aplicação;
+- [x] wordmark usa a grafia `SeekIn`;
+- [x] mascote não substitui o símbolo.
 
 ### Cores
 

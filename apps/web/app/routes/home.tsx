@@ -38,7 +38,12 @@ export default function Home() {
       <header className="landing-header">
         <div className="landing-container landing-header__inner">
           <a className="landing-wordmark" href="/" aria-label="SeekIn — Início">
-            SeekIn
+            <img
+              src="/brand/logo/seekin-wordmark.png"
+              alt="SeekIn"
+              width={2172}
+              height={724}
+            />
           </a>
 
           <nav className="landing-nav" aria-label="Navegação da página">
@@ -220,7 +225,12 @@ export default function Home() {
       <footer className="landing-footer">
         <div className="landing-container landing-footer__inner">
           <a className="landing-wordmark" href="/" aria-label="SeekIn — Início">
-            SeekIn
+            <img
+              src="/brand/logo/seekin-wordmark.png"
+              alt="SeekIn"
+              width={2172}
+              height={724}
+            />
           </a>
           <p>Clareza para encontrar o próximo passo.</p>
         </div>

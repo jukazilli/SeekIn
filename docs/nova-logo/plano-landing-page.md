@@ -1,6 +1,6 @@
 # SKN-032 — Plano da landing page do SeekIn
 
-- **Status:** em revisão; código e deploy concluídos, assets oficiais isolados pendentes
+- **Status:** assets integrados; revalidação de Preview/Beta pendente
 - **Tipo:** direção de produto, conteúdo, UX e plano técnico
 - **Dependências:** `SKN-031`, `SKN-014`, `SKN-015` e `SKN-040`
 - **Versão:** 1.0
@@ -33,8 +33,7 @@ No início deste plano:
 - `/criar-conta`, `/auth/confirmar` e `/conta-confirmada` já existem pelo `SKN-040`;
 - a rota de entrada será criada pelo `SKN-041`;
 - os tokens em código ainda representam a versão anterior do sistema visual;
-- os arquivos de `docs/nova-logo` são referências e ainda não existem como assets isolados de
-  produção;
+- os assets raster autorizados foram derivados da prancha e organizados em `apps/web/public/brand`;
 - o planner completo, a rede social, depoimentos e métricas públicas ainda não existem.
 
 A landing não pode simular disponibilidade, resultados, clientes ou recursos que o produto ainda não
@@ -322,18 +321,18 @@ enquanto as rotas de autenticação usarão um `AuthLayout` alinhado ao brand gu
 
 ## 11. Plano de implementação por slices
 
-### Slice 0 — Assets oficiais
+### Slice 0 — Assets de marca
 
 **Dentro**
 
-- receber/exportar símbolo, wordmark, lockup horizontal e golfinho isolados;
+- extrair símbolo, wordmark e golfinho da prancha após autorização explícita do Product Owner;
 - validar transparência, proporção e leitura em tamanho real;
 - organizar `apps/web/public/brand`.
 
 **Fora**
 
 - redesenhar o logo;
-- recortar a prancha para simular assets finais.
+- alterar desenho, proporção, translucidez ou cores durante a extração.
 
 **Saída**
 
@@ -440,15 +439,15 @@ Antes de criar arquivos, confirmar os padrões reais do repositório e reutiliza
 
 ## 13. Definition of Done do SKN-032
 
-- [ ] assets oficiais isolados foram fornecidos e usados sem reconstrução;
-- [ ] paleta corresponde exatamente à prancha;
-- [ ] translucidez e gradiente seguem o brand guide;
-- [ ] `/` apresenta a landing e não o `AppShell` operacional;
-- [ ] CTA principal chega a `/criar-conta`;
-- [ ] não há link para rota inexistente;
-- [ ] copy não promete rede social, IA, usuários ou resultados não comprovados;
-- [ ] cada bloco possui um foco dominante e uma direção de leitura curta;
-- [ ] mascote aparece apenas no contexto aprovado;
+- [x] assets raster autorizados foram isolados e aplicados sem alterar a identidade aprovada;
+- [x] paleta corresponde exatamente à prancha;
+- [x] translucidez e gradiente seguem o brand guide;
+- [x] `/` apresenta a landing e não o `AppShell` operacional;
+- [x] CTA principal chega a `/criar-conta`;
+- [x] não há link para rota inexistente;
+- [x] copy não promete rede social, IA, usuários ou resultados não comprovados;
+- [x] cada bloco possui um foco dominante e uma direção de leitura curta;
+- [x] mascote aparece apenas no contexto aprovado;
 - [ ] layout funciona nos seis viewports de verificação;
 - [ ] teclado, foco, contraste, movimento reduzido e textos alternativos foram validados;
 - [ ] não há overflow horizontal nem layout shift relevante;
@@ -467,8 +466,9 @@ Antes de criar arquivos, confirmar os padrões reais do repositório e reutiliza
 - conteúdo de termos, privacidade e contato só entra no rodapé quando os destinos reais existirem;
 - animação pode ser removida se comprometer clareza, desempenho ou movimento reduzido.
 
-## 15. Bloqueio real antes do aceite visual final
+## 15. Decisão sobre os assets
 
-Os assets da prancha ainda não estão isolados. A implementação pode preparar estrutura e tokens, mas
-o logo, a wordmark e o mascote finais só devem entrar no produto quando forem entregues em arquivos
-individuais, transparentes e revisados.
+O bloqueio foi removido pela autorização do Product Owner em 14 de setembro de 2026. Símbolo,
+wordmark e golfinho foram extraídos em arquivos individuais, revisados em tamanho real e aplicados
+sem alterar a paleta. Um pacote vetorial futuro é uma melhoria de entrega, não um bloqueio do
+`SKN-032`.
