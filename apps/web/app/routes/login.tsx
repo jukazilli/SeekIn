@@ -42,6 +42,7 @@ export function headers() {
 
 interface LoginLoaderData {
   next: string;
+  passwordUpdated: boolean;
   signedOut: boolean;
   siteKey: string | null;
 }
@@ -59,6 +60,8 @@ export async function loader({
   const next = safeReturnPath(new URL(request.url).searchParams.get("next"));
   const signedOut =
     new URL(request.url).searchParams.get("status") === "signed-out";
+  const passwordUpdated =
+    new URL(request.url).searchParams.get("status") === "password-updated";
   const session = createRequestSessionClient(request, context);
   if (session) {
     const verified = await readVerifiedSession(session.auth);
@@ -66,12 +69,17 @@ export async function loader({
       return redirect(next, { headers: session.headers });
     }
     return Response.json(
-      { next, signedOut, siteKey: turnstileSiteKey(context) },
+      { next, passwordUpdated, signedOut, siteKey: turnstileSiteKey(context) },
       { headers: session.headers },
     );
   }
 
-  return { next, signedOut, siteKey: turnstileSiteKey(context) };
+  return {
+    next,
+    passwordUpdated,
+    signedOut,
+    siteKey: turnstileSiteKey(context),
+  };
 }
 
 export async function action({
@@ -132,7 +140,8 @@ export async function action({
 
 export default function Login() {
   const actionData = useActionData<LoginActionData>();
-  const { next, signedOut, siteKey } = useLoaderData<LoginLoaderData>();
+  const { next, passwordUpdated, signedOut, siteKey } =
+    useLoaderData<LoginLoaderData>();
   const navigation = useNavigation();
   const [showPassword, setShowPassword] = useState(false);
   const [offlineMessage, setOfflineMessage] = useState("");
@@ -154,9 +163,11 @@ export default function Login() {
         <h1 id="login-title">Entre na sua conta</h1>
         <p className="auth-intro">Continue de onde parou.</p>
 
-        {signedOut ? (
+        {signedOut || passwordUpdated ? (
           <p className="form-message form-message--success" role="status">
-            Você saiu da sua conta.
+            {passwordUpdated
+              ? "Senha atualizada. Entre novamente."
+              : "Você saiu da sua conta."}
           </p>
         ) : null}
 
@@ -194,6 +205,10 @@ export default function Login() {
             required
             type={showPassword ? "text" : "password"}
           />
+
+          <Link className="auth-help-link" to="/recuperar-acesso">
+            Esqueci minha senha
+          </Link>
 
           {siteKey ? (
             <TurnstileWidget action="login" siteKey={siteKey} />
