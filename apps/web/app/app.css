@@ -271,6 +271,105 @@ a {
   margin-top: var(--space-2);
 }
 
+.onboarding-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background:
+    linear-gradient(90deg, var(--seek-primary-a08) 1px, transparent 1px) 0 0 /
+      min(12vw, 160px) 100%,
+    var(--seek-canvas);
+}
+
+.onboarding-topbar {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: max(var(--space-5), calc((100vw - 1180px) / 2));
+  background: color-mix(in srgb, var(--seek-surface) 88%, transparent);
+  border-bottom: 1px solid var(--seek-border);
+}
+
+.onboarding-wordmark {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.onboarding-wordmark img {
+  display: block;
+  width: 112px;
+  height: auto;
+  filter: url("#seekin-wordmark-alpha");
+}
+
+.onboarding-utility {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.onboarding-progress {
+  color: var(--seek-text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.onboarding-main {
+  width: min(100% - 40px, 1180px);
+  margin-inline: auto;
+}
+
+.onboarding-track {
+  height: 3px;
+  overflow: hidden;
+  background: var(--seek-ink-a08);
+}
+
+.onboarding-track span {
+  display: block;
+  height: 100%;
+  background: var(--seek-primary);
+  transition: width var(--motion-fast) var(--motion-easing-standard);
+}
+
+.onboarding-step {
+  display: grid;
+  min-height: calc(100dvh - 75px);
+  max-width: 760px;
+  align-content: center;
+  padding-block: var(--space-8);
+}
+
+.onboarding-step h1 {
+  max-width: 14ch;
+  font-size: clamp(2.75rem, 7vw, 5.25rem);
+  font-weight: 440;
+  line-height: 1.02;
+  letter-spacing: -0.06em;
+}
+
+.onboarding-lead {
+  max-width: 46ch;
+  margin-bottom: 0;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+}
+
+.onboarding-actions {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+}
+
+.onboarding-actions .button {
+  min-width: 132px;
+}
+
+.onboarding-wordmark:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 3px;
+}
+
 .form-message--success {
   color: var(--success-fg);
   background: var(--success-bg);
@@ -1759,6 +1858,41 @@ html {
 }
 
 @media (max-width: 767px) {
+  .onboarding-topbar {
+    min-height: 64px;
+    padding-inline: var(--space-4);
+  }
+
+  .onboarding-wordmark img {
+    width: 96px;
+  }
+
+  .onboarding-progress {
+    display: none;
+  }
+
+  .onboarding-main {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .onboarding-step {
+    min-height: calc(100dvh - 67px);
+    padding-block: var(--space-7);
+  }
+
+  .onboarding-step h1 {
+    font-size: clamp(2.65rem, 13vw, 4rem);
+  }
+
+  .onboarding-actions {
+    align-items: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .onboarding-actions .button {
+    width: 100%;
+  }
+
   .landing-container {
     width: min(100% - 32px, 1280px);
   }

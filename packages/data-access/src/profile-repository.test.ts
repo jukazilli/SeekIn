@@ -1,10 +1,17 @@
 import { describe, expect, it, vi } from "vitest";
 
-import { ensureProfile } from "./profile-repository";
+import { ensureProfile, updateOnboardingProgress } from "./profile-repository";
 
 function query(result: unknown) {
   const chain: Record<string, ReturnType<typeof vi.fn>> = {};
-  for (const method of ["eq", "insert", "maybeSingle", "select", "single"]) {
+  for (const method of [
+    "eq",
+    "insert",
+    "maybeSingle",
+    "select",
+    "single",
+    "update",
+  ]) {
     chain[method] = vi.fn(() => chain);
   }
   chain.maybeSingle?.mockResolvedValue(result);
@@ -14,6 +21,8 @@ function query(result: unknown) {
 
 const profile = {
   display_name: null,
+  onboarding_status: "not_started",
+  onboarding_step: 0,
   revision: 1,
   timezone: "America/Sao_Paulo",
   user_id: "user-1",
@@ -54,5 +63,28 @@ describe("SKN-044 profile repository", () => {
     await expect(ensureProfile({ from } as never, "user-1")).resolves.toEqual(
       profile,
     );
+  });
+});
+
+describe("SKN-050 onboarding progress repository", () => {
+  it("updates only the owner's current revision", async () => {
+    const updated = query({
+      data: {
+        ...profile,
+        onboarding_status: "in_progress",
+        onboarding_step: 1,
+      },
+      error: null,
+    });
+    const from = vi.fn(() => updated);
+
+    await updateOnboardingProgress({ from } as never, "user-1", 3, 1);
+
+    expect(updated.update).toHaveBeenCalledWith({
+      onboarding_status: "in_progress",
+      onboarding_step: 1,
+    });
+    expect(updated.eq).toHaveBeenNthCalledWith(1, "user_id", "user-1");
+    expect(updated.eq).toHaveBeenNthCalledWith(2, "revision", 3);
   });
 });

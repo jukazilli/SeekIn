@@ -62,6 +62,10 @@ export async function loader({ context, request }: LoaderFunctionArgs) {
     });
   }
 
+  if (profile.onboarding_status !== "completed") {
+    return redirect("/onboarding", { headers: session.headers });
+  }
+
   return Response.json(
     {
       profile: {

@@ -11,9 +11,17 @@ export const profileTimezones = [
 
 export type Profile = Pick<
   Tables<"profiles">,
-  "display_name" | "revision" | "timezone" | "user_id"
+  | "display_name"
+  | "onboarding_status"
+  | "onboarding_step"
+  | "revision"
+  | "timezone"
+  | "user_id"
 >;
-export type EditableProfile = Omit<Profile, "user_id">;
+export type EditableProfile = Pick<
+  Profile,
+  "display_name" | "revision" | "timezone"
+>;
 
 export type ProfileInput = {
   displayName: string | null;
