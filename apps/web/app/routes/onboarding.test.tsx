@@ -3,9 +3,11 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   ensureProfile,
   ensureUserPreferences,
+  listActiveDisciplines,
   listRecurringCalendarBlocks,
   listActiveAvailabilityWindows,
   replaceRecurringCalendarBlocks,
+  saveOnboardingDiscipline,
   replaceActiveAvailabilityWindows,
   updateOnboardingProgress,
   updateProfile,
@@ -23,9 +25,11 @@ vi.mock("@seekin/data-access", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@seekin/data-access")>()),
   ensureProfile: vi.fn(),
   ensureUserPreferences: vi.fn(),
+  listActiveDisciplines: vi.fn(),
   listRecurringCalendarBlocks: vi.fn(),
   listActiveAvailabilityWindows: vi.fn(),
   replaceRecurringCalendarBlocks: vi.fn(),
+  saveOnboardingDiscipline: vi.fn(),
   replaceActiveAvailabilityWindows: vi.fn(),
   updateOnboardingProgress: vi.fn(),
   updateProfile: vi.fn(),
@@ -35,9 +39,11 @@ vi.mock("@seekin/data-access", async (importOriginal) => ({
 const mockedSessionClient = vi.mocked(createRequestSessionClient);
 const mockedEnsureProfile = vi.mocked(ensureProfile);
 const mockedEnsurePreferences = vi.mocked(ensureUserPreferences);
+const mockedListDisciplines = vi.mocked(listActiveDisciplines);
 const mockedListRecurring = vi.mocked(listRecurringCalendarBlocks);
 const mockedListAvailability = vi.mocked(listActiveAvailabilityWindows);
 const mockedReplaceRecurring = vi.mocked(replaceRecurringCalendarBlocks);
+const mockedSaveDiscipline = vi.mocked(saveOnboardingDiscipline);
 const mockedReplaceAvailability = vi.mocked(replaceActiveAvailabilityWindows);
 const mockedUpdateProgress = vi.mocked(updateOnboardingProgress);
 const mockedUpdateProfile = vi.mocked(updateProfile);
@@ -64,6 +70,7 @@ const preferences = {
 function state(revision = 4, step = 1) {
   return {
     availability: [],
+    discipline: null,
     recurringBlocks: [],
     preferences: {
       capacity_reserve_percent: 20,
@@ -101,6 +108,7 @@ describe("SKN-050 persistent onboarding route", () => {
     authenticatedClient();
     mockedEnsureProfile.mockResolvedValue(profile);
     mockedEnsurePreferences.mockResolvedValue(preferences);
+    mockedListDisciplines.mockResolvedValue([]);
     mockedListAvailability.mockResolvedValue([]);
     mockedListRecurring.mockResolvedValue([]);
   });
@@ -444,6 +452,99 @@ describe("SKN-050 persistent onboarding route", () => {
     );
     expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 4);
     expect(response.status).toBe(200);
+  });
+
+  it("creates the first discipline before advancing", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 4 });
+    mockedSaveDiscipline.mockResolvedValue({
+      color_key: null,
+      description: null,
+      id: "discipline-1",
+      name: "Cálculo I",
+      revision: 1,
+    });
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 5,
+      revision: 5,
+    });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "4",
+            disciplineName: "  Cálculo I  ",
+            intent: "next",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(mockedSaveDiscipline).toHaveBeenCalledWith(
+      {},
+      "user-1",
+      null,
+      "Cálculo I",
+    );
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 5);
+    await expect(response.json()).resolves.toMatchObject({
+      discipline: { id: "discipline-1", name: "Cálculo I" },
+      step: 5,
+    });
+  });
+
+  it("does not create a discipline when the optional step is skipped", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 4 });
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 5,
+      revision: 5,
+    });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "4",
+            intent: "skip",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(mockedSaveDiscipline).not.toHaveBeenCalled();
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 5);
+    expect(response.status).toBe(200);
+  });
+
+  it("keeps the discipline step when the name is empty", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 4 });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "4",
+            disciplineName: "   ",
+            intent: "next",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(response.status).toBe(400);
+    await expect(response.json()).resolves.toEqual({
+      error: "Informe o nome da disciplina.",
+    });
+    expect(mockedSaveDiscipline).not.toHaveBeenCalled();
+    expect(mockedUpdateProgress).not.toHaveBeenCalled();
   });
 
   it("redirects completed onboarding to the app", async () => {

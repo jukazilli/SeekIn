@@ -12,15 +12,18 @@ import {
 import {
   ensureProfile,
   ensureUserPreferences,
+  listActiveDisciplines,
   listActiveAvailabilityWindows,
   listRecurringCalendarBlocks,
   replaceActiveAvailabilityWindows,
   replaceRecurringCalendarBlocks,
+  saveOnboardingDiscipline,
   updateOnboardingProgress,
   updateProfile,
   updateUserPreferences,
 } from "@seekin/data-access";
 import { parseAvailabilityWindows } from "../onboarding/availability-flow";
+import { parseOnboardingDiscipline } from "../onboarding/discipline-flow";
 import { parseRecurringBlocks } from "../onboarding/recurring-blocks-flow";
 import { readVerifiedSession } from "../auth/session-flow";
 import {
@@ -37,6 +40,7 @@ import {
 import { parseOnboardingPreferences } from "../onboarding/preferences-flow";
 import { profileTimezones } from "../profile/profile-flow";
 import { Button } from "../ui/components/Button";
+import { TextField } from "../ui/components/TextField";
 
 type OnboardingState = {
   availability: Array<{
@@ -50,6 +54,13 @@ type OnboardingState = {
     start_local: string;
     title: string;
   }>;
+  discipline: {
+    color_key: string | null;
+    description: string | null;
+    id: string;
+    name: string;
+    revision: number;
+  } | null;
   preferences: {
     capacity_reserve_percent: number;
     minimum_session_minutes: number;
@@ -58,7 +69,7 @@ type OnboardingState = {
     week_starts_on: number;
   };
   revision: number;
-  step: 0 | 1 | 2 | 3 | 4;
+  step: 0 | 1 | 2 | 3 | 4 | 5;
   timezone: string;
 };
 
@@ -127,8 +138,19 @@ async function loadOnboarding(
       status: 503,
     });
   }
+  const disciplines = await listActiveDisciplines(
+    session.client,
+    verified.userId,
+  );
+  if (!disciplines) {
+    throw new Response("Serviço indisponível", {
+      headers: session.headers,
+      status: 503,
+    });
+  }
   return {
     availability,
+    disciplines,
     preferences,
     profile,
     recurringBlocks,
@@ -141,6 +163,7 @@ function publicState(loaded: {
   availability: NonNullable<
     Awaited<ReturnType<typeof listActiveAvailabilityWindows>>
   >;
+  disciplines: NonNullable<Awaited<ReturnType<typeof listActiveDisciplines>>>;
   preferences: NonNullable<Awaited<ReturnType<typeof ensureUserPreferences>>>;
   profile: NonNullable<Awaited<ReturnType<typeof ensureProfile>>>;
   recurringBlocks: NonNullable<
@@ -156,6 +179,7 @@ function publicState(loaded: {
       end_local: window.end_local.slice(0, 5),
       start_local: window.start_local.slice(0, 5),
     })),
+    discipline: loaded.disciplines[0] ?? null,
     preferences: {
       capacity_reserve_percent: loaded.preferences.capacity_reserve_percent,
       minimum_session_minutes: loaded.preferences.minimum_session_minutes,
@@ -218,11 +242,13 @@ export async function action({ context, request }: ActionFunctionArgs) {
     );
   }
   const targetStep =
-    (currentStep === 2 || currentStep === 3) &&
+    (currentStep === 2 || currentStep === 3 || currentStep === 4) &&
     formData.get("intent") === "skip"
       ? currentStep === 2
         ? 3
-        : 4
+        : currentStep === 3
+          ? 4
+          : 5
       : parseOnboardingMove(formData, currentStep);
   if (targetStep === null)
     throw new Response("Solicitação inválida", { status: 400 });
@@ -231,6 +257,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
   let savedPreferences = loaded.preferences;
   let savedTimezone = loaded.profile.timezone;
   let savedAvailability = loaded.availability;
+  let savedDiscipline = loaded.disciplines[0] ?? null;
   let savedRecurringBlocks = loaded.recurringBlocks;
   if (currentStep === 1 && targetStep === 2) {
     const input = parseOnboardingPreferences(formData);
@@ -338,6 +365,35 @@ export async function action({ context, request }: ActionFunctionArgs) {
     savedRecurringBlocks = replaced;
   }
 
+  if (currentStep === 4 && targetStep === 5) {
+    const skip = formData.get("intent") === "skip";
+    if (!skip) {
+      const input = parseOnboardingDiscipline(formData);
+      if (!input) {
+        return Response.json(
+          { error: "Informe o nome da disciplina." },
+          { headers: loaded.session.headers, status: 400 },
+        );
+      }
+      const saved = await saveOnboardingDiscipline(
+        loaded.session.client,
+        loaded.userId,
+        savedDiscipline,
+        input.name,
+      );
+      if (!saved) {
+        return Response.json(
+          {
+            error:
+              "Não foi possível salvar a disciplina. Verifique o nome e tente novamente.",
+          },
+          { headers: loaded.session.headers, status: 409 },
+        );
+      }
+      savedDiscipline = saved;
+    }
+  }
+
   const updated = await updateOnboardingProgress(
     loaded.session.client,
     loaded.userId,
@@ -356,6 +412,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
         end_local: window.end_local.slice(0, 5),
         start_local: window.start_local.slice(0, 5),
       })),
+      discipline: savedDiscipline,
       preferences: {
         capacity_reserve_percent: savedPreferences.capacity_reserve_percent,
         minimum_session_minutes: savedPreferences.minimum_session_minutes,
@@ -713,6 +770,22 @@ function RecurringBlocksFields({
   );
 }
 
+function DisciplineField({ state }: Readonly<{ state: OnboardingState }>) {
+  return (
+    <div className="onboarding-discipline">
+      <TextField
+        autoComplete="off"
+        defaultValue={state.discipline?.name ?? ""}
+        label="Nome da disciplina"
+        maxLength={120}
+        name="disciplineName"
+        placeholder="Ex.: Cálculo I"
+        required
+      />
+    </div>
+  );
+}
+
 export default function Onboarding() {
   const loaded = useLoaderData() as OnboardingState;
   const actionData = useActionData() as
@@ -762,7 +835,7 @@ export default function Onboarding() {
           />
         </div>
         <section
-          className={`onboarding-step${state.step >= 1 && state.step <= 3 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}`}
+          className={`onboarding-step${state.step >= 1 && state.step <= 4 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}`}
           aria-labelledby="onboarding-title"
         >
           {state.step === 0 ? (
@@ -802,10 +875,15 @@ export default function Onboarding() {
                 Marque compromissos que se repetem na semana.
               </p>
             </>
-          ) : (
+          ) : state.step === 4 ? (
             <>
               <p className="eyebrow">Disciplina</p>
               <h1 id="onboarding-title">Qual matéria vem primeiro?</h1>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow">Atividade</p>
+              <h1 id="onboarding-title">Qual é a sua primeira entrega?</h1>
             </>
           )}
           {actionData && "error" in actionData ? (
@@ -819,6 +897,7 @@ export default function Onboarding() {
             {state.step === 1 ? <PreferencesFields state={state} /> : null}
             {state.step === 2 ? <AvailabilityFields state={state} /> : null}
             {state.step === 3 ? <RecurringBlocksFields state={state} /> : null}
+            {state.step === 4 ? <DisciplineField state={state} /> : null}
             <div className="onboarding-actions">
               {state.step > 0 ? (
                 <Button
@@ -856,6 +935,21 @@ export default function Onboarding() {
                 </>
               ) : null}
               {state.step === 3 ? (
+                <>
+                  <Button
+                    name="intent"
+                    value="skip"
+                    variant="secondary"
+                    loading={isBusy}
+                  >
+                    Pular por agora
+                  </Button>
+                  <Button name="intent" value="next" loading={isBusy}>
+                    Continuar
+                  </Button>
+                </>
+              ) : null}
+              {state.step === 4 ? (
                 <>
                   <Button
                     name="intent"

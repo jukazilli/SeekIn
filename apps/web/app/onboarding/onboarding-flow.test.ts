@@ -20,7 +20,8 @@ describe("SKN-050 onboarding navigation", () => {
   it("does not advance into a step that is not implemented", () => {
     expect(parseOnboardingMove(form("next"), 2)).toBe(3);
     expect(parseOnboardingMove(form("next"), 3)).toBe(4);
-    expect(parseOnboardingMove(form("next"), 4)).toBeNull();
+    expect(parseOnboardingMove(form("next"), 4)).toBe(5);
+    expect(parseOnboardingMove(form("next"), 5)).toBeNull();
     expect(isAvailableOnboardingStep(7)).toBe(false);
   });
 
