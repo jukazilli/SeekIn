@@ -15,6 +15,7 @@
     "@fullcalendar/react": "7.1.0",
     "@seekin/contracts": "workspace:*",
     "@seekin/data-access": "workspace:*",
+    "@supabase/ssr": "0.12.7",
     "isbot": "^5",
     "react": "19.3.0",
     "react-dom": "19.3.0",

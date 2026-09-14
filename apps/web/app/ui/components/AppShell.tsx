@@ -5,14 +5,18 @@ import { Icon } from "../icons/Icon";
 interface AppShellProps {
   busy?: boolean;
   children: ReactNode;
+  homeHref?: string;
 }
 
-function HomeLink({ compact = false }: Readonly<{ compact?: boolean }>) {
+function HomeLink({
+  compact = false,
+  href,
+}: Readonly<{ compact?: boolean; href: string }>) {
   return (
     <a
       aria-current="page"
       className={compact ? "nav-link nav-link--compact" : "nav-link"}
-      href="/"
+      href={href}
     >
       <Icon name="home" size={compact ? 22 : 20} />
       <span>Início</span>
@@ -20,7 +24,11 @@ function HomeLink({ compact = false }: Readonly<{ compact?: boolean }>) {
   );
 }
 
-export function AppShell({ busy = false, children }: AppShellProps) {
+export function AppShell({
+  busy = false,
+  children,
+  homeHref = "/",
+}: AppShellProps) {
   return (
     <div className="app-shell">
       <a className="skip-link" href="#main-content">
@@ -28,17 +36,19 @@ export function AppShell({ busy = false, children }: AppShellProps) {
       </a>
 
       <header className="topbar">
-        <a className="brand" href="/" aria-label="SeekIn — Início">
-          <span className="brand-mark" aria-hidden="true">
-            S
-          </span>
-          <span>SeekIn</span>
+        <a className="brand" href={homeHref} aria-label="SeekIn — Início">
+          <img
+            src="/brand/logo/seekin-wordmark.png"
+            alt="SeekIn"
+            width={2172}
+            height={724}
+          />
         </a>
       </header>
 
       <aside className="sidebar">
         <nav aria-label="Navegação principal">
-          <HomeLink />
+          <HomeLink href={homeHref} />
         </nav>
       </aside>
 
@@ -52,7 +62,7 @@ export function AppShell({ busy = false, children }: AppShellProps) {
       </main>
 
       <nav className="bottom-navigation" aria-label="Navegação principal">
-        <HomeLink compact />
+        <HomeLink compact href={homeHref} />
       </nav>
     </div>
   );

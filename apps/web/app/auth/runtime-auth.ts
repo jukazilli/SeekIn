@@ -1,4 +1,10 @@
+import { type Database } from "@seekin/contracts";
 import { createSupabaseAuthGateway } from "@seekin/data-access";
+import {
+  createServerClient,
+  parseCookieHeader,
+  serializeCookieHeader,
+} from "@supabase/ssr";
 import type { RouterContextProvider } from "react-router";
 
 import { cloudflareEnvironmentContext } from "../http/runtime-context";
@@ -19,6 +25,42 @@ export function createRequestAuthGateway(
 
   if (!publishableKey || !url) return null;
   return createSupabaseAuthGateway({ publishableKey, url });
+}
+
+export function createRequestSessionClient(
+  request: Request,
+  context: Pick<RouterContextProvider, "get">,
+) {
+  const environment = requestEnvironment(context);
+  const publishableKey = environment.SUPABASE_PUBLISHABLE_KEY?.trim();
+  const url = environment.SUPABASE_URL?.trim();
+  if (!publishableKey || !url) return null;
+
+  const responseHeaders = new Headers({ "cache-control": "no-store" });
+  const secure = new URL(request.url).protocol === "https:";
+  const client = createServerClient<Database>(url, publishableKey, {
+    cookieOptions: { path: "/", sameSite: "lax", secure },
+    cookies: {
+      getAll() {
+        return parseCookieHeader(request.headers.get("cookie") ?? "").map(
+          ({ name, value }) => ({ name, value: value ?? "" }),
+        );
+      },
+      setAll(cookiesToSet, cacheHeaders) {
+        for (const { name, options, value } of cookiesToSet) {
+          responseHeaders.append(
+            "set-cookie",
+            serializeCookieHeader(name, value, options),
+          );
+        }
+        for (const [name, value] of Object.entries(cacheHeaders)) {
+          responseHeaders.set(name, value);
+        }
+      },
+    },
+  });
+
+  return { auth: client.auth, headers: responseHeaders };
 }
 
 export function isSameOriginSubmission(request: Request) {

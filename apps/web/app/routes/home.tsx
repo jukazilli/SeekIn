@@ -1,4 +1,11 @@
-import type { MetaFunction } from "react-router";
+import {
+  redirect,
+  type LoaderFunctionArgs,
+  type MetaFunction,
+} from "react-router";
+
+import { readVerifiedSession } from "../auth/session-flow";
+import { createRequestSessionClient } from "../auth/runtime-auth";
 
 export const meta: MetaFunction = () => [
   { title: "SeekIn — Mais tempo para aprender" },
@@ -8,6 +15,16 @@ export const meta: MetaFunction = () => [
       "Você diz o que precisa fazer e quanto tempo tem. O SeekIn transforma isso em um plano possível.",
   },
 ];
+
+export async function loader({ context, request }: LoaderFunctionArgs) {
+  const session = createRequestSessionClient(request, context);
+  if (!session) return null;
+  const verified = await readVerifiedSession(session.auth);
+  if (verified.kind === "authenticated") {
+    return redirect("/app", { headers: session.headers });
+  }
+  return Response.json(null, { headers: session.headers });
+}
 
 const planningSteps = [
   {
@@ -48,6 +65,7 @@ export default function Home() {
 
           <nav className="landing-nav" aria-label="Navegação da página">
             <a href="#como-funciona">Como funciona</a>
+            <a href="/entrar">Entrar</a>
             <a className="landing-nav__cta" href="/criar-conta">
               Criar minha conta
             </a>
