@@ -532,6 +532,12 @@ Regras:
 - respeitar a capacidade contínua da janela;
 - não atravessar bloqueios ou o prazo da atividade.
 
+A partição usa o maior número de sessões próximas da duração preferida que ainda permita manter todos
+os blocos no mínimo configurado. Quando a sobra final seria menor que esse mínimo, minutos são
+retirados dos blocos imediatamente anteriores, do último para o primeiro, até completar a sessão
+final. Se todo o esforço restante for menor que o mínimo, ele forma uma única sessão final; minutos
+artificiais nunca são adicionados.
+
 ### 11.6 Seleção de horários
 
 O motor aloca sessões considerando:
