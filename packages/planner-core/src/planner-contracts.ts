@@ -13,6 +13,10 @@ const localTimeSchema = z.iso.time({ precision: 0 });
 const positiveMinutesSchema = z.int().positive();
 const nonNegativeMinutesSchema = z.int().nonnegative();
 const sha256Schema = z.string().regex(/^[a-f0-9]{64}$/);
+const loadRateSchema = z.union([
+  z.number().nonnegative(),
+  z.literal("infinite"),
+]);
 
 function intervalIsOrdered(start: string, end: string): boolean {
   return new Date(start).getTime() < new Date(end).getTime();
@@ -218,7 +222,7 @@ export const plannerOutputSchema = z
             "overdue",
           ]),
           slackMinutes: z.int(),
-          loadRate: z.number().nonnegative(),
+          loadRate: loadRateSchema,
         })
         .strict(),
     ),
