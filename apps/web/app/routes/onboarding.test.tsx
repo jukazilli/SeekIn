@@ -1,6 +1,12 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { ensureProfile, updateOnboardingProgress } from "@seekin/data-access";
+import {
+  ensureProfile,
+  ensureUserPreferences,
+  updateOnboardingProgress,
+  updateProfile,
+  updateUserPreferences,
+} from "@seekin/data-access";
 
 import { createRequestSessionClient } from "../auth/runtime-auth";
 import { action, loader } from "./onboarding";
@@ -12,12 +18,18 @@ vi.mock("../auth/runtime-auth", async (importOriginal) => ({
 vi.mock("@seekin/data-access", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@seekin/data-access")>()),
   ensureProfile: vi.fn(),
+  ensureUserPreferences: vi.fn(),
   updateOnboardingProgress: vi.fn(),
+  updateProfile: vi.fn(),
+  updateUserPreferences: vi.fn(),
 }));
 
 const mockedSessionClient = vi.mocked(createRequestSessionClient);
 const mockedEnsureProfile = vi.mocked(ensureProfile);
+const mockedEnsurePreferences = vi.mocked(ensureUserPreferences);
 const mockedUpdateProgress = vi.mocked(updateOnboardingProgress);
+const mockedUpdateProfile = vi.mocked(updateProfile);
+const mockedUpdatePreferences = vi.mocked(updateUserPreferences);
 
 const profile = {
   display_name: null,
@@ -27,6 +39,30 @@ const profile = {
   timezone: "America/Sao_Paulo",
   user_id: "user-1",
 };
+
+const preferences = {
+  capacity_reserve_percent: 20,
+  minimum_session_minutes: 25,
+  preferred_session_minutes: 50,
+  revision: 1,
+  user_id: "user-1",
+  week_starts_on: 1,
+};
+
+function state(revision = 4, step = 1) {
+  return {
+    preferences: {
+      capacity_reserve_percent: 20,
+      minimum_session_minutes: 25,
+      preferred_session_minutes: 50,
+      revision: 1,
+      week_starts_on: 1,
+    },
+    revision,
+    step,
+    timezone: "America/Sao_Paulo",
+  };
+}
 
 function authenticatedClient() {
   mockedSessionClient.mockReturnValue({
@@ -50,6 +86,7 @@ describe("SKN-050 persistent onboarding route", () => {
     vi.clearAllMocks();
     authenticatedClient();
     mockedEnsureProfile.mockResolvedValue(profile);
+    mockedEnsurePreferences.mockResolvedValue(preferences);
   });
 
   it("resumes the last server-confirmed step", async () => {
@@ -58,7 +95,7 @@ describe("SKN-050 persistent onboarding route", () => {
     )) as Response;
 
     expect(response.status).toBe(200);
-    await expect(response.json()).resolves.toEqual({ revision: 4, step: 1 });
+    await expect(response.json()).resolves.toEqual(state());
     expect(response.headers.get("cache-control")).toBe("private, no-store");
   });
 
@@ -86,7 +123,58 @@ describe("SKN-050 persistent onboarding route", () => {
     const response = (await action(args(request))) as Response;
 
     expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 1);
-    await expect(response.json()).resolves.toEqual({ revision: 5, step: 1 });
+    await expect(response.json()).resolves.toEqual(state(5, 1));
+  });
+
+  it("saves valid preferences before advancing to availability", async () => {
+    mockedUpdateProfile.mockResolvedValue({
+      ...profile,
+      revision: 5,
+      timezone: "America/Recife",
+    });
+    mockedUpdatePreferences.mockResolvedValue({
+      ...preferences,
+      capacity_reserve_percent: 15,
+      minimum_session_minutes: 20,
+      preferred_session_minutes: 45,
+      revision: 2,
+      week_starts_on: 0,
+    });
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 2,
+      revision: 6,
+    });
+    const request = new Request("https://seekin.example.test/onboarding", {
+      body: new URLSearchParams({
+        capacityReservePercent: "15",
+        currentStep: "1",
+        intent: "next",
+        minimumSessionMinutes: "20",
+        preferencesRevision: "1",
+        preferredSessionMinutes: "45",
+        revision: "4",
+        timezone: "America/Recife",
+        weekStartsOn: "0",
+      }),
+      headers: { origin: "https://seekin.example.test" },
+      method: "POST",
+    });
+
+    const response = (await action(args(request))) as Response;
+
+    expect(mockedUpdateProfile).toHaveBeenCalledWith({}, "user-1", 4, {
+      displayName: null,
+      timezone: "America/Recife",
+    });
+    expect(mockedUpdatePreferences).toHaveBeenCalledWith({}, "user-1", 1, {
+      capacity_reserve_percent: 15,
+      minimum_session_minutes: 20,
+      preferred_session_minutes: 45,
+      week_starts_on: 0,
+    });
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 5, 2);
+    expect(response.status).toBe(200);
   });
 
   it("rejects a stale browser step without overwriting progress", async () => {
