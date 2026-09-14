@@ -60,7 +60,7 @@ export function createRequestSessionClient(
     },
   });
 
-  return { auth: client.auth, headers: responseHeaders };
+  return { auth: client.auth, client, headers: responseHeaders };
 }
 
 export function clearPrivateBrowserDataHeaders(

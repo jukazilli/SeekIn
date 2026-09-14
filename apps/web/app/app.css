@@ -233,6 +233,50 @@ a {
   margin-bottom: var(--space-6);
 }
 
+.profile-form {
+  display: grid;
+  width: min(100%, 560px);
+  gap: var(--space-3);
+  padding: var(--space-5);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-low);
+}
+
+.profile-form label {
+  color: var(--seek-text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.profile-form input,
+.profile-form select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-4);
+  color: var(--seek-text-primary);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-control);
+}
+
+.profile-form input:focus-visible,
+.profile-form select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 2px;
+}
+
+.profile-form .button {
+  margin-top: var(--space-2);
+}
+
+.form-message--success {
+  color: var(--success-fg);
+  background: var(--success-bg);
+  border-color: var(--success-border);
+}
+
 .eyebrow {
   margin: 0 0 var(--space-2);
   color: var(--seek-blue-600);
