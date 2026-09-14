@@ -43,11 +43,11 @@
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | Pendente |
 | RF-056 | SKN-091 | G3 | transação e imutabilidade | Pendente |
 | RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Pendente |
-| RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Pendente |
+| RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Parcial: [primeiro déficit e horizonte afetado](evidencias/SKN-082.md); plano parcial do SKN-086 pendente |
 | RF-059 | SKN-056 / SKN-096 | G3 | confirmação e cancelamento | Pendente |
 | RF-060–061 | SKN-083 | G3 | ordenação e desempate | Pendente |
 | RF-062 | SKN-083 / SKN-110 | G4 | fator usado e texto exibido | Pendente |
-| RF-063–064 | SKN-082 / SKN-106 | G4 | recálculo de risco | Pendente |
+| RF-063–064 | SKN-082 / SKN-106 | G4 | recálculo de risco | Parcial: [cálculo puro de carga, folga e risco](evidencias/SKN-082.md); alertas e integração do SKN-106 pendentes |
 | RF-070–076 | SKN-110 | G4 | componente e E2E Hoje | Pendente |
 | RF-077–079 | SKN-111 | G4 | grupos e ações da Lista | Pendente |
 | RF-080–084 | SKN-005 / SKN-113 | G4 | prova técnica, componente e E2E | Pendente |
