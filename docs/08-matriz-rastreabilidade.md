@@ -37,7 +37,7 @@
 | RF-035 | SKN-071 | G3 | transições de estado | Pendente |
 | RF-036–037 | SKN-073 | G3 | limites e propriedades | Pendente |
 | RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Pendente |
-| RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Pendente |
+| RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md); consulta e apresentação do SKN-063 pendentes |
 | RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Pendente |
 | RF-052–053 | SKN-084 | G3 | tabela de partições | Pendente |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [schemas e versões do planner-core](evidencias/SKN-080.md); algoritmo, Edge Function e persistência pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [schemas e versões](evidencias/SKN-080.md) e [capacidade](evidencias/SKN-081.md) do planner-core; demais regras, Edge Function e persistência pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
