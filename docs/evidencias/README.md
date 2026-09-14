@@ -162,6 +162,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-080 | Verificado | [Contratos versionados do planner-core](SKN-080.md) |
 | SKN-081 | Verificado | [Cálculo de capacidade do planner-core](SKN-081.md) |
 | SKN-082 | Verificado | [Horizontes e risco do planner-core](SKN-082.md) |
+| SKN-083 | Verificado | [Prioridade determinística do planner-core](SKN-083.md) |
 
 ## 6. Portões fechados
 

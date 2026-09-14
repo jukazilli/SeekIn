@@ -351,10 +351,10 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com contratos, capacidade e risco fechados nos
-`SKN-080–082`, a próxima ação é o `SKN-083`: ordenar atividades pela regra determinística v1 e
-produzir fatores de explicação coerentes. A sequência retorna ao `SKN-056` depois que geração,
-persistência e confirmação estiverem implementadas até o `SKN-096`.
+exige primeiro o motor e o backend reais. Com contratos, capacidade, risco e prioridade fechados nos
+`SKN-080–083`, a próxima ação é o `SKN-084`: dividir esforço em sessões, redistribuir sobras e impedir
+duração zero ou bloco inválido. A sequência retorna ao `SKN-056` depois que geração, persistência e
+confirmação estiverem implementadas até o `SKN-096`.
 
 ---
 
