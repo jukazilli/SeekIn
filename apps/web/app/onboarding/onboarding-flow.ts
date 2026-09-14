@@ -1,5 +1,5 @@
 export const onboardingStepCount = 7;
-export const availableOnboardingSteps = [0, 1, 2] as const;
+export const availableOnboardingSteps = [0, 1, 2, 3] as const;
 
 export type AvailableOnboardingStep = (typeof availableOnboardingSteps)[number];
 

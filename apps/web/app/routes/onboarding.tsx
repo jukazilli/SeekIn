@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Form,
   redirect,
@@ -12,10 +12,13 @@ import {
 import {
   ensureProfile,
   ensureUserPreferences,
+  listActiveAvailabilityWindows,
+  replaceActiveAvailabilityWindows,
   updateOnboardingProgress,
   updateProfile,
   updateUserPreferences,
 } from "@seekin/data-access";
+import { parseAvailabilityWindows } from "../onboarding/availability-flow";
 import { readVerifiedSession } from "../auth/session-flow";
 import {
   clearPrivateBrowserDataHeaders,
@@ -33,6 +36,11 @@ import { profileTimezones } from "../profile/profile-flow";
 import { Button } from "../ui/components/Button";
 
 type OnboardingState = {
+  availability: Array<{
+    day_of_week: number;
+    end_local: string;
+    start_local: string;
+  }>;
   preferences: {
     capacity_reserve_percent: number;
     minimum_session_minutes: number;
@@ -41,7 +49,7 @@ type OnboardingState = {
     week_starts_on: number;
   };
   revision: number;
-  step: 0 | 1 | 2;
+  step: 0 | 1 | 2 | 3;
   timezone: string;
 };
 
@@ -90,10 +98,29 @@ async function loadOnboarding(
       status: 503,
     });
   }
-  return { preferences, profile, session, userId: verified.userId };
+  const availability = await listActiveAvailabilityWindows(
+    session.client,
+    verified.userId,
+  );
+  if (!availability) {
+    throw new Response("Serviço indisponível", {
+      headers: session.headers,
+      status: 503,
+    });
+  }
+  return {
+    availability,
+    preferences,
+    profile,
+    session,
+    userId: verified.userId,
+  };
 }
 
 function publicState(loaded: {
+  availability: NonNullable<
+    Awaited<ReturnType<typeof listActiveAvailabilityWindows>>
+  >;
   preferences: NonNullable<Awaited<ReturnType<typeof ensureUserPreferences>>>;
   profile: NonNullable<Awaited<ReturnType<typeof ensureProfile>>>;
 }): OnboardingState {
@@ -101,6 +128,11 @@ function publicState(loaded: {
     ? loaded.profile.onboarding_step
     : 1;
   return {
+    availability: loaded.availability.map((window) => ({
+      day_of_week: window.day_of_week,
+      end_local: window.end_local.slice(0, 5),
+      start_local: window.start_local.slice(0, 5),
+    })),
     preferences: {
       capacity_reserve_percent: loaded.preferences.capacity_reserve_percent,
       minimum_session_minutes: loaded.preferences.minimum_session_minutes,
@@ -153,6 +185,7 @@ export async function action({ context, request }: ActionFunctionArgs) {
   if (
     !Number.isSafeInteger(revision) ||
     revision < 1 ||
+    revision !== loaded.profile.revision ||
     currentStep !== loaded.profile.onboarding_step
   ) {
     return Response.json(
@@ -160,13 +193,17 @@ export async function action({ context, request }: ActionFunctionArgs) {
       { headers: loaded.session.headers, status: 409 },
     );
   }
-  const targetStep = parseOnboardingMove(formData, currentStep);
+  const targetStep =
+    currentStep === 2 && formData.get("intent") === "skip"
+      ? 3
+      : parseOnboardingMove(formData, currentStep);
   if (targetStep === null)
     throw new Response("Solicitação inválida", { status: 400 });
 
   let profileRevision = revision;
   let savedPreferences = loaded.preferences;
   let savedTimezone = loaded.profile.timezone;
+  let savedAvailability = loaded.availability;
   if (currentStep === 1 && targetStep === 2) {
     const input = parseOnboardingPreferences(formData);
     const preferencesRevision = Number(formData.get("preferencesRevision"));
@@ -212,6 +249,36 @@ export async function action({ context, request }: ActionFunctionArgs) {
     savedPreferences = preferences;
   }
 
+  if (currentStep === 2 && targetStep === 3) {
+    const skip = formData.get("intent") === "skip";
+    const windows = skip ? [] : parseAvailabilityWindows(formData);
+    if (!windows) {
+      return Response.json(
+        { error: "Revise os horários antes de continuar." },
+        { headers: loaded.session.headers, status: 400 },
+      );
+    }
+    const validFrom = localDateInTimezone(loaded.profile.timezone);
+    const replaced = await replaceActiveAvailabilityWindows(
+      loaded.session.client,
+      loaded.userId,
+      loaded.profile.timezone,
+      validFrom,
+      loaded.availability,
+      windows,
+    );
+    if (!replaced) {
+      return Response.json(
+        {
+          error:
+            "Não foi possível salvar os horários. Recarregue e tente novamente.",
+        },
+        { headers: loaded.session.headers, status: 409 },
+      );
+    }
+    savedAvailability = replaced;
+  }
+
   const updated = await updateOnboardingProgress(
     loaded.session.client,
     loaded.userId,
@@ -225,6 +292,11 @@ export async function action({ context, request }: ActionFunctionArgs) {
     );
   return Response.json(
     {
+      availability: savedAvailability.map((window) => ({
+        day_of_week: window.day_of_week,
+        end_local: window.end_local.slice(0, 5),
+        start_local: window.start_local.slice(0, 5),
+      })),
       preferences: {
         capacity_reserve_percent: savedPreferences.capacity_reserve_percent,
         minimum_session_minutes: savedPreferences.minimum_session_minutes,
@@ -238,6 +310,19 @@ export async function action({ context, request }: ActionFunctionArgs) {
     } satisfies OnboardingState,
     { headers: loaded.session.headers },
   );
+}
+
+function localDateInTimezone(timezone: string) {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    day: "2-digit",
+    month: "2-digit",
+    timeZone: timezone,
+    year: "numeric",
+  }).formatToParts(new Date());
+  const value = Object.fromEntries(
+    parts.map((part) => [part.type, part.value]),
+  );
+  return `${value.year}-${value.month}-${value.day}`;
 }
 
 const weekDays = [
@@ -327,6 +412,98 @@ function PreferencesFields({ state }: Readonly<{ state: OnboardingState }>) {
   );
 }
 
+type EditableWindow = OnboardingState["availability"][number] & { key: number };
+
+function AvailabilityFields({ state }: Readonly<{ state: OnboardingState }>) {
+  const nextKey = useRef(state.availability.length);
+  const [windows, setWindows] = useState<EditableWindow[]>(() =>
+    state.availability.map((window, key) => ({ ...window, key })),
+  );
+  const orderedDays = weekDays.map(
+    (_, offset) => (state.preferences.week_starts_on + offset) % 7,
+  );
+
+  function addWindow(day: number) {
+    const key = nextKey.current++;
+    setWindows((current) => [
+      ...current,
+      { day_of_week: day, end_local: "20:00", key, start_local: "18:00" },
+    ]);
+  }
+
+  return (
+    <div className="availability-week">
+      {orderedDays.map((day) => {
+        const dayWindows = windows.filter(
+          (window) => window.day_of_week === day,
+        );
+        return (
+          <section
+            className="availability-day"
+            key={day}
+            aria-labelledby={`day-${day}`}
+          >
+            <div className="availability-day-heading">
+              <h2 id={`day-${day}`}>{weekDays[day]}</h2>
+              <button
+                className="availability-add"
+                type="button"
+                onClick={() => addWindow(day)}
+              >
+                Adicionar horário
+              </button>
+            </div>
+            {dayWindows.length === 0 ? (
+              <p className="availability-empty">Sem horário</p>
+            ) : (
+              <div className="availability-windows">
+                {dayWindows.map((window) => (
+                  <div className="availability-window" key={window.key}>
+                    <input name="availabilityDay" type="hidden" value={day} />
+                    <label>
+                      <span>Início</span>
+                      <input
+                        name="availabilityStart"
+                        type="time"
+                        required
+                        defaultValue={window.start_local}
+                      />
+                    </label>
+                    <span className="availability-separator" aria-hidden="true">
+                      até
+                    </span>
+                    <label>
+                      <span>Fim</span>
+                      <input
+                        name="availabilityEnd"
+                        type="time"
+                        required
+                        defaultValue={window.end_local}
+                      />
+                    </label>
+                    <button
+                      className="availability-remove"
+                      type="button"
+                      aria-label={`Remover horário de ${weekDays[day]}`}
+                      onClick={() =>
+                        setWindows((current) =>
+                          current.filter((item) => item.key !== window.key),
+                        )
+                      }
+                    >
+                      Remover
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function Onboarding() {
   const loaded = useLoaderData() as OnboardingState;
   const actionData = useActionData() as
@@ -380,7 +557,7 @@ export default function Onboarding() {
           />
         </div>
         <section
-          className={`onboarding-step${state.step === 1 ? " onboarding-step--form" : ""}`}
+          className={`onboarding-step${state.step === 1 || state.step === 2 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}`}
           aria-labelledby="onboarding-title"
         >
           {state.step === 0 ? (
@@ -404,11 +581,21 @@ export default function Onboarding() {
                 Defina como sua semana funciona.
               </p>
             </>
-          ) : (
+          ) : state.step === 2 ? (
             <>
               <p className="eyebrow">Disponibilidade</p>
               <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
                 Quando você costuma ter tempo livre?
+              </h1>
+              <p className="onboarding-lead">
+                Adicione os horários que se repetem na sua semana.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="eyebrow">Rotina</p>
+              <h1 id="onboarding-title" ref={titleRef} tabIndex={-1}>
+                O que já ocupa seu tempo?
               </h1>
             </>
           )}
@@ -421,6 +608,7 @@ export default function Onboarding() {
             <input name="revision" type="hidden" value={state.revision} />
             <input name="currentStep" type="hidden" value={state.step} />
             {state.step === 1 ? <PreferencesFields state={state} /> : null}
+            {state.step === 2 ? <AvailabilityFields state={state} /> : null}
             <div className="onboarding-actions">
               {state.step > 0 ? (
                 <Button
@@ -441,6 +629,21 @@ export default function Onboarding() {
                 <Button name="intent" value="next" loading={isBusy}>
                   Continuar
                 </Button>
+              ) : null}
+              {state.step === 2 ? (
+                <>
+                  <Button
+                    name="intent"
+                    value="skip"
+                    variant="secondary"
+                    loading={isBusy}
+                  >
+                    Configurar depois
+                  </Button>
+                  <Button name="intent" value="next" loading={isBusy}>
+                    Continuar
+                  </Button>
+                </>
               ) : null}
             </div>
           </Form>
