@@ -13,5 +13,6 @@ test-results/
 output/
 .playwright-cli/
 worker-configuration.d.ts
+!apps/web/worker-configuration.d.ts
 *.tsbuildinfo
 

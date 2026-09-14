@@ -2,6 +2,9 @@ import { index, route, type RouteConfig } from "@react-router/dev/routes";
 
 export default [
   index("routes/home.tsx"),
+  route("criar-conta", "routes/create-account.tsx"),
+  route("auth/confirmar", "routes/confirm-email.tsx"),
+  route("conta-confirmada", "routes/email-confirmed.tsx"),
   route("health", "routes/health.ts"),
   route("proofs/schedule-views", "routes/proofs/schedule-views.tsx"),
   route("*", "routes/not-found.tsx"),

@@ -18,6 +18,7 @@ export function applySecurityHeaders(
 ) {
   const connectSources = [
     "'self'",
+    "https://challenges.cloudflare.com",
     ...getAllowedSupabaseOrigins(options.supabaseUrl),
   ];
   const contentSecurityPolicy = [
@@ -27,10 +28,11 @@ export function applySecurityHeaders(
     "font-src 'self' data:",
     "form-action 'self'",
     "frame-ancestors 'none'",
+    "frame-src https://challenges.cloudflare.com",
     "img-src 'self' data: blob:",
     "manifest-src 'self'",
     "object-src 'none'",
-    "script-src 'self' 'unsafe-inline'",
+    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
     "style-src 'self' 'unsafe-inline'",
     "worker-src 'self' blob:",
     "upgrade-insecure-requests",
@@ -41,7 +43,9 @@ export function applySecurityHeaders(
     "permissions-policy",
     "camera=(), geolocation=(), microphone=()",
   );
-  response.headers.set("referrer-policy", "strict-origin-when-cross-origin");
+  if (!response.headers.has("referrer-policy")) {
+    response.headers.set("referrer-policy", "strict-origin-when-cross-origin");
+  }
   response.headers.set("x-content-type-options", "nosniff");
   response.headers.set("x-frame-options", "DENY");
 

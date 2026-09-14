@@ -13,6 +13,7 @@ describe("CT foundation shell — responsive states", () => {
     expect(markup).toContain('aria-current="page"');
     expect(markup).toContain('id="main-content"');
     expect(markup).toContain("Um dia de cada vez.");
+    expect(markup).toContain('href="/criar-conta"');
     expect(markup).not.toContain("Cloudflare Worker");
     expect(markup).not.toContain("Supabase");
   });

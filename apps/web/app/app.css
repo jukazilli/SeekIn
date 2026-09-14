@@ -242,6 +242,16 @@ p {
   max-width: 540px;
 }
 
+.focus-field__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 540px;
+}
+
+.focus-field__copy .primary-link {
+  margin-top: var(--space-3);
+}
+
 .focus-field__mark {
   position: absolute;
   right: -80px;
@@ -301,6 +311,264 @@ p {
 .primary-link:hover,
 .primary-link:active {
   background: var(--seek-blue-700);
+}
+
+.auth-shell {
+  display: grid;
+  grid-template-rows: 60px minmax(0, 1fr);
+  min-height: 100vh;
+  min-height: 100dvh;
+  background: var(--seek-canvas);
+}
+
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--space-4);
+  background: color-mix(in srgb, var(--seek-surface) 92%, transparent);
+  border-bottom: 1px solid var(--seek-border);
+}
+
+.auth-main {
+  display: grid;
+  width: 100%;
+  padding: var(--space-5) var(--space-4) var(--space-7);
+  place-items: center;
+}
+
+.auth-panel {
+  width: min(100%, 440px);
+  padding: var(--space-6);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-large);
+}
+
+.auth-panel h1 {
+  max-width: none;
+  margin-bottom: var(--space-3);
+  font-size: var(--font-size-h1);
+}
+
+.auth-panel > p:not(.eyebrow, .form-message) {
+  margin-bottom: var(--space-6);
+}
+
+.auth-panel strong {
+  color: var(--seek-ink);
+  font-weight: var(--font-weight-semibold);
+}
+
+.auth-panel--status {
+  text-align: center;
+}
+
+.auth-status-icon {
+  display: inline-grid;
+  width: 52px;
+  height: 52px;
+  margin-bottom: var(--space-5);
+  color: var(--seek-blue-600);
+  background: var(--seek-blue-100);
+  border-radius: 50%;
+  place-items: center;
+}
+
+.auth-status-icon--success {
+  color: var(--success-fg);
+  background: var(--success-bg);
+}
+
+.auth-form {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.auth-secondary-action {
+  display: grid;
+  gap: var(--space-4);
+  margin: var(--space-6) 0 var(--space-4);
+}
+
+.turnstile-field {
+  display: grid;
+  width: 100%;
+  min-height: 65px;
+  gap: var(--space-2);
+}
+
+.turnstile-field > div:first-child {
+  width: 100%;
+}
+
+.turnstile-field iframe {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.text-field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.text-field__label {
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.text-field__control {
+  display: flex;
+  min-height: 48px;
+  align-items: center;
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-control);
+  transition:
+    border-color var(--motion-fast) var(--motion-easing-standard),
+    box-shadow var(--motion-fast) var(--motion-easing-standard);
+}
+
+.text-field__control:hover {
+  border-color: var(--seek-blue-300);
+}
+
+.text-field__control:focus-within {
+  border-color: var(--seek-blue-500);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--seek-focus-ring) 24%, transparent);
+}
+
+.text-field__control--error {
+  border-color: var(--danger-fg);
+}
+
+.text-field__input {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 var(--space-4);
+  color: var(--seek-ink);
+  font-size: var(--font-size-body);
+  background: transparent;
+  border: 0;
+  outline: 0;
+}
+
+.text-field__hint,
+.text-field__error {
+  margin: 0;
+  font-size: var(--font-size-metadata);
+  line-height: 1.45;
+}
+
+.text-field__error {
+  color: var(--danger-fg);
+}
+
+.field-icon-button {
+  display: inline-grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  padding: 0;
+  margin-right: 2px;
+  color: var(--seek-text-secondary);
+  background: transparent;
+  border: 0;
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  place-items: center;
+}
+
+.field-icon-button:hover {
+  color: var(--seek-blue-600);
+  background: var(--seek-blue-100);
+}
+
+.button {
+  display: inline-flex;
+  min-height: 48px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 var(--space-5);
+  color: var(--seek-surface);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+  background: var(--seek-blue-600);
+  border: 1px solid var(--seek-blue-600);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  transition:
+    color var(--motion-fast) var(--motion-easing-standard),
+    background-color var(--motion-fast) var(--motion-easing-standard),
+    border-color var(--motion-fast) var(--motion-easing-standard);
+}
+
+.button:hover,
+.button:active {
+  background: var(--seek-blue-700);
+  border-color: var(--seek-blue-700);
+}
+
+.button--secondary {
+  color: var(--seek-blue-600);
+  background: var(--seek-surface);
+  border-color: var(--seek-blue-500);
+}
+
+.button--secondary:hover,
+.button--secondary:active {
+  color: var(--seek-surface);
+  background: var(--seek-blue-600);
+  border-color: var(--seek-blue-600);
+}
+
+.button:disabled {
+  color: var(--seek-text-secondary);
+  background: var(--seek-ice-strong);
+  border-color: var(--seek-border);
+  cursor: not-allowed;
+}
+
+.button:focus-visible,
+.field-icon-button:focus-visible,
+.text-link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 3px;
+}
+
+.text-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--seek-link);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-underline-offset: 3px;
+}
+
+.form-message {
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+  font-size: var(--font-size-small);
+  line-height: 1.5;
+  text-align: left;
+  border: 1px solid;
+  border-radius: var(--radius-control);
+}
+
+.form-message--error {
+  color: var(--danger-fg);
+  background: var(--danger-bg);
+  border-color: var(--danger-border);
+}
+
+.form-message--info {
+  color: var(--info-fg);
+  background: var(--info-bg);
+  border-color: var(--info-border);
 }
 
 .loading-state {
@@ -375,6 +643,19 @@ p {
 }
 
 @media (min-width: 768px) {
+  .auth-topbar {
+    padding-right: var(--space-6);
+    padding-left: var(--space-6);
+  }
+
+  .auth-main {
+    padding: var(--space-7);
+  }
+
+  .auth-panel {
+    padding: var(--space-7);
+  }
+
   .app-shell {
     grid-template-areas:
       "topbar topbar"

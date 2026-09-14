@@ -15,6 +15,12 @@
       "name": "seekin-web-preview",
       "workers_dev": true,
       "preview_urls": true,
+      "vars": {
+        "APP_ENV": "preview",
+        "APP_ORIGIN": "https://seekin-web-preview.seekin-web.workers.dev",
+        "APP_VERSION": "unreleased",
+        "TURNSTILE_SITE_KEY": "1x00000000000000000000AA",
+      },
     },
     "beta": {
       "name": "seekin-web-beta",
@@ -22,7 +28,10 @@
       "preview_urls": false,
       "vars": {
         "APP_ENV": "beta",
+        "APP_ORIGIN": "https://seekin-web-beta.seekin-web.workers.dev",
+        "APP_VERSION": "unreleased",
         "SUPABASE_URL": "https://wgxolsfirwqbkeluxaak.supabase.co",
+        "TURNSTILE_SITE_KEY": "0x4AAAAAAEzGcfiiQNqEnkYl",
       },
       "secrets": {
         "required": ["SUPABASE_PUBLISHABLE_KEY"],

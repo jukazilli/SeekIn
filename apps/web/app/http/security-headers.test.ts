@@ -10,11 +10,17 @@ describe("security headers", () => {
     });
 
     expect(response.headers.get("content-security-policy")).toContain(
-      "connect-src 'self' https://wgxolsfirwqbkeluxaak.supabase.co wss://wgxolsfirwqbkeluxaak.supabase.co",
+      "connect-src 'self' https://challenges.cloudflare.com https://wgxolsfirwqbkeluxaak.supabase.co wss://wgxolsfirwqbkeluxaak.supabase.co",
     );
     expect(response.headers.get("content-security-policy")).not.toContain("*");
     expect(response.headers.get("content-security-policy")).toContain(
       "font-src 'self' data:",
+    );
+    expect(response.headers.get("content-security-policy")).toContain(
+      "frame-src https://challenges.cloudflare.com",
+    );
+    expect(response.headers.get("content-security-policy")).toContain(
+      "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com",
     );
     expect(response.headers.get("strict-transport-security")).toBe(
       "max-age=31536000; includeSubDomains",
@@ -32,5 +38,15 @@ describe("security headers", () => {
     expect(response.headers.get("referrer-policy")).toBe(
       "strict-origin-when-cross-origin",
     );
+  });
+
+  it("preserves a stricter route-level referrer policy", () => {
+    const response = new Response(null, {
+      headers: { "referrer-policy": "no-referrer" },
+    });
+
+    applySecurityHeaders(response);
+
+    expect(response.headers.get("referrer-policy")).toBe("no-referrer");
   });
 });
