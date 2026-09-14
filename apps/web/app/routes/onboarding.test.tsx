@@ -3,6 +3,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
   ensureProfile,
   ensureUserPreferences,
+  listActiveAvailabilityWindows,
+  replaceActiveAvailabilityWindows,
   updateOnboardingProgress,
   updateProfile,
   updateUserPreferences,
@@ -19,6 +21,8 @@ vi.mock("@seekin/data-access", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@seekin/data-access")>()),
   ensureProfile: vi.fn(),
   ensureUserPreferences: vi.fn(),
+  listActiveAvailabilityWindows: vi.fn(),
+  replaceActiveAvailabilityWindows: vi.fn(),
   updateOnboardingProgress: vi.fn(),
   updateProfile: vi.fn(),
   updateUserPreferences: vi.fn(),
@@ -27,6 +31,8 @@ vi.mock("@seekin/data-access", async (importOriginal) => ({
 const mockedSessionClient = vi.mocked(createRequestSessionClient);
 const mockedEnsureProfile = vi.mocked(ensureProfile);
 const mockedEnsurePreferences = vi.mocked(ensureUserPreferences);
+const mockedListAvailability = vi.mocked(listActiveAvailabilityWindows);
+const mockedReplaceAvailability = vi.mocked(replaceActiveAvailabilityWindows);
 const mockedUpdateProgress = vi.mocked(updateOnboardingProgress);
 const mockedUpdateProfile = vi.mocked(updateProfile);
 const mockedUpdatePreferences = vi.mocked(updateUserPreferences);
@@ -51,6 +57,7 @@ const preferences = {
 
 function state(revision = 4, step = 1) {
   return {
+    availability: [],
     preferences: {
       capacity_reserve_percent: 20,
       minimum_session_minutes: 25,
@@ -87,6 +94,7 @@ describe("SKN-050 persistent onboarding route", () => {
     authenticatedClient();
     mockedEnsureProfile.mockResolvedValue(profile);
     mockedEnsurePreferences.mockResolvedValue(preferences);
+    mockedListAvailability.mockResolvedValue([]);
   });
 
   it("resumes the last server-confirmed step", async () => {
@@ -192,6 +200,113 @@ describe("SKN-050 persistent onboarding route", () => {
 
     expect(response.status).toBe(409);
     expect(mockedUpdateProgress).not.toHaveBeenCalled();
+  });
+
+  it("consolidates and saves availability before advancing", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 2 });
+    mockedReplaceAvailability.mockResolvedValue([
+      {
+        day_of_week: 1,
+        end_local: "21:00:00",
+        id: "window-1",
+        revision: 1,
+        start_local: "18:00:00",
+        timezone: "America/Sao_Paulo",
+      },
+    ]);
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 3,
+      revision: 5,
+    });
+    const body = new URLSearchParams({
+      currentStep: "2",
+      intent: "next",
+      revision: "4",
+    });
+    const rows: Array<[string, string, string]> = [
+      ["1", "18:00", "20:00"],
+      ["1", "19:00", "21:00"],
+    ];
+    for (const [day, start, end] of rows) {
+      body.append("availabilityDay", day);
+      body.append("availabilityStart", start);
+      body.append("availabilityEnd", end);
+    }
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body,
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(mockedReplaceAvailability).toHaveBeenCalledWith(
+      {},
+      "user-1",
+      "America/Sao_Paulo",
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      [],
+      [{ day_of_week: 1, start_local: "18:00", end_local: "21:00" }],
+    );
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 3);
+    expect(response.status).toBe(200);
+  });
+
+  it("requires an explicit skip when no availability is informed", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 2 });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "2",
+            intent: "next",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(response.status).toBe(400);
+    expect(mockedReplaceAvailability).not.toHaveBeenCalled();
+  });
+
+  it("allows an explicit decision to configure availability later", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 2 });
+    mockedReplaceAvailability.mockResolvedValue([]);
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_step: 3,
+      revision: 5,
+    });
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "2",
+            intent: "skip",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(mockedReplaceAvailability).toHaveBeenCalledWith(
+      {},
+      "user-1",
+      "America/Sao_Paulo",
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
+      [],
+      [],
+    );
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 3);
+    expect(response.status).toBe(200);
   });
 
   it("redirects completed onboarding to the app", async () => {
