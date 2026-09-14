@@ -349,10 +349,6 @@ a {
   letter-spacing: -0.06em;
 }
 
-.onboarding-step h1:focus {
-  outline: none;
-}
-
 .onboarding-step--form {
   align-content: start;
   padding-block: var(--space-7);
@@ -514,6 +510,124 @@ a {
   padding-bottom: 0.75rem;
 }
 
+.onboarding-step--recurring {
+  width: min(100%, 760px);
+}
+
+.recurring-blocks {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.recurring-add,
+.recurring-remove {
+  width: fit-content;
+  min-height: 44px;
+  padding-inline: var(--space-3);
+  color: var(--seek-interactive);
+  background: transparent;
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.recurring-remove {
+  color: var(--seek-text-secondary);
+  border-color: transparent;
+}
+
+.recurring-empty {
+  margin: 0;
+  color: var(--seek-text-secondary);
+  font-size: var(--font-size-small);
+}
+
+.recurring-block {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--space-5);
+  background: rgb(255 255 255 / 72%);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-panel);
+}
+
+.recurring-block legend {
+  padding-inline: var(--space-2);
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.recurring-title,
+.recurring-time label {
+  display: grid;
+  gap: var(--space-2);
+  color: var(--seek-ink);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+}
+
+.recurring-title input,
+.recurring-time input {
+  width: 100%;
+  min-height: 48px;
+  padding-inline: var(--space-4);
+  color: var(--seek-ink);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-ink-a12);
+  border-radius: var(--radius-control);
+}
+
+.recurring-days {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(44px, 1fr));
+  gap: var(--space-2);
+}
+
+.recurring-days button {
+  min-height: 44px;
+  padding: 0;
+  color: var(--seek-text-secondary);
+  background: var(--seek-surface);
+  border: 1px solid var(--seek-border);
+  border-radius: var(--radius-control);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: var(--font-weight-semibold);
+}
+
+.recurring-days button[aria-pressed="true"] {
+  color: var(--seek-primary-contrast);
+  background: var(--seek-primary);
+  border-color: var(--seek-primary);
+}
+
+.recurring-time {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: var(--space-3);
+}
+
+.recurring-time > span {
+  padding-bottom: 0.85rem;
+  color: var(--seek-text-secondary);
+}
+
+.recurring-title input:focus-visible,
+.recurring-time input:focus-visible,
+.recurring-add:focus-visible,
+.recurring-remove:focus-visible,
+.recurring-days button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
+  outline-offset: 2px;
+}
+
 @media (max-width: 560px) {
   .availability-week {
     grid-template-columns: 1fr;
@@ -521,6 +635,14 @@ a {
 
   .availability-window {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  }
+
+  .recurring-days {
+    grid-template-columns: repeat(4, minmax(44px, 1fr));
+  }
+
+  .recurring-block {
+    padding: var(--space-4);
   }
 }
 
