@@ -31,7 +31,7 @@ No início deste plano:
 
 - `/` renderiza um `AppShell` de fundação com o título “Início”;
 - `/criar-conta`, `/auth/confirmar` e `/conta-confirmada` já existem pelo `SKN-040`;
-- a rota de entrada será criada pelo `SKN-041`;
+- a rota de entrada foi criada pelo `SKN-041` e está publicada em `/entrar`;
 - os tokens em código ainda representam a versão anterior do sistema visual;
 - os assets raster autorizados foram derivados da prancha e organizados em `apps/web/public/brand`;
 - o planner completo, a rede social, depoimentos e métricas públicas ainda não existem.
@@ -267,7 +267,7 @@ fechamento, sem balão de fala e sem personificar uma IA.
 | Wordmark | `/` | sempre |
 | Como funciona | `/#como-funciona` | sempre |
 | Por que funciona | `/#por-que-funciona` | somente se a seção existir |
-| Entrar | rota definida pelo `SKN-041` | somente após a rota existir |
+| Entrar | `/entrar`, entregue pelo `SKN-041` | disponível |
 | Criar minha conta | `/criar-conta` | sempre |
 
 O `AppShell` operacional não envolve a landing. A rota pública terá um layout institucional próprio,
@@ -385,10 +385,10 @@ enquanto as rotas de autenticação usarão um `AuthLayout` alinhado ao brand gu
 - aplicar marca e composição de acolhimento à criação e confirmação de conta;
 - preparar o `AuthLayout` para receber o mascote.
 
-**Integração posterior no `SKN-041`**
+**Integração concluída no `SKN-041`**
 
-- aplicar o mesmo layout à tela de entrar;
-- publicar o link “Entrar” na landing somente quando a rota existir.
+- [x] aplicar o mesmo layout à tela de entrar;
+- [x] publicar o link “Entrar” na landing somente quando a rota existir.
 
 **Saída**
 
@@ -454,7 +454,7 @@ Antes de criar arquivos, confirmar os padrões reais do repositório e reutiliza
 - [x] testes, lint, tipos, build e E2E estão verdes;
 - [x] Preview/Beta e evidência apontam para o mesmo SHA;
 - [x] documentação e código permanecem sincronizados;
-- [x] após o fechamento, a sequência retorna ao `SKN-041`.
+- [x] integração de entrada concluída no `SKN-041`; sequência entregue ao `SKN-042`.
 
 ---
 

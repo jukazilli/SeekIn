@@ -347,8 +347,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-032` verificado em Preview/Beta no mesmo SHA, a próxima ação retorna ao `SKN-041`:
-entrada, renovação de sessão, guarda de rotas e retorno seguro à rota pretendida.
+Com o `SKN-041` verificado em Preview/Beta, a próxima ação é o `SKN-042`: saída com limpeza do estado
+e garantia de que outro usuário no mesmo dispositivo não veja dados privados anteriores.
 
 ---
 
