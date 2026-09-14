@@ -23,7 +23,7 @@ declare global {
 }
 
 interface TurnstileWidgetProps {
-  action: "resend_confirmation" | "signup";
+  action: "login" | "resend_confirmation" | "signup";
   siteKey: string;
 }
 

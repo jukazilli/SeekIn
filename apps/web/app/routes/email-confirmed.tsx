@@ -200,7 +200,7 @@ export default function EmailConfirmed() {
           <p className="eyebrow">Conta verificada</p>
           <h1 id="confirmed-title">E-mail confirmado</h1>
           <p>Sua conta está pronta para continuar.</p>
-          <Link className="button button--primary" to="/">
+          <Link className="button button--primary" to="/entrar">
             Come&ccedil;ar
           </Link>
         </section>

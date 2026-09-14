@@ -101,16 +101,10 @@ a {
   text-decoration: none;
 }
 
-.brand-mark {
-  display: grid;
-  width: 28px;
-  height: 28px;
-  place-items: center;
-  color: var(--seek-surface);
-  font-size: var(--font-size-metadata);
-  font-weight: var(--font-weight-semibold);
-  background: var(--seek-blue-600);
-  border-radius: var(--radius-control);
+.brand img {
+  width: 88px;
+  height: auto;
+  filter: url("#seekin-wordmark-alpha");
 }
 
 .sidebar {
@@ -382,6 +376,21 @@ p {
 .auth-form {
   display: grid;
   gap: var(--space-5);
+}
+
+.auth-switch {
+  margin: var(--space-6) 0 0;
+  text-align: center;
+}
+
+.auth-switch a {
+  color: var(--seek-blue-700);
+  font-weight: var(--font-weight-semibold);
+}
+
+.auth-switch a:focus-visible {
+  outline: 3px solid var(--seek-primary-a28);
+  outline-offset: 3px;
 }
 
 .auth-secondary-action {
@@ -762,11 +771,6 @@ p {
 
 html {
   scroll-behavior: smooth;
-}
-
-.brand-mark {
-  color: var(--seek-ink);
-  background: var(--seek-primary);
 }
 
 .eyebrow,

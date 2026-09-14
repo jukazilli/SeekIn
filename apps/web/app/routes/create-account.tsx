@@ -1,6 +1,8 @@
 import { useState, type FormEvent } from "react";
 import {
   Form,
+  Link,
+  redirect,
   useActionData,
   useLoaderData,
   useNavigation,
@@ -22,10 +24,12 @@ import { CheckEmailState } from "../auth/CheckEmailState";
 import {
   confirmationUrl,
   createRequestAuthGateway,
+  createRequestSessionClient,
   isSameOriginSubmission,
   readAuthFormData,
   turnstileSiteKey,
 } from "../auth/runtime-auth";
+import { readVerifiedSession } from "../auth/session-flow";
 import { TurnstileWidget } from "../auth/TurnstileWidget";
 import { AuthLayout } from "../ui/components/AuthLayout";
 import { Button } from "../ui/components/Button";
@@ -68,9 +72,21 @@ interface CreateAccountLoaderData {
   siteKey: string | null;
 }
 
-export function loader({
+export async function loader({
   context,
-}: LoaderFunctionArgs): CreateAccountLoaderData {
+  request,
+}: LoaderFunctionArgs): Promise<CreateAccountLoaderData | Response> {
+  const session = createRequestSessionClient(request, context);
+  if (session) {
+    const verified = await readVerifiedSession(session.auth);
+    if (verified.kind === "authenticated") {
+      return redirect("/app", { headers: session.headers });
+    }
+    return Response.json(
+      { siteKey: turnstileSiteKey(context) },
+      { headers: session.headers },
+    );
+  }
   return { siteKey: turnstileSiteKey(context) };
 }
 
@@ -367,6 +383,9 @@ export default function CreateAccount() {
             {isSubmitting ? "Criando conta…" : "Criar conta"}
           </Button>
         </Form>
+        <p className="auth-switch">
+          Já tem conta? <Link to="/entrar">Entrar</Link>
+        </p>
       </section>
     </AuthLayout>
   );
