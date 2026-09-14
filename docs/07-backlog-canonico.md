@@ -350,8 +350,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-053` verificado em Preview/Beta, a próxima ação é o `SKN-054`: criar a primeira disciplina
-no onboarding ou seguir sem disciplina conforme a decisão registrada no `SKN-001`.
+Com o `SKN-054` verificado em Preview/Beta, a próxima ação é o `SKN-055`: criar a primeira atividade
+com prazo e esforço usando o mesmo comando canônico previsto para a criação posterior.
 
 ---
 

@@ -30,7 +30,7 @@
 | RF-010–012 | SKN-052 / SKN-060 | G3 | unidade, integração e UI | Parcial: [EV-SKN-052](evidencias/SKN-052.md); CRUD completo do SKN-060 pendente |
 | RF-013–014 | SKN-053 / SKN-061 | G3 | recorrência e exceção | Parcial: [EV-SKN-053](evidencias/SKN-053.md); exceções e CRUD completo do SKN-061 pendentes |
 | RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Pendente |
-| RF-020–023 | SKN-054 / SKN-070 | G3 | CRUD, integridade e contraste | Pendente |
+| RF-020–023 | SKN-054 / SKN-070 | G3 | CRUD, integridade e contraste | Parcial: [EV-SKN-054](evidencias/SKN-054.md); cor, descrição, arquivamento e CRUD completo do SKN-070 pendentes |
 | RF-030–031 | SKN-055 / SKN-071 | G3 | comando canônico e E2E | Pendente |
 | RF-032 | SKN-073 | G3 | unidade e persistência em minutos | Pendente |
 | RF-033–034 | SKN-072 | G3 | prazo com/sem hora | Pendente |
