@@ -1,6 +1,6 @@
 # SKN-032 — Plano da landing page do SeekIn
 
-- **Status:** assets integrados; revalidação de Preview/Beta pendente
+- **Status:** Verificado
 - **Tipo:** direção de produto, conteúdo, UX e plano técnico
 - **Dependências:** `SKN-031`, `SKN-014`, `SKN-015` e `SKN-040`
 - **Versão:** 1.0
@@ -448,13 +448,13 @@ Antes de criar arquivos, confirmar os padrões reais do repositório e reutiliza
 - [x] copy não promete rede social, IA, usuários ou resultados não comprovados;
 - [x] cada bloco possui um foco dominante e uma direção de leitura curta;
 - [x] mascote aparece apenas no contexto aprovado;
-- [ ] layout funciona nos seis viewports de verificação;
-- [ ] teclado, foco, contraste, movimento reduzido e textos alternativos foram validados;
-- [ ] não há overflow horizontal nem layout shift relevante;
-- [ ] testes, lint, tipos, build e E2E estão verdes;
-- [ ] Preview/Beta e evidência apontam para o mesmo SHA;
-- [ ] documentação e código permanecem sincronizados;
-- [ ] após o fechamento, a sequência retorna ao `SKN-041`.
+- [x] layout funciona nos seis viewports de verificação;
+- [x] teclado, foco, contraste, movimento reduzido e textos alternativos foram validados;
+- [x] não há overflow horizontal nem layout shift relevante;
+- [x] testes, lint, tipos, build e E2E estão verdes;
+- [x] Preview/Beta e evidência apontam para o mesmo SHA;
+- [x] documentação e código permanecem sincronizados;
+- [x] após o fechamento, a sequência retorna ao `SKN-041`.
 
 ---
 

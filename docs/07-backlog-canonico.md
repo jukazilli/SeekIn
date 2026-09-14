@@ -347,9 +347,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-040` verificado e a intervenção visual autorizada pelo Product Owner, a próxima ação é
-fechar o `SKN-032` em Preview/Beta com evidência do mesmo SHA. Depois disso, a sequência retorna ao
-`SKN-041`: entrada, renovação de sessão, guarda de rotas e retorno seguro à rota pretendida.
+Com o `SKN-032` verificado em Preview/Beta no mesmo SHA, a próxima ação retorna ao `SKN-041`:
+entrada, renovação de sessão, guarda de rotas e retorno seguro à rota pretendida.
 
 ---
 

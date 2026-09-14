@@ -1,7 +1,7 @@
 # SKN-003 — Sistema Visual, UI, Acessibilidade e Responsividade do SeekIn
 
 - **Item:** SKN-003
-- **Status:** direção aprovada; migração de código pendente no `SKN-032`
+- **Status:** direção aprovada; recorte de landing e autenticação implementado no `SKN-032`
 - **Tipo:** Contrato canônico de UI
 - **Produto:** SeekIn
 - **Versão:** 1.3

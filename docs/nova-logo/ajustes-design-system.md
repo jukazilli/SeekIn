@@ -397,27 +397,27 @@ arquivos extraídos e não usar a prancha inteira como imagem de interface.
 
 ### Cores
 
-- [ ] apenas os valores oficiais e suas transparências derivadas foram usados;
-- [ ] grandes áreas continuam brancas ou `#F7FBFF`;
-- [ ] `#13233F` sustenta contraste e seriedade;
-- [ ] nenhum azul arbitrário foi introduzido;
-- [ ] contraste foi medido no fundo composto final.
+- [x] apenas os valores oficiais e suas transparências derivadas foram usados;
+- [x] grandes áreas continuam brancas ou `#F7FBFF`;
+- [x] `#13233F` sustenta contraste e seriedade;
+- [x] nenhum azul arbitrário foi introduzido;
+- [x] contraste foi medido no fundo composto final.
 
 ### Composição
 
-- [ ] há um foco dominante por bloco;
-- [ ] título, apoio e ação seguem um percurso curto;
-- [ ] a página não parece um mosaico de cards;
-- [ ] curvas, gradientes e mascote possuem função narrativa;
-- [ ] desktop e mobile mantêm a mesma prioridade de leitura.
+- [x] há um foco dominante por bloco;
+- [x] título, apoio e ação seguem um percurso curto;
+- [x] a página não parece um mosaico de cards;
+- [x] curvas, gradientes e mascote possuem função narrativa;
+- [x] desktop e mobile mantêm a mesma prioridade de leitura.
 
 ### Acessibilidade
 
-- [ ] navegação por teclado e `focus-visible` funcionam;
-- [ ] alvos de toque têm ao menos `44 × 44px`;
-- [ ] risco e estado não dependem apenas de cor;
-- [ ] movimento reduzido está coberto;
-- [ ] imagens possuem alternativa adequada ou são marcadas como decorativas.
+- [x] navegação por teclado e `focus-visible` funcionam;
+- [x] alvos de toque têm ao menos `44 × 44px`;
+- [x] risco e estado não dependem apenas de cor;
+- [x] movimento reduzido está coberto;
+- [x] imagens possuem alternativa adequada ou são marcadas como decorativas.
 
 ---
 

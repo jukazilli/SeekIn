@@ -23,8 +23,8 @@
 | [Matriz de rastreabilidade](docs/08-matriz-rastreabilidade.md) | Ligar requisitos, itens, verificações e evidências | Cobertura inicial completa |
 | [Modelo de evidências](docs/evidencias/README.md) | Padronizar a comprovação de cada entrega | Obrigatório |
 | [Guia de desenvolvimento](docs/09-guia-de-desenvolvimento.md) | Instalar, validar e executar a fundação cloud | Em execução |
-| [Brand Guide](docs/nova-logo/ajustes-design-system.md) | Governar identidade, voz, paleta, símbolo e mascote | Direção aprovada; implementação em curso |
-| [Plano da landing page](docs/nova-logo/plano-landing-page.md) | Definir copy, composição, responsividade e slices da entrada pública | Em execução no `SKN-032` |
+| [Brand Guide](docs/nova-logo/ajustes-design-system.md) | Governar identidade, voz, paleta, símbolo e mascote | Implementado no `SKN-032` |
+| [Plano da landing page](docs/nova-logo/plano-landing-page.md) | Definir copy, composição, responsividade e slices da entrada pública | Verificado no `SKN-032` |
 
 ---
 
@@ -686,9 +686,8 @@ de [UX](docs/10-fluxos-e-estados-ux.md),
 [governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o
 [runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
 [modelo de evidências](docs/evidencias/README.md) controlam a execução. Com a Fundação operacional
-aprovada, o portão `G2` fechado no `SKN-030` e a criação/verificação de conta concluída no
-`SKN-040`, a intervenção `SKN-032` entrega marca e landing pública antes de a sequência retornar à
-entrada e sessão pelo `SKN-041`.
+aprovada, o portão `G2` fechado no `SKN-030`, a criação/verificação de conta concluída no `SKN-040`
+e a marca/landing verificadas no `SKN-032`, a sequência segue para entrada e sessão pelo `SKN-041`.
 
 ---
 
