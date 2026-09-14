@@ -42,11 +42,11 @@
 | RF-052–053 | SKN-084 | G3 | tabela de partições | Pendente |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | Pendente |
 | RF-056 | SKN-091 | G3 | transação e imutabilidade | Pendente |
-| RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Pendente |
+| RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Parcial: [ranking invariável a permutações](evidencias/SKN-083.md); propriedades amplas do SKN-088 pendentes |
 | RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Parcial: [primeiro déficit e horizonte afetado](evidencias/SKN-082.md); plano parcial do SKN-086 pendente |
 | RF-059 | SKN-056 / SKN-096 | G3 | confirmação e cancelamento | Pendente |
-| RF-060–061 | SKN-083 | G3 | ordenação e desempate | Pendente |
-| RF-062 | SKN-083 / SKN-110 | G4 | fator usado e texto exibido | Pendente |
+| RF-060–061 | SKN-083 | G3 | ordenação e desempate | [Ordem v1 e desempates verificados](evidencias/SKN-083.md) |
+| RF-062 | SKN-083 / SKN-110 | G4 | fator usado e texto exibido | Parcial: [fator decisivo produzido pelo motor](evidencias/SKN-083.md); texto na tela Hoje do SKN-110 pendente |
 | RF-063–064 | SKN-082 / SKN-106 | G4 | recálculo de risco | Parcial: [cálculo puro de carga, folga e risco](evidencias/SKN-082.md); alertas e integração do SKN-106 pendentes |
 | RF-070–076 | SKN-110 | G4 | componente e E2E Hoje | Pendente |
 | RF-077–079 | SKN-111 | G4 | grupos e ações da Lista | Pendente |
@@ -95,7 +95,7 @@
 | CA-002 — Respeito à rotina | SKN-061 / SKN-081 / SKN-085 | G3 | Pendente |
 | CA-003 — Reserva de capacidade | SKN-081 | G3 | Pendente |
 | CA-004 — Conflito de capacidade | SKN-086 / SKN-105 | G4 | Pendente |
-| CA-005 — Prioridade explicável | SKN-083 / SKN-110 | G4 | Pendente |
+| CA-005 — Prioridade explicável | SKN-083 / SKN-110 | G4 | Parcial: [fatores objetivos do motor](evidencias/SKN-083.md); apresentação ao usuário no SKN-110 pendente |
 | CA-006 — Conclusão de sessão | SKN-101 | G4 | Pendente |
 | CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Pendente |
 | CA-008 — Cancelamento do replanejamento | SKN-096 / SKN-104 | G4 | Pendente |
