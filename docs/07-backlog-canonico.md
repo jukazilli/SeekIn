@@ -26,6 +26,9 @@ flowchart TD
 - itens podem ser desenvolvidos em paralelo somente quando suas dependências permitirem;
 - nenhuma funcionalidade do produto entra na `main` antes de `SKN-030` aprovar o portão `G2`;
 - UX, UI e provas técnicas podem avançar antes do portão, pois reduzem risco sem criar fundação paralela;
+- todo item que cria ou altera uma família de telas deve aprovar antes do código sua decisão de
+  composição: tarefa principal, padrão de interação, hierarquia, estados e referência responsiva; a
+  conveniência de framework, biblioteca ou gerador não constitui decisão de UX;
 - um item só muda para concluído conforme o [contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md);
 - o estado inicial dos itens deste documento é **Proposto**, exceto quando uma evidência publicada disser o contrário.
 

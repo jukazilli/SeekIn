@@ -4,7 +4,7 @@
 - **Status:** direção aprovada; recorte de landing e autenticação implementado no `SKN-032`
 - **Tipo:** Contrato canônico de UI
 - **Produto:** SeekIn
-- **Versão:** 1.3
+- **Versão:** 1.4
 - **Aprovação de direção:** Product Owner
 - **Fontes:** [Brand Guide SeekIn 1.1](nova-logo/ajustes-design-system.md) e prancha aprovados pelo
   Product Owner em 2026-09-13; SKN-002; PRD §§7, 12 e 15; requisitos PWA §§3–6 e 9
@@ -1579,21 +1579,25 @@ border-color: var(--seek-border);
 
 Ao implementar qualquer tela do SeekIn:
 
-1. consultar este documento antes de criar componentes;
-2. verificar se o componente já existe;
-3. reutilizar primitives;
-4. não introduzir nova cor sem necessidade semântica;
-5. não introduzir nova biblioteca visual sem justificativa;
-6. não usar ícone genérico externo quando o equivalente existir na biblioteca SVG do SeekIn;
-7. não construir UI baseada apenas em screenshot;
-8. preservar acessibilidade;
-9. implementar estados interativos;
-10. validar desktop, notebook, tablet e mobile;
-11. não tratar responsividade como ajuste posterior;
-12. evitar duplicação de CSS;
-13. utilizar tokens;
-14. manter separação entre primitive, componente de domínio e página;
-15. não utilizar números mágicos quando o valor pertence ao sistema de design.
+1. consultar este documento e o contrato de UX antes de criar componentes;
+2. registrar tarefa principal, padrão de interação, hierarquia e referência visual do slice;
+3. justificar o padrão pela jornada do estudante, não pela facilidade de geração ou implementação;
+4. verificar se o componente já existe;
+5. reutilizar primitives;
+6. não introduzir nova cor sem necessidade semântica;
+7. não introduzir nova biblioteca visual sem justificativa;
+8. não usar ícone genérico externo quando o equivalente existir na biblioteca SVG do SeekIn;
+9. não construir UI baseada apenas em screenshot;
+10. preservar acessibilidade;
+11. implementar estados interativos e estruturais aplicáveis;
+12. validar desktop, notebook, tablet e mobile;
+13. não tratar responsividade como ajuste posterior;
+14. evitar duplicação de CSS;
+15. utilizar tokens;
+16. manter separação entre primitive, componente de domínio e página;
+17. não utilizar números mágicos quando o valor pertence ao sistema de design;
+18. rejeitar composições genéricas de dashboard, mosaico de cards ou “assistente de IA” quando não
+    decorrerem da tarefa real.
 
 ---
 
@@ -1672,6 +1676,9 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 
 ### Visual
 
+- [ ] tarefa principal e hierarquia visual estão registradas e reconhecíveis sem explicação;
+- [ ] padrão de interação foi escolhido por adequação à jornada, não por conveniência do framework;
+- [ ] referência visual aprovada cobre a composição e os estados que mudam sua estrutura;
 - [ ] respeita o schema monocromático azul + branco;
 - [ ] usa tokens;
 - [ ] não reintroduz `--seek-connect` nem uma segunda cor estrutural de marca;
@@ -1682,6 +1689,8 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 - [ ] usa whitespace antes de adicionar cards;
 - [ ] evita sombras desnecessárias;
 - [ ] mantém hierarquia clara.
+- [ ] não reproduz clichês de UI gerada por IA: dashboard sem propósito, excesso de cards, halos,
+      gradientes, estrelas, métricas decorativas ou copy vaga;
 
 ### Componentes
 
@@ -1714,6 +1723,8 @@ Uma mudança intencional no sistema visual deve atualizar este documento.
 
 O SKN-003 é uma especificação, conforme o backlog canônico. Ele pode ser verificado quando houver:
 
+- [x] portão de composição exige tarefa principal, padrão, hierarquia, estados e referência visual;
+- [x] clichês de interface genérica de IA estão explicitamente proibidos;
 - [x] direção visual e proibições explícitas;
 - [x] tokens semânticos do schema azul + branco, sem segunda cor estrutural de marca;
 - [x] regras de contraste AA para texto e restrição explícita do `--seek-primary` em texto comum;
