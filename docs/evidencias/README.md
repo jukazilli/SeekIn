@@ -156,6 +156,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-050 | Verificado | [Fundação persistente do onboarding](SKN-050.md) |
 | SKN-051 | Verificado | [Preferências iniciais do onboarding](SKN-051.md) |
 | SKN-052 | Verificado | [Disponibilidade semanal no onboarding](SKN-052.md) |
+| SKN-053 | Verificado | [Compromissos recorrentes no onboarding](SKN-053.md) |
 
 ## 6. Portões fechados
 

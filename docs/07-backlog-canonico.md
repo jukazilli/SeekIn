@@ -350,8 +350,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-052` verificado em Preview/Beta, a próxima ação é o `SKN-053`: capturar compromissos
-recorrentes opcionais sem confundi-los com disponibilidade.
+Com o `SKN-053` verificado em Preview/Beta, a próxima ação é o `SKN-054`: criar a primeira disciplina
+no onboarding ou seguir sem disciplina conforme a decisão registrada no `SKN-001`.
 
 ---
 
