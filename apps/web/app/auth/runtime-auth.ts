@@ -168,6 +168,24 @@ export function confirmationUrl(
   }
 }
 
+export function passwordRecoveryUrl(
+  request: Request,
+  context: Pick<RouterContextProvider, "get">,
+) {
+  const environment = requestEnvironment(context);
+  const configuredOrigin = environment.APP_ORIGIN?.trim();
+  try {
+    const requestOrigin = new URL(request.url).origin;
+    const baseOrigin = configuredOrigin
+      ? new URL(configuredOrigin).origin
+      : requestOrigin;
+    if (environment.APP_ENV === "beta" && !configuredOrigin) return null;
+    return new URL("/auth/redefinir", baseOrigin).toString();
+  } catch {
+    return null;
+  }
+}
+
 export function turnstileSiteKey(context: Pick<RouterContextProvider, "get">) {
   try {
     const environment = requestEnvironment(context);

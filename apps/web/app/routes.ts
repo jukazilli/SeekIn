@@ -4,6 +4,8 @@ export default [
   index("routes/home.tsx"),
   route("app", "routes/authenticated-home.tsx"),
   route("entrar", "routes/login.tsx"),
+  route("recuperar-acesso", "routes/request-password-recovery.tsx"),
+  route("auth/redefinir", "routes/reset-password.tsx"),
   route("criar-conta", "routes/create-account.tsx"),
   route("auth/confirmar", "routes/confirm-email.tsx"),
   route("conta-confirmada", "routes/email-confirmed.tsx"),

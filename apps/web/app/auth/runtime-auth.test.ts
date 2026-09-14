@@ -7,6 +7,7 @@ import {
   confirmationUrl,
   isSameOriginSubmission,
   readAuthFormData,
+  passwordRecoveryUrl,
   turnstileSiteKey,
 } from "./runtime-auth";
 
@@ -29,6 +30,19 @@ describe("server-side auth runtime", () => {
     expect(confirmationUrl(request, context)).toBe(
       "https://seekin.example.test/auth/confirmar",
     );
+  });
+
+  it("pins password recovery links to the configured application origin", () => {
+    const context = requestContext({
+      APP_ENV: "beta",
+      APP_ORIGIN: "https://seekin.example.test",
+    });
+    expect(
+      passwordRecoveryUrl(
+        new Request("https://untrusted.example/recuperar-acesso"),
+        context,
+      ),
+    ).toBe("https://seekin.example.test/auth/redefinir");
   });
 
   it("fails closed when beta has no configured application origin", () => {

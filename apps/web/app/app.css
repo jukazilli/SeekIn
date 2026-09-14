@@ -118,6 +118,27 @@ a {
   opacity: 0.65;
 }
 
+.auth-help-link {
+  width: fit-content;
+  margin-top: calc(var(--space-2) * -1);
+  color: var(--seek-blue-600);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-semibold);
+  text-decoration: none;
+}
+
+.auth-help-link:hover {
+  text-decoration: underline;
+}
+
+.auth-status-block h2 {
+  margin-top: var(--space-6);
+}
+
+.auth-status-block .button {
+  margin-top: var(--space-4);
+}
+
 .brand {
   display: inline-flex;
   min-height: 44px;
@@ -194,6 +215,7 @@ a {
 .skip-link:focus-visible,
 .nav-link:focus-visible,
 .sign-out-button:focus-visible,
+.auth-help-link:focus-visible,
 .primary-link:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--seek-focus-ring) 45%, transparent);
   outline-offset: 3px;
