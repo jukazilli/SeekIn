@@ -31,9 +31,9 @@
 | RF-013–014 | SKN-053 / SKN-061 | G3 | recorrência e exceção | Parcial: [EV-SKN-053](evidencias/SKN-053.md); exceções e CRUD completo do SKN-061 pendentes |
 | RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Pendente |
 | RF-020–023 | SKN-054 / SKN-070 | G3 | CRUD, integridade e contraste | Parcial: [EV-SKN-054](evidencias/SKN-054.md); cor, descrição, arquivamento e CRUD completo do SKN-070 pendentes |
-| RF-030–031 | SKN-055 / SKN-071 | G3 | comando canônico e E2E | Pendente |
-| RF-032 | SKN-073 | G3 | unidade e persistência em minutos | Pendente |
-| RF-033–034 | SKN-072 | G3 | prazo com/sem hora | Pendente |
+| RF-030–031 | SKN-055 / SKN-071 | G3 | comando canônico e E2E | Parcial: [EV-SKN-055](evidencias/SKN-055.md); CRUD e estados completos do SKN-071 pendentes |
+| RF-032 | SKN-055 / SKN-073 | G3 | unidade e persistência em minutos | Parcial: [EV-SKN-055](evidencias/SKN-055.md); progresso e limites do SKN-073 pendentes |
+| RF-033–034 | SKN-055 / SKN-072 | G3 | prazo com/sem hora | Parcial: [EV-SKN-055](evidencias/SKN-055.md); edição e casos temporais do SKN-072 pendentes |
 | RF-035 | SKN-071 | G3 | transições de estado | Pendente |
 | RF-036–037 | SKN-073 | G3 | limites e propriedades | Pendente |
 | RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Pendente |

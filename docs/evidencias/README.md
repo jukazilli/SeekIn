@@ -158,6 +158,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-052 | Verificado | [Disponibilidade semanal no onboarding](SKN-052.md) |
 | SKN-053 | Verificado | [Compromissos recorrentes no onboarding](SKN-053.md) |
 | SKN-054 | Verificado | [Primeira disciplina no onboarding](SKN-054.md) |
+| SKN-055 | Verificado | [Primeira atividade no onboarding](SKN-055.md) |
 
 ## 6. Portões fechados
 
