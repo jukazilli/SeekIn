@@ -347,8 +347,8 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-Com o `SKN-043` verificado em Preview/Beta e o RF-001 completo, a próxima ação é o `SKN-044`: perfil
-estável junto da conta, com nome e fuso.
+Com o `SKN-044` verificado em Preview/Beta e o RF-002 completo, a próxima ação é o `SKN-045`: provar
+isolamento multiusuário em Auth, Data API, Storage aplicável e funções.
 
 ---
 
