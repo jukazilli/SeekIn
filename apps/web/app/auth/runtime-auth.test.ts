@@ -3,6 +3,7 @@ import { RouterContextProvider } from "react-router";
 
 import { cloudflareEnvironmentContext } from "../http/runtime-context";
 import {
+  clearPrivateBrowserDataHeaders,
   confirmationUrl,
   isSameOriginSubmission,
   readAuthFormData,
@@ -89,5 +90,25 @@ describe("server-side auth runtime", () => {
       "1x00000000000000000000AA",
     );
     expect(turnstileSiteKey(requestContext({ APP_ENV: "preview" }))).toBeNull();
+  });
+
+  it("clears only Supabase session cookies and private browser data", () => {
+    const request = new Request("https://seekin.example.test/app", {
+      headers: {
+        cookie:
+          "theme=calm; sb-project-auth-token=private; sb-project-auth-token.1=chunk",
+      },
+    });
+
+    const headers = clearPrivateBrowserDataHeaders(request);
+    const setCookie = headers.get("set-cookie") ?? "";
+
+    expect(headers.get("clear-site-data")).toBe('"cache", "storage"');
+    expect(headers.get("cache-control")).toBe("private, no-store");
+    expect(setCookie).toContain("sb-project-auth-token=");
+    expect(setCookie).toContain("sb-project-auth-token.1=");
+    expect(setCookie).not.toContain("theme=");
+    expect(setCookie).toContain("Max-Age=0");
+    expect(setCookie).toContain("Secure");
   });
 });

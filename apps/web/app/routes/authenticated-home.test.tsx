@@ -1,9 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createRequestSessionClient } from "../auth/runtime-auth";
-import { loader } from "./authenticated-home";
+import { action, loader } from "./authenticated-home";
 
-vi.mock("../auth/runtime-auth", () => ({
+vi.mock("../auth/runtime-auth", async (importOriginal) => ({
+  ...(await importOriginal<typeof import("../auth/runtime-auth")>()),
   createRequestSessionClient: vi.fn(),
 }));
 
@@ -76,5 +77,79 @@ describe("SKN-041 protected route", () => {
     await expect(loader(loaderArguments())).rejects.toMatchObject({
       status: 503,
     });
+  });
+});
+
+describe("SKN-042 logout", () => {
+  beforeEach(() => vi.clearAllMocks());
+
+  it("ends only the current session and clears private browser state", async () => {
+    const signOut = vi.fn().mockResolvedValue({ error: null });
+    mockedSessionClient.mockReturnValue({
+      auth: { signOut } as never,
+      headers: new Headers({ "cache-control": "no-store" }),
+    });
+    const request = new Request("https://seekin.example.test/app", {
+      body: new URLSearchParams({ intent: "logout" }),
+      headers: {
+        cookie: "sb-project-auth-token=private; theme=calm",
+        origin: "https://seekin.example.test",
+      },
+      method: "POST",
+    });
+
+    const response = await action({
+      context: {},
+      params: {},
+      request,
+    } as never);
+
+    expect(signOut).toHaveBeenCalledWith({ scope: "local" });
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/entrar?status=signed-out");
+    expect(response.headers.get("clear-site-data")).toBe('"cache", "storage"');
+    expect(response.headers.get("set-cookie")).not.toContain("theme=");
+  });
+
+  it("rejects cross-origin logout", async () => {
+    await expect(
+      action({
+        context: {} as never,
+        params: {},
+        request: new Request("https://seekin.example.test/app", {
+          body: new URLSearchParams({ intent: "logout" }),
+          headers: { origin: "https://attacker.example" },
+          method: "POST",
+        }),
+      } as never),
+    ).rejects.toMatchObject({ status: 403 });
+
+    expect(mockedSessionClient).not.toHaveBeenCalled();
+  });
+
+  it("clears local state even when Auth is unavailable", async () => {
+    mockedSessionClient.mockReturnValue({
+      auth: {
+        signOut: vi.fn().mockRejectedValue(new Error("network unavailable")),
+      } as never,
+      headers: new Headers(),
+    });
+    const request = new Request("https://seekin.example.test/app", {
+      body: new URLSearchParams({ intent: "logout" }),
+      headers: {
+        cookie: "sb-project-auth-token=private",
+        origin: "https://seekin.example.test",
+      },
+      method: "POST",
+    });
+
+    const response = await action({
+      context: {},
+      params: {},
+      request,
+    } as never);
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("set-cookie")).toContain("Max-Age=0");
   });
 });
