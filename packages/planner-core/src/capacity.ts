@@ -1,6 +1,10 @@
 import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
 
 const MINUTE_MS = 60_000;
+const MAX_LOCAL_INSTANT_CACHE_SIZE = 4_096;
+
+const zonedFormatters = new Map<string, Intl.DateTimeFormat>();
+const localInstantCache = new Map<string, number>();
 
 type Interval = {
   start: number;
@@ -56,16 +60,21 @@ function weekStart(date: string): string {
 }
 
 function zonedParts(instant: number, timeZone: string): number[] {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hourCycle: "h23",
-  }).formatToParts(instant);
+  let formatter = zonedFormatters.get(timeZone);
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    });
+    zonedFormatters.set(timeZone, formatter);
+  }
+  const parts = formatter.formatToParts(instant);
   const value = (type: Intl.DateTimeFormatPartTypes) =>
     Number(parts.find((part) => part.type === type)?.value);
 
@@ -80,6 +89,10 @@ function zonedParts(instant: number, timeZone: string): number[] {
 }
 
 function localInstant(date: string, time: string, timeZone: string): number {
+  const cacheKey = `${timeZone}|${date}|${time}`;
+  const cached = localInstantCache.get(cacheKey);
+  if (cached !== undefined) return cached;
+
   const desired = [...date.split("-"), ...time.split(":")].map(Number);
   const desiredAsUtc = Date.UTC(
     desired[0]!,
@@ -130,6 +143,11 @@ function localInstant(date: string, time: string, timeZone: string): number {
       `Horário local ambíguo em ${timeZone}: ${date} ${time}`,
     );
   }
+
+  if (localInstantCache.size >= MAX_LOCAL_INSTANT_CACHE_SIZE) {
+    localInstantCache.clear();
+  }
+  localInstantCache.set(cacheKey, candidate);
 
   return candidate;
 }

@@ -9,6 +9,7 @@ import {
   type PriorityFactorCode,
   type RankedActivity,
 } from "./priority";
+import type { RiskAnalysis } from "./risk-analysis";
 import { partitionEffort } from "./session-partition";
 
 const MINUTE_MS = 60_000;
@@ -92,7 +93,10 @@ function splitToFit(
 }
 
 /** Allocates ranked, partitioned activities into deterministic continuous windows. */
-export function allocateSessions(rawInput: PlannerInput): AllocationResult {
+export function allocateSessions(
+  rawInput: PlannerInput,
+  riskAnalysis?: RiskAnalysis,
+): AllocationResult {
   const input = plannerInputSchema.parse(rawInput);
   const capacity = calculateCapacity(input);
   const dayBudgets = new Map(
@@ -111,7 +115,7 @@ export function allocateSessions(rawInput: PlannerInput): AllocationResult {
   const sessions: AllocatedSession[] = [];
   const unallocated: AllocationResult["unallocated"] = [];
 
-  for (const ranked of rankActivities(input)) {
+  for (const ranked of rankActivities(input, riskAnalysis)) {
     const activity = input.activities.find(
       ({ id }) => id === ranked.activityId,
     )!;
