@@ -351,9 +351,9 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com as regras puras do motor fechadas nos `SKN-080–087`, a
-próxima ação é o `SKN-088`: consolidar casos extremos, determinismo, fusos e invariantes com Vitest e
-`fast-check`. A sequência retorna ao
+exige primeiro o motor e o backend reais. Com regras puras e invariantes fechadas nos `SKN-080–088`, a
+próxima ação é o `SKN-089`: medir 200 atividades em 90 dias e comprovar p95 abaixo de três segundos em
+dataset e ambiente reproduzíveis. A sequência retorna ao
 `SKN-056` depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---

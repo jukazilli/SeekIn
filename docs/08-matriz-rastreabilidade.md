@@ -72,7 +72,7 @@
 |---|---|---|---|---|
 | RNF-001 | SKN-089 | G3 | benchmark 200 atividades/90 dias p95 | Pendente |
 | RNF-002 | SKN-125 | G4 | resposta visual e profiling | Pendente |
-| RNF-003 | SKN-088 / SKN-092 | G3 | determinismo e idempotência | Pendente |
+| RNF-003 | SKN-088 / SKN-092 | G3 | determinismo e idempotência | Parcial: [determinismo e propriedades do motor](evidencias/SKN-088.md); retry e concorrência do SKN-092 pendentes |
 | RNF-004 | SKN-091 / SKN-092 | G3 | atomicidade e concorrência | Pendente |
 | RNF-005 | SKN-018 / SKN-045 / SKN-132 | G5 | RLS, E2E e revisão de segurança | Parcial: [RLS/grants](evidencias/SKN-018.md) e [matriz negativa](evidencias/SKN-045.md) verificados; SKN-132 pendente |
 | RNF-006 | SKN-018 / SKN-045 | G3 | isolamento multiusuário | Verificado: [RLS/grants](evidencias/SKN-018.md) e [matriz negativa](evidencias/SKN-045.md) |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: contratos e regras puras até o [replanejamento protegido](evidencias/SKN-087.md) verificados no planner-core; suíte consolidada, Edge Function e persistência pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: regras puras e [suíte consolidada](evidencias/SKN-088.md) verificadas no planner-core; benchmark, Edge Function e persistência pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
