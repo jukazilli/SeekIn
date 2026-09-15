@@ -4,6 +4,11 @@ set local search_path = extensions, public, pg_catalog;
 
 select plan(15);
 
+-- O teste histórico do SKN-091 exercita a primitiva interna diretamente.
+-- A migration do SKN-092 revoga este grant fora desta transação de teste.
+grant execute on function public.persist_plan_proposal(text, uuid, jsonb, jsonb, text)
+to authenticated;
+
 insert into auth.users (id)
 values ('30000000-0000-0000-0000-000000000001');
 

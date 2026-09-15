@@ -9,6 +9,7 @@ import {
   type PlannerInput,
   type PlannerOutput,
 } from "../../../packages/planner-core/src/index.ts";
+import { sha256StableJson } from "./idempotency.ts";
 
 const GENERATION_REASONS = [
   "manual_request",
@@ -89,25 +90,6 @@ export interface GenerateDependencies {
   loader: PlannerInputLoader;
 }
 
-function stableJson(value: unknown): string {
-  if (Array.isArray(value)) return `[${value.map(stableJson).join(",")}]`;
-  if (value && typeof value === "object") {
-    return `{${Object.entries(value)
-      .sort(([left], [right]) => left.localeCompare(right))
-      .map(([key, item]) => `${JSON.stringify(key)}:${stableJson(item)}`)
-      .join(",")}}`;
-  }
-  return JSON.stringify(value) ?? "null";
-}
-
-async function sha256(value: unknown): Promise<string> {
-  const bytes = new TextEncoder().encode(stableJson(value));
-  const digest = await crypto.subtle.digest("SHA-256", bytes);
-  return [...new Uint8Array(digest)]
-    .map((byte) => byte.toString(16).padStart(2, "0"))
-    .join("");
-}
-
 function uuidFromHash(hash: string): string {
   const value = hash.slice(0, 32).split("");
   value[12] = "4";
@@ -117,13 +99,13 @@ function uuidFromHash(hash: string): string {
 }
 
 async function executePlanner(input: PlannerInput): Promise<PlannerOutput> {
-  const inputHash = await sha256(input);
+  const inputHash = await sha256StableJson(input);
   const draft = diagnosePlan(input);
   const capacity = calculateCapacity(input).totals;
   const sessions = await Promise.all(
     draft.sessions.map(async (session) => ({
       sessionId: uuidFromHash(
-        await sha256({
+        await sha256StableJson({
           activityId: session.activityId,
           endsAt: session.endsAt,
           inputHash,
@@ -169,7 +151,7 @@ async function executePlanner(input: PlannerInput): Promise<PlannerOutput> {
 
   return plannerOutputSchema.parse({
     ...unsigned,
-    outputHash: await sha256(unsigned),
+    outputHash: await sha256StableJson(unsigned),
   });
 }
 

@@ -26,7 +26,14 @@ const generation = {
 describe("planner proposal persistence", () => {
   it("passes the validated snapshots and correlation to the atomic RPC", async () => {
     const rpc = vi.fn(async () => ({
-      data: { planId: "11000000-0000-4000-8000-000000000031", version: 1 },
+      data: {
+        proposal: {
+          planId: "11000000-0000-4000-8000-000000000031",
+          version: 1,
+        },
+        output: { feasibility: "feasible" },
+        replayed: false,
+      },
       error: null,
     }));
 
@@ -35,19 +42,23 @@ describe("planner proposal persistence", () => {
         { rpc } as ProposalPersistenceClient,
         generation,
         "correlation-1",
+        { keyHash: "a".repeat(64), requestHash: "b".repeat(64) },
       ),
     ).resolves.toMatchObject({ ok: true });
-    expect(rpc).toHaveBeenCalledWith("persist_plan_proposal", {
+    expect(rpc).toHaveBeenCalledWith("persist_idempotent_plan_proposal", {
       p_correlation_id: "correlation-1",
       p_expected_current_plan_id: null,
       p_generation_reason: "manual_request",
+      p_idempotency_key_hash: "a".repeat(64),
       p_input: generation.input,
       p_output: generation.output,
+      p_request_hash: "b".repeat(64),
     });
   });
 
   it.each([
     ["STALE_PLAN", "STALE_PLAN", 409],
+    ["IDEMPOTENCY_CONFLICT", "IDEMPOTENCY_CONFLICT", 409],
     ["database failure", "INTERNAL_ERROR", 500],
   ] as const)(
     "maps %s without exposing database details",
@@ -57,8 +68,37 @@ describe("planner proposal persistence", () => {
       } as ProposalPersistenceClient;
 
       await expect(
-        persistGeneratedProposal(client, generation, "correlation-2"),
+        persistGeneratedProposal(client, generation, "correlation-2", {
+          keyHash: "a".repeat(64),
+          requestHash: "b".repeat(64),
+        }),
       ).resolves.toEqual({ ok: false, code, statusCode });
     },
   );
+
+  it("uses the persisted output when replaying the original response", async () => {
+    const originalOutput = { outputHash: "c".repeat(64) };
+    const client = {
+      rpc: async () => ({
+        data: {
+          proposal: { planId: "11000000-0000-4000-8000-000000000031" },
+          output: originalOutput,
+          replayed: true,
+        },
+        error: null,
+      }),
+    } as ProposalPersistenceClient;
+
+    await expect(
+      persistGeneratedProposal(client, generation, "correlation-3", {
+        keyHash: "a".repeat(64),
+        requestHash: "b".repeat(64),
+      }),
+    ).resolves.toEqual({
+      ok: true,
+      proposal: { planId: "11000000-0000-4000-8000-000000000031" },
+      output: originalOutput,
+      replayed: true,
+    });
+  });
 });
