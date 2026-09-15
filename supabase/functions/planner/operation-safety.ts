@@ -37,7 +37,7 @@ type PlannerFailureCode =
 export function logPlannerFailure(event: {
   code: PlannerFailureCode;
   correlationId: string;
-  operation: "generate" | "impact";
+  operation: "generate" | "impact" | "resolve";
   stage: "decision" | "persistence";
 }) {
   console.error(

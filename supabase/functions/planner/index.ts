@@ -10,6 +10,7 @@ import { createImpactInputLoader } from "./impact-input-loader.ts";
 import { createPlannerInputLoader } from "./planner-input-loader.ts";
 import { persistGeneratedProposal } from "./proposal-persistence.ts";
 import { logPlannerFailure } from "./operation-safety.ts";
+import { resolveAuthenticatedProposal } from "./proposal-resolution.ts";
 
 const messages = {
   AUTH_REQUIRED: "Entre na sua conta para gerar um plano.",
@@ -23,6 +24,7 @@ const messages = {
   IDEMPOTENCY_REQUIRED: "Inicie uma nova solicitação de planejamento.",
   RESOURCE_NOT_FOUND: "Não foi possível localizar o item alterado.",
   STALE_PLAN: "O plano atual mudou. Gere uma nova proposta.",
+  IDEMPOTENCY_CONFLICT: "Esta solicitação já foi usada com outros dados.",
 } as const;
 
 function json(body: unknown, status: number, correlationId: string) {
@@ -42,7 +44,12 @@ Deno.serve(async (request) => {
   const pathname = new URL(request.url).pathname;
   const isGenerate = pathname.endsWith("/generate");
   const isImpact = pathname.endsWith("/impact");
-  if (request.method !== "POST" || (!isGenerate && !isImpact)) {
+  const isConfirm = pathname.endsWith("/confirm");
+  const isReject = pathname.endsWith("/reject");
+  if (
+    request.method !== "POST" ||
+    (!isGenerate && !isImpact && !isConfirm && !isReject)
+  ) {
     return json(
       {
         error: {
@@ -77,7 +84,9 @@ Deno.serve(async (request) => {
 
   const idempotency = await createIdempotencyContext(
     request.headers.get("idempotency-key"),
-    body,
+    isConfirm || isReject
+      ? { action: isConfirm ? "confirm" : "reject", body }
+      : body,
   );
   if (!idempotency) {
     return json(
@@ -125,6 +134,53 @@ Deno.serve(async (request) => {
     const { data, error } = await client.auth.getUser(token);
     return error ? null : (data.user?.id ?? null);
   };
+  if (isConfirm || isReject) {
+    const resolution = await resolveAuthenticatedProposal(
+      authorization,
+      body,
+      isConfirm ? "confirm" : "reject",
+      { correlationId, idempotency },
+      { authenticate, client },
+    );
+    if (!resolution.ok) {
+      if (resolution.code === "INTERNAL_ERROR") {
+        logPlannerFailure({
+          code: "INTERNAL_ERROR",
+          correlationId,
+          operation: "resolve",
+          stage: "persistence",
+        });
+      }
+      return json(
+        {
+          error: {
+            code: resolution.code,
+            message: messages[resolution.code],
+            retryable: resolution.code === "INTERNAL_ERROR",
+          },
+          meta: {
+            contractVersion: PLANNER_CORE_CONTRACT_VERSION,
+            correlationId,
+          },
+        },
+        resolution.statusCode,
+        correlationId,
+      );
+    }
+    return json(
+      {
+        data: resolution.result,
+        meta: {
+          contractVersion: PLANNER_CORE_CONTRACT_VERSION,
+          correlationId,
+          replayed: resolution.result.replayed,
+        },
+      },
+      200,
+      correlationId,
+    );
+  }
+
   const decision = isImpact
     ? await generateImpactProposal(authorization, body, {
         authenticate,
@@ -197,7 +253,7 @@ Deno.serve(async (request) => {
           message: stale
             ? "O plano atual mudou. Gere uma nova proposta."
             : idempotencyConflict
-              ? "Esta solicitação já foi usada com outros dados."
+              ? messages.IDEMPOTENCY_CONFLICT
               : messages.INTERNAL_ERROR,
           retryable: !stale && !idempotencyConflict,
         },
