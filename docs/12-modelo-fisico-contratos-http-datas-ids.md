@@ -448,6 +448,7 @@ P0. Cada função valida corpo, JWT, origem permitida e limites antes de executa
 | `POST /planner/generate` | gerar proposta sem substituir plano vigente | obrigatória |
 | `POST /planner/impact` | analisar mudanças persistidas sem publicar | obrigatória |
 | `POST /planner/confirm` | publicar uma proposta confirmável | obrigatória |
+| `POST /planner/reject` | rejeitar uma proposta sem alterar o plano vigente | obrigatória |
 | `POST /sessions/start` | iniciar sessão sem duplicar execução | obrigatória |
 | `POST /sessions/complete` | concluir execução e reconciliar esforço | obrigatória |
 | `POST /sessions/skip` | marcar não realizada e oferecer replanejamento | obrigatória |
@@ -567,7 +568,14 @@ O backend confirma apenas proposta da mesma conta, ainda baseada no plano vigent
 proposta obsoleta retorna `STALE_PLAN`. Sucesso devolve o plano como `published` e a versão anterior
 como `superseded` na mesma transação.
 
-### 11.4 Iniciar sessão
+### 11.4 Rejeitar proposta
+
+`POST /planner/reject` usa o mesmo corpo da confirmação. O backend marca apenas a proposta como
+`rejected`, mantém o plano publicado anterior e devolve seu `currentPlanId`. Confirmação e rejeição
+compartilham o escopo idempotente `planner.resolve`; a ação integra o hash da requisição, portanto a
+mesma chave não pode representar decisões diferentes.
+
+### 11.5 Iniciar sessão
 
 ```json
 {
@@ -582,7 +590,7 @@ O servidor limita desvio aceitável do relógio do cliente e registra seu própr
 recebimento. Retry com a mesma chave devolve a mesma execução; outra sessão concorrente retorna
 `EXECUTION_ALREADY_ACTIVE`.
 
-### 11.5 Concluir sessão
+### 11.6 Concluir sessão
 
 ```json
 {
@@ -597,7 +605,7 @@ recebimento. Retry com a mesma chave devolve a mesma execução; outra sessão c
 O backend calcula `actualMinutes`; o cliente não envia o total autoritativo. Execução, sessão e
 atividade são reconciliadas atomicamente.
 
-### 11.6 Marcar sessão como não realizada
+### 11.7 Marcar sessão como não realizada
 
 ```json
 {

@@ -273,6 +273,11 @@ metadados e horários versionados, estado atual das sessões e atividades, progr
 risco registrado pelo mesmo cálculo. Hoje, Lista, Calendário e Gantt dependem desse contrato comum e
 não recompõem o plano com consultas independentes.
 
+Aceitar ou rejeitar uma proposta usa uma única primitiva transacional serializada por usuário. A
+confirmação marca o vigente anterior como `superseded` e a proposta como `published` no mesmo commit;
+a rejeição altera somente a proposta. As duas decisões possuem escopo idempotente comum, validam o
+plano-base esperado e não permitem resolver proposta de outra conta.
+
 ### 9.3 Evolução
 
 Quando o algoritmo exceder os limites da Edge Function ou precisar de otimização matemática, a mesma entrada será enviada a um serviço no Cloud Run. A estratégia completa está em [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md).
