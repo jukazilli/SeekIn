@@ -163,4 +163,35 @@ describe("planner generate authentication and integration", () => {
       statusCode: 503,
     });
   });
+
+  it("returns a retryable timeout decision before any output can be persisted", async () => {
+    await expect(
+      generateAuthenticatedPlan(
+        AUTHORIZATION,
+        request,
+        dependencies({
+          loader: { load: () => new Promise(() => undefined) },
+          timeoutMs: 1,
+        }),
+      ),
+    ).resolves.toEqual({
+      ok: false,
+      code: "PLANNER_TIMEOUT",
+      statusCode: 503,
+    });
+  });
+
+  it("rejects an invalid planner output instead of exposing it for persistence", async () => {
+    await expect(
+      generateAuthenticatedPlan(
+        AUTHORIZATION,
+        request,
+        dependencies({ execute: async () => ({ invalid: true }) as never }),
+      ),
+    ).resolves.toEqual({
+      ok: false,
+      code: "INTERNAL_ERROR",
+      statusCode: 500,
+    });
+  });
 });

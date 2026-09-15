@@ -9,6 +9,7 @@ import { generateImpactProposal } from "./impact-core.ts";
 import { createImpactInputLoader } from "./impact-input-loader.ts";
 import { createPlannerInputLoader } from "./planner-input-loader.ts";
 import { persistGeneratedProposal } from "./proposal-persistence.ts";
+import { logPlannerFailure } from "./operation-safety.ts";
 
 const messages = {
   AUTH_REQUIRED: "Entre na sua conta para gerar um plano.",
@@ -16,6 +17,8 @@ const messages = {
   UNSUPPORTED_CONTRACT_VERSION: "Esta versão do aplicativo não é compatível.",
   VALIDATION_ERROR: "Os dados do planejamento precisam ser revisados.",
   DEPENDENCY_UNAVAILABLE: "Não foi possível carregar seus dados agora.",
+  PLANNER_TIMEOUT:
+    "O planejamento demorou mais que o esperado. Tente novamente.",
   INTERNAL_ERROR: "Não foi possível gerar o plano agora.",
   IDEMPOTENCY_REQUIRED: "Inicie uma nova solicitação de planejamento.",
   RESOURCE_NOT_FOUND: "Não foi possível localizar o item alterado.",
@@ -133,6 +136,18 @@ Deno.serve(async (request) => {
       });
 
   if (!decision.ok) {
+    if (
+      decision.code === "DEPENDENCY_UNAVAILABLE" ||
+      decision.code === "INTERNAL_ERROR" ||
+      decision.code === "PLANNER_TIMEOUT"
+    ) {
+      logPlannerFailure({
+        code: decision.code,
+        correlationId,
+        operation: isImpact ? "impact" : "generate",
+        stage: "decision",
+      });
+    }
     return json(
       {
         error: {
@@ -140,7 +155,8 @@ Deno.serve(async (request) => {
           message: messages[decision.code],
           retryable:
             decision.code === "DEPENDENCY_UNAVAILABLE" ||
-            decision.code === "INTERNAL_ERROR",
+            decision.code === "INTERNAL_ERROR" ||
+            decision.code === "PLANNER_TIMEOUT",
         },
         meta: {
           contractVersion: PLANNER_CORE_CONTRACT_VERSION,
@@ -162,6 +178,14 @@ Deno.serve(async (request) => {
   if (!persistence.ok) {
     const stale = persistence.code === "STALE_PLAN";
     const idempotencyConflict = persistence.code === "IDEMPOTENCY_CONFLICT";
+    if (!stale && !idempotencyConflict) {
+      logPlannerFailure({
+        code: "INTERNAL_ERROR",
+        correlationId,
+        operation: isImpact ? "impact" : "generate",
+        stage: "persistence",
+      });
+    }
     return json(
       {
         error: {
