@@ -804,6 +804,17 @@ export type Database = {
     Functions: {
       foundation_health: { Args: never; Returns: number };
       read_current_plan: { Args: never; Returns: Json };
+      resolve_plan_proposal: {
+        Args: {
+          p_action: string;
+          p_correlation_id: string;
+          p_expected_current_plan_id: string | null;
+          p_idempotency_key_hash: string;
+          p_plan_id: string;
+          p_request_hash: string;
+        };
+        Returns: Json;
+      };
       persist_idempotent_plan_proposal: {
         Args: {
           p_correlation_id: string;
