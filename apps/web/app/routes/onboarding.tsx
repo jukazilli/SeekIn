@@ -40,6 +40,11 @@ import {
   parseOnboardingMove,
 } from "../onboarding/onboarding-flow";
 import { parseOnboardingPreferences } from "../onboarding/preferences-flow";
+import {
+  confirmFirstPlan,
+  generateFirstPlan,
+  type PlanProposal,
+} from "../onboarding/planner-flow";
 import { profileTimezones } from "../profile/profile-flow";
 import { Button } from "../ui/components/Button";
 import { TextField } from "../ui/components/TextField";
@@ -84,6 +89,8 @@ type OnboardingState = {
     week_starts_on: number;
   };
   revision: number;
+  operationKey: string;
+  proposal: PlanProposal | null;
   step: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   timezone: string;
 };
@@ -222,6 +229,8 @@ function publicState(loaded: {
       week_starts_on: loaded.preferences.week_starts_on,
     },
     recurringBlocks: groupRecurringBlocks(loaded.recurringBlocks),
+    operationKey: crypto.randomUUID(),
+    proposal: null,
     revision: loaded.profile.revision,
     step,
     timezone: loaded.profile.timezone,
@@ -274,6 +283,50 @@ export async function action({ context, request }: ActionFunctionArgs) {
       { error: "Seu progresso mudou. Recarregue para continuar." },
       { headers: loaded.session.headers, status: 409 },
     );
+  }
+  const intent = String(formData.get("intent") ?? "");
+  if (currentStep === 6 && intent === "generate-plan") {
+    const generated = await generateFirstPlan(
+      loaded.session.client.functions,
+      String(formData.get("operationKey") ?? crypto.randomUUID()),
+    );
+    const state = publicState(loaded);
+    return Response.json(
+      generated.ok
+        ? { ...state, proposal: generated.data }
+        : { ...state, error: generated.message },
+      { headers: loaded.session.headers, status: generated.ok ? 200 : 503 },
+    );
+  }
+  if (currentStep === 6 && intent === "confirm-plan") {
+    const planId = String(formData.get("planId") ?? "");
+    const confirmed = await confirmFirstPlan(
+      loaded.session.client.functions,
+      planId,
+      String(formData.get("operationKey") ?? crypto.randomUUID()),
+    );
+    if (!confirmed.ok) {
+      return Response.json(
+        { ...publicState(loaded), error: confirmed.message },
+        { headers: loaded.session.headers, status: 503 },
+      );
+    }
+    const completed = await updateOnboardingProgress(
+      loaded.session.client,
+      loaded.userId,
+      revision,
+      onboardingStepCount,
+    );
+    if (!completed) {
+      return Response.json(
+        {
+          ...publicState(loaded),
+          error: "O plano foi publicado. Recarregue para continuar.",
+        },
+        { headers: loaded.session.headers, status: 409 },
+      );
+    }
+    return redirect("/app", { headers: loaded.session.headers });
   }
   const targetStep =
     (currentStep === 2 || currentStep === 3 || currentStep === 4) &&
@@ -480,30 +533,44 @@ export async function action({ context, request }: ActionFunctionArgs) {
       { error: "Não foi possível salvar seu progresso. Tente novamente." },
       { headers: loaded.session.headers, status: 409 },
     );
-  return Response.json(
-    {
-      activity: toPublicActivity(savedActivity),
-      availability: savedAvailability.map((window) => ({
-        day_of_week: window.day_of_week,
-        end_local: window.end_local.slice(0, 5),
-        start_local: window.start_local.slice(0, 5),
-      })),
-      discipline: savedDiscipline,
-      disciplines: loaded.disciplines.map(({ id, name }) => ({ id, name })),
-      preferences: {
-        capacity_reserve_percent: savedPreferences.capacity_reserve_percent,
-        minimum_session_minutes: savedPreferences.minimum_session_minutes,
-        preferred_session_minutes: savedPreferences.preferred_session_minutes,
-        revision: savedPreferences.revision,
-        week_starts_on: savedPreferences.week_starts_on,
-      },
-      recurringBlocks: groupRecurringBlocks(savedRecurringBlocks),
-      revision: updated.revision,
-      step: targetStep,
-      timezone: savedTimezone,
-    } satisfies OnboardingState,
-    { headers: loaded.session.headers },
-  );
+  let responseState: OnboardingState = {
+    activity: toPublicActivity(savedActivity),
+    availability: savedAvailability.map((window) => ({
+      day_of_week: window.day_of_week,
+      end_local: window.end_local.slice(0, 5),
+      start_local: window.start_local.slice(0, 5),
+    })),
+    discipline: savedDiscipline,
+    disciplines: loaded.disciplines.map(({ id, name }) => ({ id, name })),
+    preferences: {
+      capacity_reserve_percent: savedPreferences.capacity_reserve_percent,
+      minimum_session_minutes: savedPreferences.minimum_session_minutes,
+      preferred_session_minutes: savedPreferences.preferred_session_minutes,
+      revision: savedPreferences.revision,
+      week_starts_on: savedPreferences.week_starts_on,
+    },
+    recurringBlocks: groupRecurringBlocks(savedRecurringBlocks),
+    operationKey: crypto.randomUUID(),
+    proposal: null,
+    revision: updated.revision,
+    step: targetStep,
+    timezone: savedTimezone,
+  };
+  if (targetStep === 6) {
+    const generated = await generateFirstPlan(
+      loaded.session.client.functions,
+      String(formData.get("operationKey") ?? crypto.randomUUID()),
+    );
+    if (generated.ok)
+      responseState = { ...responseState, proposal: generated.data };
+    else {
+      return Response.json(
+        { ...responseState, error: generated.message },
+        { headers: loaded.session.headers, status: 503 },
+      );
+    }
+  }
+  return Response.json(responseState, { headers: loaded.session.headers });
 }
 
 function toPublicActivity(
@@ -1007,12 +1074,95 @@ function ActivityFields({ state }: Readonly<{ state: OnboardingState }>) {
   );
 }
 
+function minutesLabel(minutes: number) {
+  const hours = Math.floor(minutes / 60);
+  const remainder = minutes % 60;
+  if (hours === 0) return `${remainder} min`;
+  return remainder === 0 ? `${hours}h` : `${hours}h ${remainder}min`;
+}
+
+function PlanPreview({ state }: Readonly<{ state: OnboardingState }>) {
+  const proposal = state.proposal;
+  if (!proposal) {
+    return (
+      <div className="plan-preview plan-preview--empty">
+        <p>Seus dados estão salvos. Monte uma nova prévia para continuar.</p>
+      </div>
+    );
+  }
+  const formatter = new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    month: "short",
+    timeZone: state.timezone,
+    weekday: "short",
+  });
+  const freeMinutes = Math.max(
+    0,
+    proposal.capacity.netMinutes - proposal.capacity.allocatedMinutes,
+  );
+  const deficitMinutes = proposal.unallocated.reduce(
+    (total, item) => total + item.minutes,
+    0,
+  );
+
+  return (
+    <div className="plan-preview">
+      <div
+        className={`plan-preview-status plan-preview-status--${proposal.feasibility}`}
+      >
+        <strong>
+          {proposal.feasibility === "feasible"
+            ? "Tudo cabe na sua rotina"
+            : "Seu tempo ainda não cobre toda a atividade"}
+        </strong>
+        <span>
+          {proposal.feasibility === "feasible"
+            ? `${proposal.sessions.length} ${proposal.sessions.length === 1 ? "sessão foi organizada" : "sessões foram organizadas"}.`
+            : `${minutesLabel(deficitMinutes)} ficaram sem horário. Você ainda pode usar esta versão ou ajustar seus dados.`}
+        </span>
+      </div>
+      <dl className="plan-preview-capacity">
+        <div>
+          <dt>Tempo disponível</dt>
+          <dd>{minutesLabel(proposal.capacity.netMinutes)}</dd>
+        </div>
+        <div>
+          <dt>Planejado</dt>
+          <dd>{minutesLabel(proposal.capacity.allocatedMinutes)}</dd>
+        </div>
+        <div>
+          <dt>Livre</dt>
+          <dd>{minutesLabel(freeMinutes)}</dd>
+        </div>
+      </dl>
+      {proposal.sessions.length > 0 ? (
+        <ol className="plan-preview-sessions" aria-label="Sessões propostas">
+          {proposal.sessions.map((session) => (
+            <li key={session.sessionId}>
+              <span>{formatter.format(new Date(session.startsAt))}</span>
+              <strong>{state.activity?.title ?? "Atividade"}</strong>
+              <small>{minutesLabel(session.plannedMinutes)}</small>
+            </li>
+          ))}
+        </ol>
+      ) : (
+        <p className="plan-preview-no-session">
+          Nenhuma sessão coube nos horários informados.
+        </p>
+      )}
+    </div>
+  );
+}
+
 export default function Onboarding() {
   const loaded = useLoaderData() as OnboardingState;
   const actionData = useActionData() as
-    { error: string } | OnboardingState | undefined;
+    ({ error?: string } & OnboardingState) | { error: string } | undefined;
   const navigation = useNavigation();
-  const state = actionData && "step" in actionData ? actionData : loaded;
+  const state: OnboardingState =
+    actionData && "step" in actionData ? actionData : loaded;
   const isBusy = navigation.state !== "idle";
 
   return (
@@ -1056,7 +1206,7 @@ export default function Onboarding() {
           />
         </div>
         <section
-          className={`onboarding-step${state.step >= 1 && state.step <= 5 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}${state.step === 5 ? " onboarding-step--activity" : ""}`}
+          className={`onboarding-step${state.step >= 1 ? " onboarding-step--form" : ""}${state.step === 2 ? " onboarding-step--availability" : ""}${state.step === 3 ? " onboarding-step--recurring" : ""}${state.step === 5 ? " onboarding-step--activity" : ""}${state.step === 6 ? " onboarding-step--preview" : ""}`}
           aria-labelledby="onboarding-title"
         >
           {state.step === 0 ? (
@@ -1109,7 +1259,11 @@ export default function Onboarding() {
           ) : (
             <>
               <p className="eyebrow">Seu plano</p>
-              <h1 id="onboarding-title">Veja como sua rotina pode ficar.</h1>
+              <h1 id="onboarding-title">
+                {state.proposal
+                  ? "Seu primeiro plano está pronto."
+                  : "Monte seu primeiro plano."}
+              </h1>
             </>
           )}
           {actionData && "error" in actionData ? (
@@ -1120,11 +1274,17 @@ export default function Onboarding() {
           <Form className="onboarding-form" method="post">
             <input name="revision" type="hidden" value={state.revision} />
             <input name="currentStep" type="hidden" value={state.step} />
+            <input
+              name="operationKey"
+              type="hidden"
+              value={state.operationKey}
+            />
             {state.step === 1 ? <PreferencesFields state={state} /> : null}
             {state.step === 2 ? <AvailabilityFields state={state} /> : null}
             {state.step === 3 ? <RecurringBlocksFields state={state} /> : null}
             {state.step === 4 ? <DisciplineField state={state} /> : null}
             {state.step === 5 ? <ActivityFields state={state} /> : null}
+            {state.step === 6 ? <PlanPreview state={state} /> : null}
             <div className="onboarding-actions">
               {state.step > 0 ? (
                 <Button
@@ -1195,6 +1355,23 @@ export default function Onboarding() {
                 <Button name="intent" value="next" loading={isBusy}>
                   Criar atividade
                 </Button>
+              ) : null}
+              {state.step === 6 && !state.proposal ? (
+                <Button name="intent" value="generate-plan" loading={isBusy}>
+                  Montar meu plano
+                </Button>
+              ) : null}
+              {state.step === 6 && state.proposal ? (
+                <>
+                  <input
+                    name="planId"
+                    type="hidden"
+                    value={state.proposal.planId}
+                  />
+                  <Button name="intent" value="confirm-plan" loading={isBusy}>
+                    Usar este plano
+                  </Button>
+                </>
               ) : null}
             </div>
           </Form>
