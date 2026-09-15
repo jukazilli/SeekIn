@@ -291,9 +291,10 @@ Cada linha possui pelo menos um nível automatizado e uma fixture sintética rep
 
 ### 9.1 Condição de cobertura
 
-SKN-088 só pode ser verificado quando os testes automatizados usam os IDs `CE-001` a `CE-016` nos
-nomes ou metadados e todos estão verdes. Uma busca por esses IDs deve produzir exatamente a matriz
-implementada, sem depender de interpretação manual de nomes genéricos.
+SKN-088 só pode ser verificado quando os casos atribuídos ao motor (`CE-004`, `CE-006`, `CE-008`,
+`CE-009`, `CE-010`, `CE-012` e `CE-016`) aparecem nos nomes ou metadados dos testes e estão verdes.
+Os demais IDs permanecem obrigatórios para o fechamento dos respectivos itens responsáveis e do portão
+que agrega a jornada; não antecipam banco, HTTP, concorrência ou UI dentro do pacote puro.
 
 ### 9.2 Casos-limite adicionais de Engenharia §8.2
 

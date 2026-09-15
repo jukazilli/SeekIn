@@ -86,7 +86,7 @@ describe("UT planner-core — plano parcial e diagnóstico", () => {
     });
   });
 
-  it("CE-001/007 — retorna infeasible quando nenhuma sessão cabe", () => {
+  it("CE-001 / CE-007 — retorna infeasible quando nenhuma sessão cabe", () => {
     const result = diagnosePlan(input({ availability: [] }));
 
     expect(result.feasibility).toBe("infeasible");

@@ -106,6 +106,31 @@ function localInstant(date: string, time: string, timeZone: string): number {
     if (correction === 0) break;
   }
 
+  const matchesDesired = (instant: number) =>
+    zonedParts(instant, timeZone).every(
+      (part, index) => part === desired[index],
+    );
+  if (!matchesDesired(candidate)) {
+    throw new RangeError(
+      `Horário local inexistente em ${timeZone}: ${date} ${time}`,
+    );
+  }
+  let hasAlternative = false;
+  for (let offsetMinutes = -180; offsetMinutes <= 180; offsetMinutes += 15) {
+    if (
+      offsetMinutes !== 0 &&
+      matchesDesired(candidate + offsetMinutes * MINUTE_MS)
+    ) {
+      hasAlternative = true;
+      break;
+    }
+  }
+  if (hasAlternative) {
+    throw new RangeError(
+      `Horário local ambíguo em ${timeZone}: ${date} ${time}`,
+    );
+  }
+
   return candidate;
 }
 
