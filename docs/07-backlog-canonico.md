@@ -351,10 +351,10 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com o motor e a geração autenticada fechados nos
-`SKN-080–090`, a próxima ação é o `SKN-091`: persistir proposta, sessões, conflitos e auditoria em uma
-transação atômica, sem substituir o plano publicado em caso de falha. A sequência retorna ao
-`SKN-056` depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
+exige primeiro o motor e o backend reais. Com o motor, a geração autenticada e a persistência atômica
+fechados nos `SKN-080–091`, a próxima ação é o `SKN-092`: tornar a geração idempotente e segura contra
+duas abas, retry e resultado atrasado. A sequência retorna ao `SKN-056` depois que geração,
+persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
 
