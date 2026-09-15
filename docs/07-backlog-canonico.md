@@ -351,9 +351,9 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com regras puras, invariantes e desempenho fechados nos
-`SKN-080–089`, a próxima ação é o `SKN-090`: implementar a Edge Function autenticada que carrega as
-entradas do proprietário, chama o `planner-core` e valida a saída. A sequência retorna ao
+exige primeiro o motor e o backend reais. Com o motor e a geração autenticada fechados nos
+`SKN-080–090`, a próxima ação é o `SKN-091`: persistir proposta, sessões, conflitos e auditoria em uma
+transação atômica, sem substituir o plano publicado em caso de falha. A sequência retorna ao
 `SKN-056` depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
