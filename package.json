@@ -18,7 +18,7 @@
     "test:performance": "vitest run --config vitest.performance.config.ts",
     "test:watch": "vitest",
     "typecheck": "pnpm -r --if-present typecheck",
-    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm build",
+    "validate": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test && pnpm test:performance && pnpm build",
     "supabase:push:dry": "supabase db push --linked --dry-run",
     "supabase:push": "supabase db push --linked",
     "supabase:test": "supabase test db --linked supabase/tests/database",
