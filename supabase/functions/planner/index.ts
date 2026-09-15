@@ -5,6 +5,8 @@ import type { Database } from "../../../packages/contracts/src/index.ts";
 import { PLANNER_CORE_CONTRACT_VERSION } from "../../../packages/planner-core/src/index.ts";
 import { generateAuthenticatedPlan } from "./generate-core.ts";
 import { createIdempotencyContext } from "./idempotency.ts";
+import { generateImpactProposal } from "./impact-core.ts";
+import { createImpactInputLoader } from "./impact-input-loader.ts";
 import { createPlannerInputLoader } from "./planner-input-loader.ts";
 import { persistGeneratedProposal } from "./proposal-persistence.ts";
 
@@ -16,6 +18,8 @@ const messages = {
   DEPENDENCY_UNAVAILABLE: "Não foi possível carregar seus dados agora.",
   INTERNAL_ERROR: "Não foi possível gerar o plano agora.",
   IDEMPOTENCY_REQUIRED: "Inicie uma nova solicitação de planejamento.",
+  RESOURCE_NOT_FOUND: "Não foi possível localizar o item alterado.",
+  STALE_PLAN: "O plano atual mudou. Gere uma nova proposta.",
 } as const;
 
 function json(body: unknown, status: number, correlationId: string) {
@@ -32,10 +36,10 @@ function json(body: unknown, status: number, correlationId: string) {
 Deno.serve(async (request) => {
   const correlationId =
     request.headers.get("x-correlation-id") ?? crypto.randomUUID();
-  if (
-    request.method !== "POST" ||
-    !new URL(request.url).pathname.endsWith("/generate")
-  ) {
+  const pathname = new URL(request.url).pathname;
+  const isGenerate = pathname.endsWith("/generate");
+  const isImpact = pathname.endsWith("/impact");
+  if (request.method !== "POST" || (!isGenerate && !isImpact)) {
     return json(
       {
         error: {
@@ -113,14 +117,20 @@ Deno.serve(async (request) => {
       : undefined,
     auth: { persistSession: false },
   });
-  const decision = await generateAuthenticatedPlan(authorization, body, {
-    async authenticate(bearerToken) {
-      const token = bearerToken.slice("Bearer ".length);
-      const { data, error } = await client.auth.getUser(token);
-      return error ? null : (data.user?.id ?? null);
-    },
-    loader: createPlannerInputLoader(client),
-  });
+  const authenticate = async (bearerToken: string) => {
+    const token = bearerToken.slice("Bearer ".length);
+    const { data, error } = await client.auth.getUser(token);
+    return error ? null : (data.user?.id ?? null);
+  };
+  const decision = isImpact
+    ? await generateImpactProposal(authorization, body, {
+        authenticate,
+        loader: createImpactInputLoader(client),
+      })
+    : await generateAuthenticatedPlan(authorization, body, {
+        authenticate,
+        loader: createPlannerInputLoader(client),
+      });
 
   if (!decision.ok) {
     return json(
@@ -147,6 +157,7 @@ Deno.serve(async (request) => {
     decision,
     correlationId,
     idempotency,
+    isImpact ? "impact" : "generate",
   );
   if (!persistence.ok) {
     const stale = persistence.code === "STALE_PLAN";

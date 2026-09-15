@@ -6,6 +6,9 @@ import {
   diagnosePlan,
   plannerInputSchema,
   plannerOutputSchema,
+  proposeReplanning,
+  reconcileImpactSessions,
+  type CurrentPlanSession,
   type PlannerInput,
   type PlannerOutput,
 } from "../../../packages/planner-core/src/index.ts";
@@ -98,25 +101,41 @@ function uuidFromHash(hash: string): string {
   return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`;
 }
 
-async function executePlanner(input: PlannerInput): Promise<PlannerOutput> {
+export async function executePlanner(
+  input: PlannerInput,
+  currentSessions?: CurrentPlanSession[],
+): Promise<PlannerOutput> {
   const inputHash = await sha256StableJson(input);
-  const draft = diagnosePlan(input);
+  const draft = currentSessions
+    ? proposeReplanning(input)
+    : diagnosePlan(input);
   const capacity = calculateCapacity(input).totals;
+  const impact = currentSessions
+    ? reconcileImpactSessions(
+        draft.sessions,
+        input.protectedSessions,
+        currentSessions,
+      )
+    : null;
   const sessions = await Promise.all(
-    draft.sessions.map(async (session) => ({
-      sessionId: uuidFromHash(
-        await sha256StableJson({
-          activityId: session.activityId,
-          endsAt: session.endsAt,
-          inputHash,
-          startsAt: session.startsAt,
-        }),
-      ),
+    (impact?.sessions ?? draft.sessions).map(async (session) => ({
+      sessionId:
+        "sessionId" in session && session.sessionId
+          ? session.sessionId
+          : uuidFromHash(
+              await sha256StableJson({
+                activityId: session.activityId,
+                endsAt: session.endsAt,
+                inputHash,
+                startsAt: session.startsAt,
+              }),
+            ),
       activityId: session.activityId,
       startsAt: session.startsAt,
       endsAt: session.endsAt,
       plannedMinutes: session.plannedMinutes,
-      changeKind: "created" as const,
+      changeKind:
+        "changeKind" in session ? session.changeKind : ("created" as const),
       rationaleCode: session.rationaleCode,
     })),
   );
@@ -140,12 +159,17 @@ async function executePlanner(input: PlannerInput): Promise<PlannerOutput> {
     activityRisks: draft.activityRisks,
     unallocated: draft.unallocated,
     conflicts: draft.conflicts,
-    changes: {
-      created: sessions.length,
-      kept: 0,
-      moved: 0,
-      removed: 0,
-    },
+    changes: impact
+      ? {
+          created: sessions.filter(({ changeKind }) => changeKind === "created")
+            .length,
+          kept: sessions.filter(({ changeKind }) => changeKind === "kept")
+            .length,
+          moved: sessions.filter(({ changeKind }) => changeKind === "moved")
+            .length,
+          removed: impact.removedSessionIds.length,
+        }
+      : { created: sessions.length, kept: 0, moved: 0, removed: 0 },
     inputHash,
   };
 
