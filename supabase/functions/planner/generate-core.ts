@@ -13,6 +13,10 @@ import {
   type PlannerOutput,
 } from "../../../packages/planner-core/src/index.ts";
 import { sha256StableJson } from "./idempotency.ts";
+import {
+  PlannerTimeoutError,
+  runWithPlannerTimeout,
+} from "./operation-safety.ts";
 
 const GENERATION_REASONS = [
   "manual_request",
@@ -84,6 +88,7 @@ export type GenerateDecision =
         | "UNSUPPORTED_CONTRACT_VERSION"
         | "VALIDATION_ERROR"
         | "DEPENDENCY_UNAVAILABLE"
+        | "PLANNER_TIMEOUT"
         | "INTERNAL_ERROR";
       statusCode: 400 | 401 | 422 | 500 | 503;
     };
@@ -91,6 +96,8 @@ export type GenerateDecision =
 export interface GenerateDependencies {
   authenticate(bearerToken: string): Promise<string | null>;
   loader: PlannerInputLoader;
+  execute?: typeof executePlanner;
+  timeoutMs?: number;
 }
 
 function uuidFromHash(hash: string): string {
@@ -206,8 +213,14 @@ export async function generateAuthenticatedPlan(
 
   let userId: string | null;
   try {
-    userId = await dependencies.authenticate(authorization);
-  } catch {
+    userId = await runWithPlannerTimeout(
+      () => dependencies.authenticate(authorization),
+      dependencies.timeoutMs,
+    );
+  } catch (error) {
+    if (error instanceof PlannerTimeoutError) {
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
+    }
     return { ok: false, code: "SESSION_INVALID", statusCode: 401 };
   }
   if (!userId) {
@@ -216,8 +229,14 @@ export async function generateAuthenticatedPlan(
 
   let rawInput: unknown;
   try {
-    rawInput = await dependencies.loader.load(userId, parsedRequest);
-  } catch {
+    rawInput = await runWithPlannerTimeout(
+      () => dependencies.loader.load(userId, parsedRequest),
+      dependencies.timeoutMs,
+    );
+  } catch (error) {
+    if (error instanceof PlannerTimeoutError) {
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
+    }
     return { ok: false, code: "DEPENDENCY_UNAVAILABLE", statusCode: 503 };
   }
   const input = plannerInputSchema.safeParse(rawInput);
@@ -226,14 +245,21 @@ export async function generateAuthenticatedPlan(
   }
 
   try {
+    const output = await runWithPlannerTimeout(
+      () => (dependencies.execute ?? executePlanner)(input.data),
+      dependencies.timeoutMs,
+    );
     return {
       ok: true,
       input: input.data,
-      output: await executePlanner(input.data),
+      output: plannerOutputSchema.parse(output),
       request: parsedRequest,
       userId,
     };
-  } catch {
+  } catch (error) {
+    if (error instanceof PlannerTimeoutError) {
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
+    }
     return { ok: false, code: "INTERNAL_ERROR", statusCode: 500 };
   }
 }

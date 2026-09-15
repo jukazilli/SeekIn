@@ -1,11 +1,16 @@
 import {
   PLANNER_CORE_CONTRACT_VERSION,
   plannerInputSchema,
+  plannerOutputSchema,
   type CurrentPlanSession,
   type PlannerInput,
   type PlannerOutput,
 } from "../../../packages/planner-core/src/index.ts";
 import { executePlanner, type GenerateRequest } from "./generate-core.ts";
+import {
+  PlannerTimeoutError,
+  runWithPlannerTimeout,
+} from "./operation-safety.ts";
 
 const UUID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -71,6 +76,7 @@ export type ImpactDecision =
         | "RESOURCE_NOT_FOUND"
         | "STALE_PLAN"
         | "DEPENDENCY_UNAVAILABLE"
+        | "PLANNER_TIMEOUT"
         | "INTERNAL_ERROR";
       statusCode: 400 | 401 | 404 | 409 | 422 | 500 | 503;
     };
@@ -81,6 +87,8 @@ export async function generateImpactProposal(
   dependencies: {
     authenticate(bearerToken: string): Promise<string | null>;
     loader: ImpactLoader;
+    execute?: typeof executePlanner;
+    timeoutMs?: number;
   },
 ): Promise<ImpactDecision> {
   if (!authorization?.startsWith("Bearer "))
@@ -100,8 +108,13 @@ export async function generateImpactProposal(
   }
   let userId: string | null;
   try {
-    userId = await dependencies.authenticate(authorization);
-  } catch {
+    userId = await runWithPlannerTimeout(
+      () => dependencies.authenticate(authorization),
+      dependencies.timeoutMs,
+    );
+  } catch (error) {
+    if (error instanceof PlannerTimeoutError)
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
     return { ok: false, code: "SESSION_INVALID", statusCode: 401 };
   }
   if (!userId) return { ok: false, code: "SESSION_INVALID", statusCode: 401 };
@@ -114,8 +127,13 @@ export async function generateImpactProposal(
   };
   let loaded: Awaited<ReturnType<ImpactLoader["load"]>>;
   try {
-    loaded = await dependencies.loader.load(userId, request, generationRequest);
+    loaded = await runWithPlannerTimeout(
+      () => dependencies.loader.load(userId, request, generationRequest),
+      dependencies.timeoutMs,
+    );
   } catch (error) {
+    if (error instanceof PlannerTimeoutError)
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
     if (error instanceof ImpactResourceNotFound)
       return { ok: false, code: "RESOURCE_NOT_FOUND", statusCode: 404 };
     if (error instanceof ImpactStalePlan)
@@ -126,14 +144,24 @@ export async function generateImpactProposal(
   if (!input.success)
     return { ok: false, code: "VALIDATION_ERROR", statusCode: 422 };
   try {
+    const output = await runWithPlannerTimeout(
+      () =>
+        (dependencies.execute ?? executePlanner)(
+          input.data,
+          loaded.currentSessions,
+        ),
+      dependencies.timeoutMs,
+    );
     return {
       ok: true,
       input: input.data,
-      output: await executePlanner(input.data, loaded.currentSessions),
+      output: plannerOutputSchema.parse(output),
       request: generationRequest,
       userId,
     };
-  } catch {
+  } catch (error) {
+    if (error instanceof PlannerTimeoutError)
+      return { ok: false, code: "PLANNER_TIMEOUT", statusCode: 503 };
     return { ok: false, code: "INTERNAL_ERROR", statusCode: 500 };
   }
 }
