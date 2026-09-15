@@ -70,7 +70,7 @@
 
 | Requisito | Item responsável | Portão | Verificação principal | Evidência |
 |---|---|---|---|---|
-| RNF-001 | SKN-089 | G3 | benchmark 200 atividades/90 dias p95 | Pendente |
+| RNF-001 | SKN-089 | G3 | benchmark 200 atividades/90 dias p95 | Verificado: [benchmark reproduzível do planner-core](evidencias/SKN-089.md) |
 | RNF-002 | SKN-125 | G4 | resposta visual e profiling | Pendente |
 | RNF-003 | SKN-088 / SKN-092 | G3 | determinismo e idempotência | Parcial: [determinismo e propriedades do motor](evidencias/SKN-088.md); retry e concorrência do SKN-092 pendentes |
 | RNF-004 | SKN-091 / SKN-092 | G3 | atomicidade e concorrência | Pendente |

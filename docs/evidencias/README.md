@@ -168,6 +168,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-086 | Verificado | [Plano parcial e diagnóstico de capacidade](SKN-086.md) |
 | SKN-087 | Verificado | [Preservação canônica no replanejamento](SKN-087.md) |
 | SKN-088 | Verificado | [Invariantes e casos extremos do planner-core](SKN-088.md) |
+| SKN-089 | Verificado | [Benchmark reproduzível do planner-core](SKN-089.md) |
 
 ## 6. Portões fechados
 
