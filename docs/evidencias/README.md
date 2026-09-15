@@ -172,6 +172,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-090 | Verificado | [Geração autenticada pelo planner-core](SKN-090.md) |
 | SKN-091 | Verificado | [Persistência atômica da proposta do plano](SKN-091.md) |
 | SKN-092 | Verificado | [Geração idempotente e concorrência ordenada](SKN-092.md) |
+| SKN-093 | Verificado | [Análise de impacto sem publicação](SKN-093.md) |
 
 ## 6. Portões fechados
 

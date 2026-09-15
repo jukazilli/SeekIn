@@ -29,14 +29,14 @@
 | RF-004 | SKN-044 / SKN-051 / SKN-072 | G3 | testes de fuso e persistência | Parcial: [EV-SKN-044](evidencias/SKN-044.md) e [EV-SKN-051](evidencias/SKN-051.md); SKN-072 pendente |
 | RF-010–012 | SKN-052 / SKN-060 | G3 | unidade, integração e UI | Parcial: [EV-SKN-052](evidencias/SKN-052.md); CRUD completo do SKN-060 pendente |
 | RF-013–014 | SKN-053 / SKN-061 | G3 | recorrência e exceção | Parcial: [EV-SKN-053](evidencias/SKN-053.md); exceções e CRUD completo do SKN-061 pendentes |
-| RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Pendente |
+| RF-015 | SKN-062 / SKN-093 | G3 | impacto sem publicação | Parcial: [análise sem mutar o vigente](evidencias/SKN-093.md) verificada; disparo após edição de disponibilidade do SKN-062 pendente |
 | RF-020–023 | SKN-054 / SKN-070 | G3 | CRUD, integridade e contraste | Parcial: [EV-SKN-054](evidencias/SKN-054.md); cor, descrição, arquivamento e CRUD completo do SKN-070 pendentes |
 | RF-030–031 | SKN-055 / SKN-071 | G3 | comando canônico e E2E | Parcial: [EV-SKN-055](evidencias/SKN-055.md); CRUD e estados completos do SKN-071 pendentes |
 | RF-032 | SKN-055 / SKN-073 | G3 | unidade e persistência em minutos | Parcial: [EV-SKN-055](evidencias/SKN-055.md); progresso e limites do SKN-073 pendentes |
 | RF-033–034 | SKN-055 / SKN-072 | G3 | prazo com/sem hora | Parcial: [EV-SKN-055](evidencias/SKN-055.md); edição e casos temporais do SKN-072 pendentes |
 | RF-035 | SKN-071 | G3 | transições de estado | Pendente |
 | RF-036–037 | SKN-073 | G3 | limites e propriedades | Pendente |
-| RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Pendente |
+| RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Parcial: [análise por atividade alterada](evidencias/SKN-093.md) verificada; integração com o comando de atividade do SKN-077 pendente |
 | RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md); consulta e apresentação do SKN-063 pendentes |
 | RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Verificado: [invariantes de alocação](evidencias/SKN-085.md) e [geração autenticada](evidencias/SKN-090.md) |
 | RF-052–053 | SKN-084 | G3 | tabela de partições | [Partições e sobras verificadas](evidencias/SKN-084.md) |
@@ -57,7 +57,7 @@
 | RF-101–102 | SKN-101 | G4 | transação e reconciliação | Pendente |
 | RF-103 | SKN-102 | G4 | componente + integração | Pendente |
 | RF-104 | SKN-103 / SKN-087 | G4 | preservação da sessão | Parcial: [proteção no motor](evidencias/SKN-087.md); comandos de fixar e mover do SKN-103 pendentes |
-| RF-105–108 | SKN-087 / SKN-104 | G4 | proposta, aceite e cancelamento | Parcial: [proposta preserva sessões protegidas](evidencias/SKN-087.md); diff, aceite e cancelamento do SKN-104 pendentes |
+| RF-105–108 | SKN-087 / SKN-093 / SKN-104 | G4 | proposta, aceite e cancelamento | Parcial: [preservação](evidencias/SKN-087.md) e [diff persistido](evidencias/SKN-093.md) verificados; apresentação, aceite e cancelamento do SKN-104 pendentes |
 | RF-110–111 | SKN-074 | G3 | sanitização e URL segura | Pendente |
 | RF-120–122 | SKN-106 | G4 | causa, ação e deduplicação | Pendente |
 | RF-130–132 | SKN-120 | G4 | instalação e uso web | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md) e [idempotência](evidencias/SKN-092.md) verificadas; impacto, leitura, confirmação e comandos seguintes pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md) e [impacto](evidencias/SKN-093.md) verificados; falhas, leitura, confirmação e comandos seguintes pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
