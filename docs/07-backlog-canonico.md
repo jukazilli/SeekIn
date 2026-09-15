@@ -351,10 +351,10 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com geração, persistência, idempotência, impacto e proteção
-contra falhas fechados nos `SKN-080–094`, a próxima ação é o `SKN-095`: criar a leitura canônica da
-versão vigente para Hoje, Lista, Calendário e Gantt. A sequência retorna ao `SKN-056` depois que
-geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
+exige primeiro o motor e o backend reais. Com geração, persistência, idempotência, impacto, proteção
+contra falhas e leitura vigente fechados nos `SKN-080–095`, a próxima ação é o `SKN-096`: confirmar ou
+rejeitar propostas de forma atômica e idempotente. A sequência retorna ao `SKN-056` quando essa
+confirmação estiver implementada.
 
 ---
 

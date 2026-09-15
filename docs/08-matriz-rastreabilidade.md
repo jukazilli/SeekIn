@@ -37,7 +37,7 @@
 | RF-035 | SKN-071 | G3 | transições de estado | Pendente |
 | RF-036–037 | SKN-073 | G3 | limites e propriedades | Pendente |
 | RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Parcial: [análise por atividade alterada](evidencias/SKN-093.md) verificada; integração com o comando de atividade do SKN-077 pendente |
-| RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md); consulta e apresentação do SKN-063 pendentes |
+| RF-040–045 | SKN-063 / SKN-081 / SKN-095 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md) e [leitura de capacidade do plano vigente](evidencias/SKN-095.md) verificados; apresentação do SKN-063 pendente |
 | RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Verificado: [invariantes de alocação](evidencias/SKN-085.md) e [geração autenticada](evidencias/SKN-090.md) |
 | RF-052–053 | SKN-084 | G3 | tabela de partições | [Partições e sobras verificadas](evidencias/SKN-084.md) |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | [Distribuição e folga verificadas](evidencias/SKN-085.md) |
@@ -99,7 +99,7 @@
 | CA-006 — Conclusão de sessão | SKN-101 | G4 | Pendente |
 | CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Parcial: [preservação canônica verificada](evidencias/SKN-087.md); resumo e aplicação do SKN-104 pendentes |
 | CA-008 — Cancelamento do replanejamento | SKN-096 / SKN-104 | G4 | Pendente |
-| CA-009 — Consistência entre visões | SKN-095 / SKN-114 | G4 | Pendente |
+| CA-009 — Consistência entre visões | SKN-095 / SKN-114 | G4 | Parcial: [projeção canônica versionada](evidencias/SKN-095.md) verificada; equivalência E2E das quatro telas permanece no SKN-114 |
 | CA-010 — Responsividade | SKN-115 / SKN-123 | G4 | Pendente |
 | CA-011 — Lista compacta | SKN-111 / SKN-123 | G4 | Pendente |
 | CA-012 — PWA progressiva | SKN-120–122 | G4 | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md) e [falha segura](evidencias/SKN-094.md) verificados; leitura, confirmação e comandos seguintes pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md), [falha segura](evidencias/SKN-094.md) e [leitura vigente](evidencias/SKN-095.md) verificados; confirmação e consultas especializadas pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |

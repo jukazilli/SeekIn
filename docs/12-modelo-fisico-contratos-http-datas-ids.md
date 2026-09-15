@@ -429,6 +429,13 @@ previsão.
 Componentes React dependem de interfaces de repositório. Somente o adaptador de infraestrutura usa
 `supabase-js` e converte linhas físicas para tipos de domínio.
 
+`public.read_current_plan()` é a fronteira autenticada de leitura compartilhada. Ela retorna `null`
+quando não existe plano publicado e, quando existe, produz um único objeto com `planId`, `version`,
+capacidade, atividades e sessões. Horários vêm de `plan_items`; estados e progresso vêm das entidades
+canônicas; risco e capacidade vêm do `planner_run` concluído que originou a mesma versão. Itens
+`removed`, propostas e dados de outra conta não entram na projeção. O retorno é validado pelo contrato
+Zod antes de alcançar a aplicação.
+
 ### 9.2 Edge Functions
 
 Base Supabase: `/functions/v1`. Rotas internas são versionadas por `contractVersion`, não pela URL no
