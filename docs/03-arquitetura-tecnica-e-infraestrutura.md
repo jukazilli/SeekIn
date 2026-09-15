@@ -268,6 +268,11 @@ sem entrada, saída, identificador de usuário ou conteúdo acadêmico. Como a p
 depois de uma decisão válida e dentro da transação atômica, falha, timeout e saída inválida não alteram
 o plano publicado.
 
+A leitura do cronograma usa uma única projeção autenticada do plano `published`. Essa projeção reúne
+metadados e horários versionados, estado atual das sessões e atividades, progresso, capacidade e o
+risco registrado pelo mesmo cálculo. Hoje, Lista, Calendário e Gantt dependem desse contrato comum e
+não recompõem o plano com consultas independentes.
+
 ### 9.3 Evolução
 
 Quando o algoritmo exceder os limites da Edge Function ou precisar de otimização matemática, a mesma entrada será enviada a um serviço no Cloud Run. A estratégia completa está em [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md).

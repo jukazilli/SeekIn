@@ -174,6 +174,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-092 | Verificado | [Geração idempotente e concorrência ordenada](SKN-092.md) |
 | SKN-093 | Verificado | [Análise de impacto sem publicação](SKN-093.md) |
 | SKN-094 | Verificado | [Falha segura e correlacionada do planner](SKN-094.md) |
+| SKN-095 | Verificado | [Leitura canônica do plano vigente](SKN-095.md) |
 
 ## 6. Portões fechados
 
