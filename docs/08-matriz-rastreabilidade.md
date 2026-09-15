@@ -43,7 +43,7 @@
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | [Distribuição e folga verificadas](evidencias/SKN-085.md) |
 | RF-056 | SKN-091 | G3 | transação e imutabilidade | Pendente |
 | RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Parcial: [ranking invariável a permutações](evidencias/SKN-083.md); propriedades amplas do SKN-088 pendentes |
-| RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Parcial: [primeiro déficit e horizonte afetado](evidencias/SKN-082.md); plano parcial do SKN-086 pendente |
+| RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Verificado: [primeiro déficit e horizonte](evidencias/SKN-082.md) e [plano parcial diagnosticado](evidencias/SKN-086.md) |
 | RF-059 | SKN-056 / SKN-096 | G3 | confirmação e cancelamento | Pendente |
 | RF-060–061 | SKN-083 | G3 | ordenação e desempate | [Ordem v1 e desempates verificados](evidencias/SKN-083.md) |
 | RF-062 | SKN-083 / SKN-110 | G4 | fator usado e texto exibido | Parcial: [fator decisivo produzido pelo motor](evidencias/SKN-083.md); texto na tela Hoje do SKN-110 pendente |
@@ -94,7 +94,7 @@
 | CA-001 — Primeira geração | SKN-056 / SKN-085 / SKN-090 | G3 | Parcial: [alocação pura verificada](evidencias/SKN-085.md); integração e confirmação pendentes |
 | CA-002 — Respeito à rotina | SKN-061 / SKN-081 / SKN-085 | G3 | Parcial: [capacidade](evidencias/SKN-081.md) e [alocação sem sobreposição](evidencias/SKN-085.md) verificadas; CRUD completo do SKN-061 pendente |
 | CA-003 — Reserva de capacidade | SKN-081 | G3 | Pendente |
-| CA-004 — Conflito de capacidade | SKN-086 / SKN-105 | G4 | Pendente |
+| CA-004 — Conflito de capacidade | SKN-086 / SKN-105 | G4 | Parcial: [diagnóstico puro e plano parcial](evidencias/SKN-086.md); resolução de conflito na interface do SKN-105 pendente |
 | CA-005 — Prioridade explicável | SKN-083 / SKN-110 | G4 | Parcial: [fatores objetivos do motor](evidencias/SKN-083.md); apresentação ao usuário no SKN-110 pendente |
 | CA-006 — Conclusão de sessão | SKN-101 | G4 | Pendente |
 | CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: contratos, capacidade, risco, prioridade, partição e [alocação](evidencias/SKN-085.md) verificados no planner-core; demais regras, Edge Function e persistência pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: contratos, capacidade, risco, prioridade, partição, alocação e [diagnóstico](evidencias/SKN-086.md) verificados no planner-core; demais regras, Edge Function e persistência pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
