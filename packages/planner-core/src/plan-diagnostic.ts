@@ -8,7 +8,7 @@ const MINUTE_MS = 60_000;
 export type PlanFeasibility = "feasible" | "partial" | "infeasible";
 
 export type PlanConflict = {
-  code: "insufficient_capacity";
+  code: "insufficient_capacity" | "protected_capacity";
   firstAffectedDeadlineAt: string;
   deficitMinutes: number;
   largestAvailableWindowMinutes: number;
