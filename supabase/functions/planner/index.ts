@@ -4,6 +4,7 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "../../../packages/contracts/src/index.ts";
 import { PLANNER_CORE_CONTRACT_VERSION } from "../../../packages/planner-core/src/index.ts";
 import { generateAuthenticatedPlan } from "./generate-core.ts";
+import { createIdempotencyContext } from "./idempotency.ts";
 import { createPlannerInputLoader } from "./planner-input-loader.ts";
 import { persistGeneratedProposal } from "./proposal-persistence.ts";
 
@@ -14,6 +15,7 @@ const messages = {
   VALIDATION_ERROR: "Os dados do planejamento precisam ser revisados.",
   DEPENDENCY_UNAVAILABLE: "Não foi possível carregar seus dados agora.",
   INTERNAL_ERROR: "Não foi possível gerar o plano agora.",
+  IDEMPOTENCY_REQUIRED: "Inicie uma nova solicitação de planejamento.",
 } as const;
 
 function json(body: unknown, status: number, correlationId: string) {
@@ -62,6 +64,25 @@ Deno.serve(async (request) => {
         meta: { contractVersion: 1, correlationId },
       },
       400,
+      correlationId,
+    );
+  }
+
+  const idempotency = await createIdempotencyContext(
+    request.headers.get("idempotency-key"),
+    body,
+  );
+  if (!idempotency) {
+    return json(
+      {
+        error: {
+          code: "VALIDATION_ERROR",
+          message: messages.IDEMPOTENCY_REQUIRED,
+          retryable: false,
+        },
+        meta: { contractVersion: 1, correlationId },
+      },
+      422,
       correlationId,
     );
   }
@@ -125,24 +146,32 @@ Deno.serve(async (request) => {
     client,
     decision,
     correlationId,
+    idempotency,
   );
   if (!persistence.ok) {
     const stale = persistence.code === "STALE_PLAN";
+    const idempotencyConflict = persistence.code === "IDEMPOTENCY_CONFLICT";
     return json(
       {
         error: {
-          code: stale ? "STALE_PLAN" : "INTERNAL_ERROR",
+          code: stale
+            ? "STALE_PLAN"
+            : idempotencyConflict
+              ? "IDEMPOTENCY_CONFLICT"
+              : "INTERNAL_ERROR",
           message: stale
             ? "O plano atual mudou. Gere uma nova proposta."
-            : messages.INTERNAL_ERROR,
-          retryable: !stale,
+            : idempotencyConflict
+              ? "Esta solicitação já foi usada com outros dados."
+              : messages.INTERNAL_ERROR,
+          retryable: !stale && !idempotencyConflict,
         },
         meta: {
           contractVersion: PLANNER_CORE_CONTRACT_VERSION,
           correlationId,
         },
       },
-      stale ? 409 : 500,
+      stale || idempotencyConflict ? 409 : 500,
       correlationId,
     );
   }
@@ -151,11 +180,12 @@ Deno.serve(async (request) => {
     {
       data: {
         ...persistence.proposal,
-        ...decision.output,
+        ...persistence.output,
       },
       meta: {
         contractVersion: PLANNER_CORE_CONTRACT_VERSION,
         correlationId,
+        replayed: persistence.replayed,
       },
     },
     200,
