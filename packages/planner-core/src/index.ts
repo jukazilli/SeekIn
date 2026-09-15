@@ -1,5 +1,6 @@
 export * from "./allocation.ts";
 export * from "./capacity.ts";
+export * from "./impact-analysis.ts";
 export * from "./planner-contracts.ts";
 export * from "./planner-version.ts";
 export * from "./plan-diagnostic.ts";

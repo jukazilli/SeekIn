@@ -5,7 +5,7 @@ type SuccessfulGeneration = Extract<GenerateDecision, { ok: true }>;
 
 export interface ProposalPersistenceClient {
   rpc(
-    name: "persist_idempotent_plan_proposal",
+    name: "persist_idempotent_plan_proposal" | "persist_idempotent_plan_impact",
     parameters: {
       p_correlation_id: string;
       p_expected_current_plan_id: string | null;
@@ -36,16 +36,22 @@ export async function persistGeneratedProposal(
   generation: SuccessfulGeneration,
   correlationId: string,
   idempotency: { keyHash: string; requestHash: string },
+  command: "generate" | "impact" = "generate",
 ): Promise<PersistenceDecision> {
-  const result = await client.rpc("persist_idempotent_plan_proposal", {
-    p_correlation_id: correlationId,
-    p_expected_current_plan_id: generation.request.expectedCurrentPlanId,
-    p_generation_reason: generation.request.reason,
-    p_idempotency_key_hash: idempotency.keyHash,
-    p_input: generation.input as Json,
-    p_output: generation.output as Json,
-    p_request_hash: idempotency.requestHash,
-  });
+  const result = await client.rpc(
+    command === "impact"
+      ? "persist_idempotent_plan_impact"
+      : "persist_idempotent_plan_proposal",
+    {
+      p_correlation_id: correlationId,
+      p_expected_current_plan_id: generation.request.expectedCurrentPlanId,
+      p_generation_reason: generation.request.reason,
+      p_idempotency_key_hash: idempotency.keyHash,
+      p_input: generation.input as Json,
+      p_output: generation.output as Json,
+      p_request_hash: idempotency.requestHash,
+    },
+  );
   if (result.error) {
     const stale = result.error.message === "STALE_PLAN";
     const conflict = result.error.message === "IDEMPOTENCY_CONFLICT";

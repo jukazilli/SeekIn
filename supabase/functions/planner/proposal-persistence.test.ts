@@ -101,4 +101,28 @@ describe("planner proposal persistence", () => {
       replayed: true,
     });
   });
+
+  it("uses the isolated idempotency scope for impact", async () => {
+    const rpc = vi.fn(async () => ({
+      data: {
+        proposal: { planId: "11000000-0000-4000-8000-000000000031" },
+        output: { feasibility: "feasible" },
+        replayed: false,
+      },
+      error: null,
+    }));
+
+    await persistGeneratedProposal(
+      { rpc } as ProposalPersistenceClient,
+      generation,
+      "correlation-impact",
+      { keyHash: "a".repeat(64), requestHash: "b".repeat(64) },
+      "impact",
+    );
+
+    expect(rpc).toHaveBeenCalledWith(
+      "persist_idempotent_plan_impact",
+      expect.any(Object),
+    );
+  });
 });
