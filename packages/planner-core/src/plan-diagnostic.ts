@@ -101,8 +101,8 @@ function largestRemainingWindow(
 /** Produces a feasible or explicitly diagnosed partial plan without persistence. */
 export function diagnosePlan(rawInput: PlannerInput): PlanDraft {
   const input = plannerInputSchema.parse(rawInput);
-  const allocation = allocateSessions(input);
   const risk = analyzeRisk(input);
+  const allocation = allocateSessions(input, risk);
 
   if (allocation.unallocated.length === 0) {
     return {

@@ -1,5 +1,9 @@
 import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
-import { analyzeRisk, type RiskLevel } from "./risk-analysis";
+import {
+  analyzeRisk,
+  type RiskAnalysis,
+  type RiskLevel,
+} from "./risk-analysis";
 
 export type PriorityFactorCode =
   | "overdue"
@@ -110,10 +114,16 @@ function decidingFactor(
 }
 
 /** Applies the documented v1 lexicographic priority order without hidden weights. */
-export function rankActivities(rawInput: PlannerInput): RankedActivity[] {
+export function rankActivities(
+  rawInput: PlannerInput,
+  riskAnalysis?: RiskAnalysis,
+): RankedActivity[] {
   const input = plannerInputSchema.parse(rawInput);
   const risks = new Map(
-    analyzeRisk(input).activityRisks.map((risk) => [risk.activityId, risk]),
+    (riskAnalysis ?? analyzeRisk(input)).activityRisks.map((risk) => [
+      risk.activityId,
+      risk,
+    ]),
   );
   const candidates: Candidate[] = input.activities.map((activity) => {
     const risk = risks.get(activity.id)!;
