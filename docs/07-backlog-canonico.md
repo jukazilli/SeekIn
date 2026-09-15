@@ -351,9 +351,9 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com o motor, a geração autenticada, a persistência atômica e
-a idempotência fechados nos `SKN-080–092`, a próxima ação é o `SKN-093`: analisar o impacto de uma
-mudança sem publicar plano e produzir o diff da proposta. A sequência retorna ao `SKN-056` depois que
+exige primeiro o motor e o backend reais. Com geração, persistência, idempotência e impacto fechados
+nos `SKN-080–093`, a próxima ação é o `SKN-094`: garantir que falha, timeout ou saída inválida preserve
+o último plano publicado e retorne erro correlacionável. A sequência retorna ao `SKN-056` depois que
 geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
