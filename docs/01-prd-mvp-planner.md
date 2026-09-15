@@ -552,6 +552,14 @@ O motor aloca sessões considerando:
 
 Quando dois horários forem equivalentes, o mais cedo é escolhido para reduzir risco.
 
+A alocação percorre atividades na ordem de prioridade v1. Para cada sessão, tenta primeiro os horários
+que terminam até 24 horas antes do prazo e usa a faixa final apenas quando necessário. Entre dias
+elegíveis, escolhe o que possui menos minutos automáticos já alocados para a atividade; empates usam a data mais cedo.
+Dentro do dia, ocupa o primeiro intervalo contínuo. A carga automática diária não pode superar o menor
+valor entre a capacidade líquida e o limite diário configurado. Se um bloco preferido não couber em
+nenhuma janela contínua, ele só é repartido quando as novas partes preservam o mínimo; esforço que não
+couber permanece explicitamente não alocado.
+
 ### 11.7 Plano inviável
 
 O plano é inviável quando a demanda acumulada ultrapassa a capacidade líquida antes de um prazo.

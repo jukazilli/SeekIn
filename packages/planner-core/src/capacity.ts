@@ -7,6 +7,13 @@ type Interval = {
   end: number;
 };
 
+export type OperationalWindow = {
+  date: string;
+  startsAt: string;
+  endsAt: string;
+  minutes: number;
+};
+
 export type CapacityDay = {
   date: string;
   grossMinutes: number;
@@ -120,6 +127,30 @@ function mergeIntervals(intervals: Interval[]): Interval[] {
   return merged;
 }
 
+function subtractIntervals(
+  windows: Interval[],
+  unavailable: Interval[],
+): Interval[] {
+  return windows.flatMap((window) => {
+    let fragments = [window];
+    for (const occupied of unavailable) {
+      fragments = fragments.flatMap((fragment) => {
+        if (occupied.end <= fragment.start || occupied.start >= fragment.end) {
+          return [fragment];
+        }
+        return [
+          {
+            start: fragment.start,
+            end: Math.min(fragment.end, occupied.start),
+          },
+          { start: Math.max(fragment.start, occupied.end), end: fragment.end },
+        ].filter(({ start, end }) => start < end);
+      });
+    }
+    return fragments;
+  });
+}
+
 function overlapMinutes(windows: Interval[], unavailable: Interval[]): number {
   let milliseconds = 0;
   for (const window of windows) {
@@ -151,19 +182,18 @@ function addCapacity<T extends Omit<CapacityWeek, "weekStartDate">>(
   target.netMinutes += source.netMinutes;
 }
 
-/** Calculates capacity only; session partitioning and allocation belong to later planner stages. */
-export function calculateCapacity(
-  rawInput: PlannerInput,
-  options: CapacityOptions = {},
-): CapacitySummary {
-  const input = plannerInputSchema.parse(rawInput);
-  const availableUntil = options.availableUntil
+function resolveCutoff(options: CapacityOptions): number {
+  const cutoff = options.availableUntil
     ? Date.parse(options.availableUntil)
     : Number.POSITIVE_INFINITY;
-  if (Number.isNaN(availableUntil)) {
+  if (Number.isNaN(cutoff)) {
     throw new RangeError("availableUntil deve ser um instante ISO válido");
   }
-  const unavailable = mergeIntervals([
+  return cutoff;
+}
+
+function unavailableIntervals(input: PlannerInput): Interval[] {
+  return mergeIntervals([
     ...input.blocks.map(({ startsAt, endsAt }) => ({
       start: Date.parse(startsAt),
       end: Date.parse(endsAt),
@@ -173,6 +203,69 @@ export function calculateCapacity(
       end: Date.parse(endsAt),
     })),
   ]);
+}
+
+function availabilityForDay(
+  input: PlannerInput,
+  date: string,
+  generatedAt: number,
+  availableUntil: number,
+): Interval[] {
+  return mergeIntervals(
+    input.availability
+      .filter(({ dayOfWeek: weekday }) => weekday === dayOfWeek(date))
+      .map(({ startLocal, endLocal }) => ({
+        start: Math.max(
+          generatedAt,
+          localInstant(date, startLocal, input.timezone),
+        ),
+        end: Math.min(
+          availableUntil,
+          localInstant(date, endLocal, input.timezone),
+        ),
+      })),
+  );
+}
+
+export function listOperationalWindows(
+  rawInput: PlannerInput,
+  options: CapacityOptions = {},
+): OperationalWindow[] {
+  const input = plannerInputSchema.parse(rawInput);
+  const availableUntil = resolveCutoff(options);
+  const generatedAt = Date.parse(input.generatedAt);
+  const unavailable = unavailableIntervals(input);
+  const result: OperationalWindow[] = [];
+
+  for (
+    let date = input.horizonStartDate;
+    date <= input.horizonEndDate;
+    date = isoDateAtOffset(date, 1)
+  ) {
+    const operational = subtractIntervals(
+      availabilityForDay(input, date, generatedAt, availableUntil),
+      unavailable,
+    );
+    result.push(
+      ...operational.map(({ start, end }) => ({
+        date,
+        startsAt: new Date(start).toISOString(),
+        endsAt: new Date(end).toISOString(),
+        minutes: Math.floor((end - start) / MINUTE_MS),
+      })),
+    );
+  }
+  return result;
+}
+
+/** Calculates capacity only; session partitioning and allocation belong to later planner stages. */
+export function calculateCapacity(
+  rawInput: PlannerInput,
+  options: CapacityOptions = {},
+): CapacitySummary {
+  const input = plannerInputSchema.parse(rawInput);
+  const availableUntil = resolveCutoff(options);
+  const unavailable = unavailableIntervals(input);
   const generatedAt = Date.parse(input.generatedAt);
   const days: CapacityDay[] = [];
 
@@ -181,19 +274,11 @@ export function calculateCapacity(
     date <= input.horizonEndDate;
     date = isoDateAtOffset(date, 1)
   ) {
-    const windows = mergeIntervals(
-      input.availability
-        .filter(({ dayOfWeek: weekday }) => weekday === dayOfWeek(date))
-        .map(({ startLocal, endLocal }) => ({
-          start: Math.max(
-            generatedAt,
-            localInstant(date, startLocal, input.timezone),
-          ),
-          end: Math.min(
-            availableUntil,
-            localInstant(date, endLocal, input.timezone),
-          ),
-        })),
+    const windows = availabilityForDay(
+      input,
+      date,
+      generatedAt,
+      availableUntil,
     );
     const grossMinutes = sumMinutes(windows);
     const unavailableMinutes = overlapMinutes(windows, unavailable);
