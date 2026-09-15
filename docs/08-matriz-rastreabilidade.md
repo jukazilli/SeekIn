@@ -38,7 +38,7 @@
 | RF-036–037 | SKN-073 | G3 | limites e propriedades | Pendente |
 | RF-038 | SKN-077 / SKN-093 | G3 | análise de impacto | Pendente |
 | RF-040–045 | SKN-063 / SKN-081 | G3 | cálculos reconciliados | Parcial: [cálculo puro diário, semanal e total](evidencias/SKN-081.md); consulta e apresentação do SKN-063 pendentes |
-| RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Parcial: [invariantes de alocação do planner-core](evidencias/SKN-085.md); integração autenticada do SKN-090 pendente |
+| RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Verificado: [invariantes de alocação](evidencias/SKN-085.md) e [geração autenticada](evidencias/SKN-090.md) |
 | RF-052–053 | SKN-084 | G3 | tabela de partições | [Partições e sobras verificadas](evidencias/SKN-084.md) |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | [Distribuição e folga verificadas](evidencias/SKN-085.md) |
 | RF-056 | SKN-091 | G3 | transação e imutabilidade | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: regras puras e [suíte consolidada](evidencias/SKN-088.md) verificadas no planner-core; benchmark, Edge Function e persistência pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md) e [geração autenticada](evidencias/SKN-090.md) verificados; persistência e comandos seguintes pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
