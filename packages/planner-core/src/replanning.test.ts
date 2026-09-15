@@ -132,7 +132,7 @@ describe("UT planner-core — proposta de replanejamento", () => {
     ).toEqual(["completed", "in_progress", "pinned", "manual"]);
   });
 
-  it("INV-005/CE-012 — mantém todas as fixadas e explicita conflito de proteção", () => {
+  it("INV-005 / CE-012 — mantém todas as fixadas e explicita conflito de proteção", () => {
     const sessions = [
       protectedSession("pinned", 1),
       protectedSession("pinned", 2, {

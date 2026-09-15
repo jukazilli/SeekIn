@@ -84,7 +84,7 @@ describe("UT planner-core — partição de sessões", () => {
     ).toThrow(RangeError);
   });
 
-  it("INV-006/008 — conserva esforço e nunca cria duração zero", () => {
+  it("INV-006 / INV-008 — conserva esforço e nunca cria duração zero", () => {
     for (let minimum = 10; minimum <= 120; minimum += 5) {
       for (
         let preferred = Math.max(15, minimum);

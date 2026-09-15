@@ -141,7 +141,7 @@ describe("UT planner-core — alocação", () => {
     expect(result.unallocated).toEqual([]);
   });
 
-  it("INV-003/006 e CE-016 — carga exata não excede capacidade", () => {
+  it("INV-003 / INV-006 e CE-016 — carga exata não excede capacidade", () => {
     const base = input();
     const result = allocateSessions(
       input({
@@ -198,7 +198,7 @@ describe("UT planner-core — alocação", () => {
     );
   });
 
-  it("PT — conserva esforço e respeita prazo, limite diário e não sobreposição", () => {
+  it("PT INV-002 / INV-003 / INV-006 — conserva esforço, prazo, limite e não sobreposição", () => {
     fc.assert(
       fc.property(
         fc.record({
