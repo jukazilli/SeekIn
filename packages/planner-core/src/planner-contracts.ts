@@ -4,7 +4,7 @@ import {
   PLANNER_CORE_CONTRACT_VERSION,
   PLANNER_CORE_VERSION,
   PLANNER_RULES_VERSION,
-} from "./planner-version";
+} from "./planner-version.ts";
 
 const uuidSchema = z.uuid();
 const instantSchema = z.iso.datetime({ offset: true });

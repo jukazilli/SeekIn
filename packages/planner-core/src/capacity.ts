@@ -1,4 +1,4 @@
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
 
 const MINUTE_MS = 60_000;
 const MAX_LOCAL_INSTANT_CACHE_SIZE = 4_096;

@@ -2,15 +2,15 @@ import {
   calculateCapacity,
   listOperationalWindows,
   type OperationalWindow,
-} from "./capacity";
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
+} from "./capacity.ts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
 import {
   rankActivities,
   type PriorityFactorCode,
   type RankedActivity,
-} from "./priority";
-import type { RiskAnalysis } from "./risk-analysis";
-import { partitionEffort } from "./session-partition";
+} from "./priority.ts";
+import type { RiskAnalysis } from "./risk-analysis.ts";
+import { partitionEffort } from "./session-partition.ts";
 
 const MINUTE_MS = 60_000;
 const DAY_MS = 86_400_000;

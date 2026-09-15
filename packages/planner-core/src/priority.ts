@@ -1,9 +1,9 @@
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
 import {
   analyzeRisk,
   type RiskAnalysis,
   type RiskLevel,
-} from "./risk-analysis";
+} from "./risk-analysis.ts";
 
 export type PriorityFactorCode =
   | "overdue"

@@ -1,7 +1,7 @@
-import { allocateSessions, type AllocatedSession } from "./allocation";
-import { calculateCapacity, listOperationalWindows } from "./capacity";
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
-import { analyzeRisk, type ActivityRisk } from "./risk-analysis";
+import { allocateSessions, type AllocatedSession } from "./allocation.ts";
+import { calculateCapacity, listOperationalWindows } from "./capacity.ts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
+import { analyzeRisk, type ActivityRisk } from "./risk-analysis.ts";
 
 const MINUTE_MS = 60_000;
 

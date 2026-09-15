@@ -1,5 +1,5 @@
-import { calculateCapacity } from "./capacity";
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
+import { calculateCapacity } from "./capacity.ts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
 
 const HOUR_MS = 3_600_000;
 
