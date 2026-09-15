@@ -80,8 +80,8 @@
 | RNF-008 | SKN-003 / SKN-124 | G4 | auditoria WCAG 2.2 AA | Pendente |
 | RNF-009 | SKN-126 | G4 | Chromium, Firefox e WebKit | Pendente |
 | RNF-010 | SKN-003 / SKN-115 | G4 | textos fora do domínio e pt-BR | Pendente |
-| RNF-011 | SKN-027 / SKN-094 / SKN-131 | G5 | falha correlacionada sem conteúdo privado | Pendente |
-| RNF-012 | SKN-094 / SKN-133 | G5 | falha injetada e recuperação | Pendente |
+| RNF-011 | SKN-027 / SKN-094 / SKN-131 | G5 | falha correlacionada sem conteúdo privado | Parcial: [falha segura e correlacionada](evidencias/SKN-094.md) verificada; telemetria consolidada do SKN-131 pendente |
+| RNF-012 | SKN-094 / SKN-133 | G5 | falha injetada e recuperação | Parcial: [plano publicado preservado sob falha](evidencias/SKN-094.md) verificado; exercício operacional do SKN-133 pendente |
 | RNF-013 | SKN-120–122 / SKN-126 | G4 | instalação, cache e atualização | Pendente |
 | RNF-014 | SKN-123 | G4 | viewports compactos sem overflow | Pendente |
 | RNF-015 | SKN-003 / SKN-123 | G4 | alvos mínimos 44 × 44 | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md) e [impacto](evidencias/SKN-093.md) verificados; falhas, leitura, confirmação e comandos seguintes pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md) e [falha segura](evidencias/SKN-094.md) verificados; leitura, confirmação e comandos seguintes pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
