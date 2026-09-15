@@ -803,6 +803,7 @@ export type Database = {
     };
     Functions: {
       foundation_health: { Args: never; Returns: number };
+      read_current_plan: { Args: never; Returns: Json };
       persist_idempotent_plan_proposal: {
         Args: {
           p_correlation_id: string;
