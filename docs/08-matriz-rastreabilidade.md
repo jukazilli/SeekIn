@@ -41,10 +41,10 @@
 | RF-050–051 | SKN-085 / SKN-090 | G3 | invariantes e integração | Verificado: [invariantes de alocação](evidencias/SKN-085.md) e [geração autenticada](evidencias/SKN-090.md) |
 | RF-052–053 | SKN-084 | G3 | tabela de partições | [Partições e sobras verificadas](evidencias/SKN-084.md) |
 | RF-054–055 | SKN-085 | G3 | distribuição e folga | [Distribuição e folga verificadas](evidencias/SKN-085.md) |
-| RF-056 | SKN-091 | G3 | transação e imutabilidade | Parcial: [proposta atômica, imutável e sequencial](evidencias/SKN-091.md) verificada; publicação após aceite permanece no SKN-096 |
+| RF-056 | SKN-091 / SKN-096 | G3 | transação e imutabilidade | Verificado: [proposta atômica](evidencias/SKN-091.md) e [publicação transacional após aceite](evidencias/SKN-096.md) |
 | RF-057 | SKN-083 / SKN-088 | G3 | determinismo | Parcial: [ranking invariável a permutações](evidencias/SKN-083.md); propriedades amplas do SKN-088 pendentes |
 | RF-058 | SKN-082 / SKN-086 | G3 | déficit e plano parcial | Verificado: [primeiro déficit e horizonte](evidencias/SKN-082.md) e [plano parcial diagnosticado](evidencias/SKN-086.md) |
-| RF-059 | SKN-056 / SKN-096 | G3 | confirmação e cancelamento | Pendente |
+| RF-059 | SKN-056 / SKN-096 | G3 | confirmação e cancelamento | Parcial: [backend de aceite e cancelamento](evidencias/SKN-096.md) verificado; prévia e interação do onboarding permanecem no SKN-056 |
 | RF-060–061 | SKN-083 | G3 | ordenação e desempate | [Ordem v1 e desempates verificados](evidencias/SKN-083.md) |
 | RF-062 | SKN-083 / SKN-110 | G4 | fator usado e texto exibido | Parcial: [fator decisivo produzido pelo motor](evidencias/SKN-083.md); texto na tela Hoje do SKN-110 pendente |
 | RF-063–064 | SKN-082 / SKN-106 | G4 | recálculo de risco | Parcial: [cálculo puro de carga, folga e risco](evidencias/SKN-082.md); alertas e integração do SKN-106 pendentes |
@@ -57,7 +57,7 @@
 | RF-101–102 | SKN-101 | G4 | transação e reconciliação | Pendente |
 | RF-103 | SKN-102 | G4 | componente + integração | Pendente |
 | RF-104 | SKN-103 / SKN-087 | G4 | preservação da sessão | Parcial: [proteção no motor](evidencias/SKN-087.md); comandos de fixar e mover do SKN-103 pendentes |
-| RF-105–108 | SKN-087 / SKN-093 / SKN-104 | G4 | proposta, aceite e cancelamento | Parcial: [preservação](evidencias/SKN-087.md) e [diff persistido](evidencias/SKN-093.md) verificados; apresentação, aceite e cancelamento do SKN-104 pendentes |
+| RF-105–108 | SKN-087 / SKN-093 / SKN-096 / SKN-104 | G4 | proposta, aceite e cancelamento | Parcial: [preservação](evidencias/SKN-087.md), [diff persistido](evidencias/SKN-093.md) e [resolução atômica](evidencias/SKN-096.md) verificados; apresentação e integração do SKN-104 pendentes |
 | RF-110–111 | SKN-074 | G3 | sanitização e URL segura | Pendente |
 | RF-120–122 | SKN-106 | G4 | causa, ação e deduplicação | Pendente |
 | RF-130–132 | SKN-120 | G4 | instalação e uso web | Pendente |
@@ -98,7 +98,7 @@
 | CA-005 — Prioridade explicável | SKN-083 / SKN-110 | G4 | Parcial: [fatores objetivos do motor](evidencias/SKN-083.md); apresentação ao usuário no SKN-110 pendente |
 | CA-006 — Conclusão de sessão | SKN-101 | G4 | Pendente |
 | CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Parcial: [preservação canônica verificada](evidencias/SKN-087.md); resumo e aplicação do SKN-104 pendentes |
-| CA-008 — Cancelamento do replanejamento | SKN-096 / SKN-104 | G4 | Pendente |
+| CA-008 — Cancelamento do replanejamento | SKN-096 / SKN-104 | G4 | Parcial: [rejeição preservando o vigente](evidencias/SKN-096.md) verificada; interação E2E permanece no SKN-104 |
 | CA-009 — Consistência entre visões | SKN-095 / SKN-114 | G4 | Parcial: [projeção canônica versionada](evidencias/SKN-095.md) verificada; equivalência E2E das quatro telas permanece no SKN-114 |
 | CA-010 — Responsividade | SKN-115 / SKN-123 | G4 | Pendente |
 | CA-011 — Lista compacta | SKN-111 / SKN-123 | G4 | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md), [falha segura](evidencias/SKN-094.md) e [leitura vigente](evidencias/SKN-095.md) verificados; confirmação e consultas especializadas pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md), [falha segura](evidencias/SKN-094.md), [leitura vigente](evidencias/SKN-095.md) e [resolução de proposta](evidencias/SKN-096.md) verificados; consultas especializadas do SKN-097 pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |

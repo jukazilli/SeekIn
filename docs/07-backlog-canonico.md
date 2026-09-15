@@ -350,11 +350,10 @@ O primeiro ciclo deve seguir esta ordem:
 
 ## 6. Próxima ação operacional
 
-O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com geração, persistência, idempotência, impacto, proteção
-contra falhas e leitura vigente fechados nos `SKN-080–095`, a próxima ação é o `SKN-096`: confirmar ou
-rejeitar propostas de forma atômica e idempotente. A sequência retorna ao `SKN-056` quando essa
-confirmação estiver implementada.
+Com geração, persistência, idempotência, impacto, proteção contra falhas, leitura vigente e resolução
+de propostas fechados nos `SKN-080–096`, a dependência do `SKN-056` está satisfeita. A próxima ação é
+retomar o `SKN-056`: ligar a etapa final do onboarding ao planner real, apresentar a prévia e publicar
+o primeiro plano somente após o aceite do usuário.
 
 ---
 
