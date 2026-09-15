@@ -56,8 +56,8 @@
 | RF-100 | SKN-100 | G4 | integração e concorrência | Pendente |
 | RF-101–102 | SKN-101 | G4 | transação e reconciliação | Pendente |
 | RF-103 | SKN-102 | G4 | componente + integração | Pendente |
-| RF-104 | SKN-103 / SKN-087 | G4 | preservação da sessão | Pendente |
-| RF-105–108 | SKN-087 / SKN-104 | G4 | proposta, aceite e cancelamento | Pendente |
+| RF-104 | SKN-103 / SKN-087 | G4 | preservação da sessão | Parcial: [proteção no motor](evidencias/SKN-087.md); comandos de fixar e mover do SKN-103 pendentes |
+| RF-105–108 | SKN-087 / SKN-104 | G4 | proposta, aceite e cancelamento | Parcial: [proposta preserva sessões protegidas](evidencias/SKN-087.md); diff, aceite e cancelamento do SKN-104 pendentes |
 | RF-110–111 | SKN-074 | G3 | sanitização e URL segura | Pendente |
 | RF-120–122 | SKN-106 | G4 | causa, ação e deduplicação | Pendente |
 | RF-130–132 | SKN-120 | G4 | instalação e uso web | Pendente |
@@ -97,7 +97,7 @@
 | CA-004 — Conflito de capacidade | SKN-086 / SKN-105 | G4 | Parcial: [diagnóstico puro e plano parcial](evidencias/SKN-086.md); resolução de conflito na interface do SKN-105 pendente |
 | CA-005 — Prioridade explicável | SKN-083 / SKN-110 | G4 | Parcial: [fatores objetivos do motor](evidencias/SKN-083.md); apresentação ao usuário no SKN-110 pendente |
 | CA-006 — Conclusão de sessão | SKN-101 | G4 | Pendente |
-| CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Pendente |
+| CA-007 — Replanejamento seguro | SKN-087 / SKN-104 | G4 | Parcial: [preservação canônica verificada](evidencias/SKN-087.md); resumo e aplicação do SKN-104 pendentes |
 | CA-008 — Cancelamento do replanejamento | SKN-096 / SKN-104 | G4 | Pendente |
 | CA-009 — Consistência entre visões | SKN-095 / SKN-114 | G4 | Pendente |
 | CA-010 — Responsividade | SKN-115 / SKN-123 | G4 | Pendente |
@@ -128,7 +128,7 @@
 | Arquitetura §§4–6 | monólito modular, fronteiras e workspace | SKN-010/011/019/080 | [Contrato do planner verificado](evidencias/SKN-080.md) |
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
-| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: contratos, capacidade, risco, prioridade, partição, alocação e [diagnóstico](evidencias/SKN-086.md) verificados no planner-core; demais regras, Edge Function e persistência pendentes |
+| Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: contratos e regras puras até o [replanejamento protegido](evidencias/SKN-087.md) verificados no planner-core; suíte consolidada, Edge Function e persistência pendentes |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |

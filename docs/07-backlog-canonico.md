@@ -351,9 +351,9 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com contratos, capacidade, risco, prioridade, partições,
-alocação e diagnóstico fechados nos `SKN-080–086`, a próxima ação é o `SKN-087`: produzir proposta de
-replanejamento preservando concluídas, em andamento, fixadas e manuais. A sequência retorna ao
+exige primeiro o motor e o backend reais. Com as regras puras do motor fechadas nos `SKN-080–087`, a
+próxima ação é o `SKN-088`: consolidar casos extremos, determinismo, fusos e invariantes com Vitest e
+`fast-check`. A sequência retorna ao
 `SKN-056` depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
