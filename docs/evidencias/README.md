@@ -170,6 +170,7 @@ O arquivo de evidência faz parte da entrega. Um link quebrado ou um resultado i
 | SKN-088 | Verificado | [Invariantes e casos extremos do planner-core](SKN-088.md) |
 | SKN-089 | Verificado | [Benchmark reproduzível do planner-core](SKN-089.md) |
 | SKN-090 | Verificado | [Geração autenticada pelo planner-core](SKN-090.md) |
+| SKN-091 | Verificado | [Persistência atômica da proposta do plano](SKN-091.md) |
 
 ## 6. Portões fechados
 
