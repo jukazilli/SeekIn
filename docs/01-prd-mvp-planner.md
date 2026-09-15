@@ -572,7 +572,10 @@ O sistema deve informar:
 - maior janela de capacidade ainda disponível;
 - opções para resolver o conflito.
 
-O sistema pode alocar a parcela possível, mas deve rotulá-la como plano parcial. Nunca deve apresentar uma atividade como garantida quando falta capacidade.
+O sistema pode alocar a parcela possível, mas deve rotulá-la como plano parcial. Quando existe esforço
+não alocado, o resultado é `partial` se ao menos uma sessão automática foi proposta e `infeasible` se
+nenhuma sessão automática pôde ser proposta. Um resultado `feasible` exige esforço não alocado igual a
+zero. Nunca deve apresentar uma atividade como garantida quando falta capacidade.
 
 ### 11.8 Replanejamento
 
