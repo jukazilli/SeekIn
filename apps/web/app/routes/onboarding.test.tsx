@@ -76,6 +76,8 @@ function state(revision = 4, step = 1) {
     availability: [],
     discipline: null,
     disciplines: [],
+    operationKey: expect.any(String),
+    proposal: null,
     recurringBlocks: [],
     preferences: {
       capacity_reserve_percent: 20,
@@ -90,7 +92,35 @@ function state(revision = 4, step = 1) {
   };
 }
 
+let plannerInvoke: ReturnType<typeof vi.fn>;
+
 function authenticatedClient() {
+  plannerInvoke = vi.fn().mockResolvedValue({
+    data: {
+      data: {
+        capacity: {
+          allocatedMinutes: 100,
+          grossMinutes: 300,
+          netMinutes: 240,
+          operationalMinutes: 300,
+        },
+        conflicts: [],
+        feasibility: "feasible",
+        planId: "95000000-0000-4000-8000-000000000056",
+        requiresConfirmation: true,
+        sessions: [],
+        status: "proposal",
+        unallocated: [],
+        version: 1,
+      },
+    },
+    error: null,
+  });
+  const client = {};
+  Object.defineProperty(client, "functions", {
+    enumerable: false,
+    value: { invoke: plannerInvoke },
+  });
   mockedSessionClient.mockReturnValue({
     auth: {
       getUser: vi.fn().mockResolvedValue({
@@ -98,7 +128,7 @@ function authenticatedClient() {
         error: null,
       }),
     } as never,
-    client: {} as never,
+    client: client as never,
     headers: new Headers({ "cache-control": "private, no-store" }),
   });
 }
@@ -640,8 +670,51 @@ describe("SKN-050 persistent onboarding route", () => {
     expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 6);
     await expect(response.json()).resolves.toMatchObject({
       activity: { id: "activity-1", title: "Lista de exercícios" },
+      proposal: {
+        feasibility: "feasible",
+        planId: "95000000-0000-4000-8000-000000000056",
+      },
       step: 6,
     });
+  });
+
+  it("publishes the accepted first plan and completes onboarding", async () => {
+    mockedEnsureProfile.mockResolvedValue({ ...profile, onboarding_step: 6 });
+    plannerInvoke.mockResolvedValue({
+      data: {
+        data: {
+          planId: "95000000-0000-4000-8000-000000000056",
+          status: "published",
+        },
+      },
+      error: null,
+    } as never);
+    mockedUpdateProgress.mockResolvedValue({
+      ...profile,
+      onboarding_status: "completed",
+      onboarding_step: 7,
+      revision: 5,
+    });
+
+    const response = (await action(
+      args(
+        new Request("https://seekin.example.test/onboarding", {
+          body: new URLSearchParams({
+            currentStep: "6",
+            intent: "confirm-plan",
+            operationKey: "confirm-first-plan",
+            planId: "95000000-0000-4000-8000-000000000056",
+            revision: "4",
+          }),
+          headers: { origin: "https://seekin.example.test" },
+          method: "POST",
+        }),
+      ),
+    )) as Response;
+
+    expect(response.status).toBe(302);
+    expect(response.headers.get("location")).toBe("/app");
+    expect(mockedUpdateProgress).toHaveBeenCalledWith({}, "user-1", 4, 7);
   });
 
   it("redirects completed onboarding to the app", async () => {
