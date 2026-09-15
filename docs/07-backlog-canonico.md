@@ -351,9 +351,9 @@ O primeiro ciclo deve seguir esta ordem:
 ## 6. Próxima ação operacional
 
 O `SKN-056` permanece aberto e não deve simular uma prévia: sua dependência explícita, `SKN-096`,
-exige primeiro o motor e o backend reais. Com contratos, capacidade, risco, prioridade e partições
-fechados nos `SKN-080–084`, a próxima ação é o `SKN-085`: alocar sessões antes do prazo, sem
-sobreposição, respeitando limite diário, folga e distribuição entre dias. A sequência retorna ao
+exige primeiro o motor e o backend reais. Com contratos, capacidade, risco, prioridade, partições e
+alocação fechados nos `SKN-080–085`, a próxima ação é o `SKN-086`: retornar plano parcial e diagnóstico
+quando a demanda exceder capacidade, sem rotular inviável como garantido. A sequência retorna ao
 `SKN-056` depois que geração, persistência e confirmação estiverem implementadas até o `SKN-096`.
 
 ---
