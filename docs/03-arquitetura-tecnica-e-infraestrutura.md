@@ -261,6 +261,13 @@ O primeiro motor será escrito em TypeScript e executado por uma Edge Function d
 
 O motor deve ser idempotente e possuir limite explícito de itens e horizonte. Se o cálculo não terminar, o último plano válido permanece publicado.
 
+A fronteira de execução aplica timeout de cinco segundos à autenticação, ao carregamento e ao cálculo,
+revalida a saída do motor antes de permitir persistência e retorna `503 PLANNER_TIMEOUT` quando o
+limite é excedido. Falhas operacionais emitem um evento JSON correlacionável com campos permitidos,
+sem entrada, saída, identificador de usuário ou conteúdo acadêmico. Como a persistência ocorre somente
+depois de uma decisão válida e dentro da transação atômica, falha, timeout e saída inválida não alteram
+o plano publicado.
+
 ### 9.3 Evolução
 
 Quando o algoritmo exceder os limites da Edge Function ou precisar de otimização matemática, a mesma entrada será enviada a um serviço no Cloud Run. A estratégia completa está em [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md).
