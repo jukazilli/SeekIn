@@ -803,6 +803,16 @@ export type Database = {
     };
     Functions: {
       foundation_health: { Args: never; Returns: number };
+      persist_plan_proposal: {
+        Args: {
+          p_correlation_id: string;
+          p_expected_current_plan_id: string | null;
+          p_generation_reason: string;
+          p_input: Json;
+          p_output: Json;
+        };
+        Returns: Json;
+      };
     };
     Enums: {
       [_ in never]: never;

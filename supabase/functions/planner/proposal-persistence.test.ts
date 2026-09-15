@@ -1,0 +1,64 @@
+import { describe, expect, it, vi } from "vitest";
+
+import type {
+  PlannerInput,
+  PlannerOutput,
+} from "../../../packages/planner-core/src/index.ts";
+import type { GenerateDecision } from "./generate-core";
+import {
+  persistGeneratedProposal,
+  type ProposalPersistenceClient,
+} from "./proposal-persistence";
+
+const generation = {
+  ok: true,
+  userId: "11000000-0000-4000-8000-000000000001",
+  request: {
+    contractVersion: 1,
+    reason: "manual_request",
+    horizonDays: 7,
+    expectedCurrentPlanId: null,
+  },
+  input: { horizonStartDate: "2026-09-14" } as PlannerInput,
+  output: { feasibility: "feasible" } as PlannerOutput,
+} satisfies Extract<GenerateDecision, { ok: true }>;
+
+describe("planner proposal persistence", () => {
+  it("passes the validated snapshots and correlation to the atomic RPC", async () => {
+    const rpc = vi.fn(async () => ({
+      data: { planId: "11000000-0000-4000-8000-000000000031", version: 1 },
+      error: null,
+    }));
+
+    await expect(
+      persistGeneratedProposal(
+        { rpc } as ProposalPersistenceClient,
+        generation,
+        "correlation-1",
+      ),
+    ).resolves.toMatchObject({ ok: true });
+    expect(rpc).toHaveBeenCalledWith("persist_plan_proposal", {
+      p_correlation_id: "correlation-1",
+      p_expected_current_plan_id: null,
+      p_generation_reason: "manual_request",
+      p_input: generation.input,
+      p_output: generation.output,
+    });
+  });
+
+  it.each([
+    ["STALE_PLAN", "STALE_PLAN", 409],
+    ["database failure", "INTERNAL_ERROR", 500],
+  ] as const)(
+    "maps %s without exposing database details",
+    async (message, code, statusCode) => {
+      const client = {
+        rpc: async () => ({ data: null, error: { message } }),
+      } as ProposalPersistenceClient;
+
+      await expect(
+        persistGeneratedProposal(client, generation, "correlation-2"),
+      ).resolves.toEqual({ ok: false, code, statusCode });
+    },
+  );
+});

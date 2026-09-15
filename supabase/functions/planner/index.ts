@@ -5,6 +5,7 @@ import type { Database } from "../../../packages/contracts/src/index.ts";
 import { PLANNER_CORE_CONTRACT_VERSION } from "../../../packages/planner-core/src/index.ts";
 import { generateAuthenticatedPlan } from "./generate-core.ts";
 import { createPlannerInputLoader } from "./planner-input-loader.ts";
+import { persistGeneratedProposal } from "./proposal-persistence.ts";
 
 const messages = {
   AUTH_REQUIRED: "Entre na sua conta para gerar um plano.",
@@ -120,9 +121,38 @@ Deno.serve(async (request) => {
     );
   }
 
+  const persistence = await persistGeneratedProposal(
+    client,
+    decision,
+    correlationId,
+  );
+  if (!persistence.ok) {
+    const stale = persistence.code === "STALE_PLAN";
+    return json(
+      {
+        error: {
+          code: stale ? "STALE_PLAN" : "INTERNAL_ERROR",
+          message: stale
+            ? "O plano atual mudou. Gere uma nova proposta."
+            : messages.INTERNAL_ERROR,
+          retryable: !stale,
+        },
+        meta: {
+          contractVersion: PLANNER_CORE_CONTRACT_VERSION,
+          correlationId,
+        },
+      },
+      stale ? 409 : 500,
+      correlationId,
+    );
+  }
+
   return json(
     {
-      data: decision.output,
+      data: {
+        ...persistence.proposal,
+        ...decision.output,
+      },
       meta: {
         contractVersion: PLANNER_CORE_CONTRACT_VERSION,
         correlationId,
