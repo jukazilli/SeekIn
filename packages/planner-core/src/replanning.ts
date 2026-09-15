@@ -1,5 +1,5 @@
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
-import { diagnosePlan, type PlanDraft } from "./plan-diagnostic";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
+import { diagnosePlan, type PlanDraft } from "./plan-diagnostic.ts";
 
 const MINUTE_MS = 60_000;
 const PROTECTION_ORDER = {

@@ -1,4 +1,4 @@
-import { plannerInputSchema, type PlannerInput } from "./planner-contracts";
+import { plannerInputSchema, type PlannerInput } from "./planner-contracts.ts";
 
 const MINUTE_MS = 60_000;
 const MAX_LOCAL_INSTANT_CACHE_SIZE = 4_096;
@@ -150,6 +150,15 @@ function localInstant(date: string, time: string, timeZone: string): number {
   localInstantCache.set(cacheKey, candidate);
 
   return candidate;
+}
+
+/** Resolves a civil date/time without silently shifting DST gaps or overlaps. */
+export function resolvePlannerLocalInstant(
+  date: string,
+  time: string,
+  timeZone: string,
+): string {
+  return new Date(localInstant(date, time, timeZone)).toISOString();
 }
 
 function mergeIntervals(intervals: Interval[]): Interval[] {

@@ -1,0 +1,9 @@
+{
+  "imports": {
+    "@seekin/contracts": "../../../packages/contracts/src/index.ts",
+    "@seekin/domain": "../../../packages/domain/src/index.ts",
+    "@supabase/functions-js": "jsr:@supabase/functions-js@2.5.0",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.116.0",
+    "zod": "npm:zod@4.6.2"
+  }
+}
