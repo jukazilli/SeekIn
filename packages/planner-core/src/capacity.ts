@@ -152,6 +152,15 @@ function localInstant(date: string, time: string, timeZone: string): number {
   return candidate;
 }
 
+/** Resolves a civil date/time without silently shifting DST gaps or overlaps. */
+export function resolvePlannerLocalInstant(
+  date: string,
+  time: string,
+  timeZone: string,
+): string {
+  return new Date(localInstant(date, time, timeZone)).toISOString();
+}
+
 function mergeIntervals(intervals: Interval[]): Interval[] {
   const ordered = intervals
     .filter(({ start, end }) => start < end)

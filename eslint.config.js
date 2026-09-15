@@ -12,7 +12,7 @@ export default tseslint.config(
       "**/.react-router/**",
       "**/.wrangler/**",
       "**/worker-configuration.d.ts",
-      "supabase/functions/**",
+      "supabase/functions/**/index.ts",
     ],
   },
   js.configs.recommended,
