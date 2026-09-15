@@ -65,7 +65,13 @@ export interface PlannerInputLoader {
 }
 
 export type GenerateDecision =
-  | { ok: true; output: PlannerOutput; userId: string }
+  | {
+      ok: true;
+      input: PlannerInput;
+      output: PlannerOutput;
+      request: GenerateRequest;
+      userId: string;
+    }
   | {
       ok: false;
       code:
@@ -214,7 +220,13 @@ export async function generateAuthenticatedPlan(
   }
 
   try {
-    return { ok: true, output: await executePlanner(input.data), userId };
+    return {
+      ok: true,
+      input: input.data,
+      output: await executePlanner(input.data),
+      request: parsedRequest,
+      userId,
+    };
   } catch {
     return { ok: false, code: "INTERNAL_ERROR", statusCode: 500 };
   }
