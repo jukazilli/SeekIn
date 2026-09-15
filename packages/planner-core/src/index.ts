@@ -5,4 +5,5 @@ export * from "./planner-version";
 export * from "./plan-diagnostic";
 export * from "./priority";
 export * from "./risk-analysis";
+export * from "./replanning";
 export * from "./session-partition";
