@@ -1,18 +1,19 @@
 # SeekIn — Briefing de Produto
 
-> Plataforma para planejar estudos com base na capacidade real do aluno, compartilhar conhecimento e conectar estudantes a comunidades e mentores.
+> Plataforma de desenvolvimento orientada a objetivos que começa pelo planejamento inteligente de estudos e evolui para conectar direção, aprendizado, execução, progresso, conhecimento e pessoas.
 
-**Status:** visão inicial do produto
+**Status:** visão estratégica em evolução controlada
 
-**Versão:** 0.1
+**Versão:** 0.2
 
-**Documentação atual:** briefing, PRD, requisitos técnicos, arquitetura, engenharia e backlog canônico
+**Documentação atual:** briefing, visão Goal-Driven, PRD, requisitos técnicos, arquitetura, engenharia e backlog canônico
 
 ## Documentação do produto
 
 | Documento | Finalidade | Status |
 |---|---|---|
-| **Briefing de Produto** — este arquivo | Registrar visão, fases e decisões gerais | Versão 0.1 |
+| **Briefing de Produto** — este arquivo | Registrar visão, fases e decisões gerais | Versão 0.2 |
+| [Visão Goal-Driven e Growth Engine](docs/17-visao-goal-driven-e-growth-engine.md) | Definir a direção de longo prazo, os limites do Growth Engine e sua relação com o planner | Direção estratégica |
 | [PRD — MVP do Planner](docs/01-prd-mvp-planner.md) | Especificar o primeiro produto entregável | Pronto para revisão |
 | [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md) | Definir instalação, layouts e visões por dispositivo | Decisão registrada |
 | [Arquitetura técnica e infraestrutura](docs/03-arquitetura-tecnica-e-infraestrutura.md) | Definir stack, módulos, dados, segurança e implantação | Decisão aprovada |
@@ -39,21 +40,31 @@ O nome representa a ideia de **buscar a inteligência dentro de si ou em pessoas
 
 ## 2. Resumo executivo
 
-O SeekIn será uma plataforma de desenvolvimento acadêmico construída em três fases complementares:
+O SeekIn nasce como um planner inteligente de estudos, mas sua visão de longo prazo é mais ampla: tornar-se uma **plataforma de desenvolvimento orientada a objetivos**.
+
+A plataforma deve ajudar a pessoa a compreender onde está, registrar onde quer chegar, identificar lacunas, explorar caminhos possíveis, encontrar recursos adequados e transformar passos escolhidos em ações que caibam na sua vida real.
+
+A evolução estratégica é:
 
 1. **Planner inteligente de estudos:** organiza atividades conforme prazos, prioridades, esforço necessário, rotina e tempo realmente disponível.
-2. **Rede social de conhecimento:** oferece perfil acadêmico, conexões, seguidores, feed e comunidades estruturadas para compartilhar estudos, dúvidas e conhecimento científico.
-3. **Mentorias:** conecta estudantes a pessoas mais experientes, profissionais e especialistas por meio de mentorias gratuitas ou pagas.
+2. **Goals:** conecta atividades e progresso a resultados que a pessoa deseja alcançar.
+3. **Gap Intelligence:** ajuda a identificar conhecimentos, competências, experiências ou evidências que ainda precisam ser desenvolvidos.
+4. **Pathways:** representa caminhos possíveis entre o estado atual e o estado desejado.
+5. **Resource Discovery:** conecta etapas a cursos, livros, projetos, conteúdos, certificações, comunidades, mentores ou outras formas de desenvolvimento.
+6. **Adaptive Growth:** acompanha progresso e evidências e permite reavaliar o caminho quando a realidade muda.
+7. **Knowledge Network e Mentorias:** adiciona colaboração, comunidades e especialistas como experiências próprias e também como recursos possíveis dentro de um caminho de desenvolvimento.
 
-O produto começa pelo planner. A rede social e as mentorias entram somente após a validação do núcleo de planejamento.
+O produto continua começando pelo planner. Goals, gaps, pathways, descoberta de recursos, rede social e mentorias somente avançam após validação do núcleo de planejamento e PRDs específicos.
 
 ## 3. Visão do produto
 
 ### 3.1 Problema
 
-Estudantes organizam a vida acadêmica em ferramentas desconectadas: calendários, listas de tarefas, grupos de mensagens, redes sociais, documentos e anotações. Essas ferramentas registram compromissos, mas normalmente não respondem à pergunta principal:
+No curto prazo, estudantes organizam a vida acadêmica em ferramentas desconectadas: calendários, listas de tarefas, grupos de mensagens, redes sociais, documentos e anotações. Essas ferramentas registram compromissos, mas normalmente não respondem à pergunta principal:
 
 > **O que devo estudar agora para cumprir meus prazos sem sobrecarregar minha rotina?**
+
+Em uma visão mais ampla, existe outro problema: mesmo quando uma pessoa sabe onde quer chegar, geralmente precisa montar sozinha a ponte entre **objetivo, aprendizado, recursos disponíveis e execução cotidiana**.
 
 Os principais efeitos desse problema são:
 
@@ -62,20 +73,29 @@ Os principais efeitos desse problema são:
 - concentração do estudo próximo ao prazo de entrega;
 - pouca visibilidade sobre atrasos e sobrecarga futura;
 - excesso de decisões diárias;
+- dificuldade para relacionar tarefas atuais a objetivos maiores;
+- dificuldade para entender o que falta aprender ou demonstrar;
+- recursos de aprendizagem dispersos e sem relação explícita com o objetivo;
 - conhecimento acadêmico disperso em redes não projetadas para aprendizagem;
-- dificuldade para encontrar colegas e mentores do mesmo contexto.
+- dificuldade para encontrar colegas e mentores no contexto certo.
 
 ### 3.2 Proposta de valor
 
-O SeekIn transforma demandas acadêmicas em um plano realista, apresenta a próxima ação com clareza e, no futuro, conecta o aluno a pessoas que podem ajudá-lo a avançar.
+No MVP, o SeekIn transforma demandas acadêmicas em um plano realista e apresenta a próxima ação com clareza.
+
+Na visão de longo prazo, o SeekIn conecta **onde a pessoa está**, **onde deseja chegar** e **o que precisa executar na prática**, usando o planner como camada de execução dessa trajetória.
 
 ### 3.3 Promessa central
 
-> **Saber o que estudar, quando estudar e onde encontrar ajuda.**
+> **Entender onde você está, onde quer chegar e transformar o caminho em ações que cabem na sua vida real.**
+
+Para o MVP do planner, essa promessa se materializa primeiro como:
+
+> **Saber o que estudar e quando estudar sem ignorar a sua rotina.**
 
 ### 3.4 Objetivo estratégico
 
-Atrair parte das pessoas que hoje utilizam redes sociais genéricas para estudar, pedir ajuda e compartilhar conhecimento, oferecendo um ambiente construído especificamente para aprendizagem e evolução acadêmica.
+Validar primeiro um planner de alta confiança e, sobre essa base, construir uma plataforma capaz de conectar objetivos, desenvolvimento, recursos, execução, conhecimento e pessoas sem se transformar em uma ferramenta genérica de produtividade.
 
 ## 4. Públicos iniciais
 
@@ -91,19 +111,25 @@ Atrair parte das pessoas que hoje utilizam redes sociais genéricas para estudar
 - estudantes de cursos técnicos e preparatórios;
 - pós-graduandos e pesquisadores;
 - profissionais em formação continuada;
+- pessoas em transição ou desenvolvimento de carreira;
+- pessoas perseguindo certificações, competências ou projetos de aprendizagem;
 - professores, tutores, especialistas e mentores;
-- comunidades acadêmicas e grupos de estudo.
+- comunidades acadêmicas, profissionais e grupos de estudo.
 
 ## 5. Princípios do produto
 
-1. **Execução antes de configuração:** o sistema deve ajudar o aluno a começar, não apenas a cadastrar informações.
-2. **Capacidade real antes de plano ideal:** nenhum plano pode ignorar a rotina e os limites do estudante.
-3. **Prazo visível:** entregas e riscos devem permanecer claros sem gerar ansiedade desnecessária.
-4. **Baixa carga cognitiva:** cada tela deve ter uma tarefa mental principal.
-5. **Replanejamento sem culpa:** mudanças fazem parte da rotina; o sistema deve absorvê-las e recalcular o plano.
-6. **Explicabilidade:** o aluno precisa entender por que uma atividade foi priorizada.
-7. **Comunidade com propósito:** interação social deve favorecer aprendizagem, ajuda e produção de conhecimento.
-8. **Segurança desde o início:** privacidade, moderação e proteção de dados são requisitos estruturais.
+1. **Execução antes de configuração:** o sistema deve ajudar a pessoa a começar, não apenas a cadastrar informações.
+2. **Capacidade real antes de plano ideal:** nenhum plano pode ignorar rotina e limites reais.
+3. **Direção antes de conteúdo:** no futuro, recursos devem estar relacionados a um objetivo ou necessidade; o produto não deve recomendar conteúdo infinitamente sem contexto.
+4. **Prazo visível:** entregas e riscos devem permanecer claros sem gerar ansiedade desnecessária.
+5. **Baixa carga cognitiva:** cada tela deve ter uma tarefa mental principal.
+6. **Replanejamento sem culpa:** mudanças fazem parte da rotina; o sistema deve absorvê-las e recalcular o plano.
+7. **Explicabilidade:** a pessoa precisa entender por que uma atividade, caminho ou recurso foi recomendado.
+8. **Autonomia:** recomendações não substituem a decisão do usuário sobre seus objetivos e caminhos.
+9. **Objetivos como contexto, não como ERP pessoal:** novos conceitos de domínio não justificam criar uma aba ou dashboard para cada conceito.
+10. **Comunidade com propósito:** interação social deve favorecer aprendizagem, ajuda e produção de conhecimento.
+11. **Segurança desde o início:** privacidade, moderação e proteção de dados são requisitos estruturais.
+12. **Evolução por validação:** visão futura não autoriza implementação sem PRD, critérios de aceite e decisão explícita.
 
 ---
 
@@ -127,6 +153,8 @@ O planner adapta conceitos de **MRP** e **CRP** para o planejamento acadêmico:
 | Reprogramação | Redistribuição das sessões após mudanças ou atrasos |
 
 O MRP responde **o que precisa ser feito e até quando**. O CRP verifica **se existe capacidade suficiente para executar esse plano**.
+
+Na visão futura, o planner não precisa descobrir sozinho a estratégia de desenvolvimento. Ele recebe atividades ou demandas canônicas confirmadas e continua responsável por capacidade, prioridade, prazo, sessões, risco e replanejamento.
 
 ## 7. Entradas do planejamento
 
@@ -291,6 +319,10 @@ Sessões fixadas pelo aluno devem ser preservadas sempre que possível. Mudança
 
 ### Fora do primeiro MVP
 
+- Goals, milestones e estado desejado;
+- competências e análise de gaps;
+- Pathways e descoberta de recursos;
+- Growth Engine;
 - feed social;
 - servidores, canais e salas;
 - chat em tempo real;
@@ -315,6 +347,8 @@ A direção escolhida é uma interface **clean e minimalista**, inspirada na cap
 - **Calendário:** distribuição temporal e compromissos.
 - **Atividades:** cadastro, filtros e acompanhamento.
 - **Perfil:** identidade acadêmica e, futuramente, atividade social.
+
+Goals e demais conceitos futuros não entram automaticamente nessa navegação. Quando forem especificados, devem aparecer de forma coerente com as tarefas do usuário, evitando transformar o SeekIn em um painel administrativo de desenvolvimento pessoal.
 
 ### 15.2 Visão Gantt
 
@@ -354,6 +388,8 @@ A tela “Hoje” deve reduzir a tomada de decisão. Sua hierarquia recomendada 
 5. entregas próximas;
 6. capacidade restante do dia.
 
+No futuro, uma atividade poderá mostrar discretamente sua relação com um Goal ou milestone quando isso ajudar a responder **“por que isso importa?”**, sem competir com a próxima ação.
+
 ### 15.5 Adaptação para celular
 
 O celular não deve exibir um Gantt desktop comprimido. A Lista é a visão principal do plano e a adaptação usa:
@@ -379,7 +415,43 @@ O celular não deve exibir um Gantt desktop comprimido. A Lista é a visão prin
 
 ---
 
+## Visão futura — Goal-Driven e Growth Engine
+
+A direção completa está registrada em [`docs/17-visao-goal-driven-e-growth-engine.md`](docs/17-visao-goal-driven-e-growth-engine.md).
+
+O princípio central é:
+
+```text
+Estado atual
+  ↓
+Objetivo
+  ↓
+Gap
+  ↓
+Pathway
+  ↓
+Recursos
+  ↓
+Atividades confirmadas
+  ↓
+Planner
+  ↓
+Execução
+  ↓
+Progresso e evidências
+  ↓
+Reavaliação
+```
+
+O Goal/Growth Engine futuro responde principalmente **o que pode ajudar a pessoa a avançar e por quê**. O Planner responde principalmente **quando e como uma demanda confirmada cabe na vida real**.
+
+A visão futura não altera o escopo P0 nem autoriza migrations, novos módulos ou novas telas.
+
+---
+
 # Fase 2 — Rede social de conhecimento
+
+> Esta fase permanece documentada como capacidade futura. Na nova visão estratégica, rede e comunidades também podem funcionar como recursos contextuais dentro de Pathways, mas continuam exigindo PRD, moderação e validação próprios.
 
 ## 16. Perfil social
 
@@ -513,6 +585,8 @@ Capacidades necessárias:
 
 # Fase 3 — Mentorias
 
+> Mentorias permanecem como capacidade futura e podem, além da experiência própria, ser recomendadas como recurso de um Pathway quando houver contexto, confiança e consentimento adequados.
+
 ## 21. Proposta
 
 O SeekIn permitirá que pessoas formadas, profissionais e estudantes experientes ajudem quem está começando.
@@ -531,7 +605,7 @@ Formatos possíveis:
 
 1. Mentor cria perfil e informa credenciais.
 2. Mentor publica uma oferta com tema, formato, preço e disponibilidade.
-3. Estudante encontra a oferta por busca, perfil ou comunidade.
+3. Estudante encontra a oferta por busca, perfil, comunidade ou contexto de um Pathway futuro.
 4. Estudante solicita ou agenda uma sessão.
 5. Pagamento é autorizado quando aplicável.
 6. A sessão é realizada.
@@ -557,14 +631,29 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 
 ## 24. Jornada principal
 
+### 24.1 Jornada do MVP
+
 1. Criar uma conta e um perfil.
 2. Informar rotina, disponibilidade e limites.
 3. Cadastrar atividades com prazo, esforço, prioridade e notas.
 4. Receber um plano com Lista, Gantt, calendário e próxima sessão recomendada.
 5. Executar, concluir ou replanejar sessões conforme a realidade.
-6. Compartilhar uma dúvida ou aprendizado no perfil, feed ou sala.
-7. Encontrar servidor, canal e sala compatíveis com seu contexto.
-8. Pedir ajuda à comunidade ou contratar uma mentoria.
+
+### 24.2 Jornada estratégica futura
+
+Depois que os domínios correspondentes forem validados e implementados, a jornada poderá evoluir para:
+
+1. compreender e registrar o estado atual relevante;
+2. definir um objetivo;
+3. decompor o objetivo em milestones;
+4. identificar gaps e incertezas;
+5. comparar caminhos possíveis;
+6. selecionar recursos e ações;
+7. transformar passos escolhidos em atividades canônicas;
+8. usar o planner para encaixar essas atividades na rotina;
+9. produzir evidências e acompanhar progresso;
+10. reavaliar caminho, recursos ou objetivo conforme a realidade;
+11. usar comunidade ou mentoria quando elas agregarem valor ao caminho.
 
 ## 25. Entidades principais
 
@@ -572,9 +661,12 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 |---|---|
 | Identidade | usuário, perfil, conexão, seguidor, privacidade |
 | Planejamento | disponibilidade, rotina, disciplina, atividade, dependência, sessão, nota, esforço |
+| Desenvolvimento futuro | goal, milestone, competência, evidência, gap, pathway, step, recurso, recomendação, progresso |
 | Comunidade | servidor, canal, sala, membro, papel, regra, convite |
 | Conteúdo | publicação, comentário, reação, fonte, anexo, denúncia, moderação |
 | Mentoria | mentor, credencial, oferta, agenda, reserva, pagamento, avaliação, disputa |
+
+As entidades de desenvolvimento futuro são conceituais nesta versão e **não representam tabelas, APIs ou packages aprovados**.
 
 ## 26. Roadmap recomendado
 
@@ -584,9 +676,15 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 | M1 — Planner básico | Conta, rotina, atividades, Hoje, Lista, Gantt e calendário | Fluxo completo funciona com dados manuais |
 | M2 — Planejamento inteligente | Capacidade, risco, dependências e replanejamento | Planos continuam viáveis após mudanças |
 | M3 — Beta fechado | Testar com grupo pequeno e medir execução | Retenção e confiança suficientes para ampliar |
-| M4 — Identidade e feed | Perfis, conexões, seguidores e feed universal | Conteúdo útil e moderação operável |
-| M5 — Comunidades | Servidores, canais, salas, descoberta e governança | Baixa duplicidade e salas com atividade real |
-| M6 — Mentorias | Ofertas, agenda, pagamento, avaliação e suporte | Demanda recorrente e confiança entre participantes |
+| M4 — Goals | Representar objetivo, milestones e relação com atividades | Problema validado + PRD próprio + privacidade definida |
+| M5 — Gap Intelligence | Relacionar estado atual, evidências e lacunas relevantes | Explicabilidade e revisão pelo usuário validadas |
+| M6 — Pathways | Representar e comparar caminhos possíveis | Usuários compreendem alternativas sem depender de plano único |
+| M7 — Resource Discovery | Encontrar recursos adequados às etapas escolhidas | Qualidade, origem, adequação e transparência mensuráveis |
+| M8 — Adaptive Growth | Usar progresso e evidências para reavaliar o caminho | Reavaliações melhoram o plano sem retirar autonomia |
+| M9 — Knowledge Network | Perfis, conteúdo e comunidades com utilidade contextual | Conteúdo útil e moderação operável |
+| M10 — Mentorias | Especialistas, agenda, confiança e pagamentos quando aplicável | Demanda recorrente e confiança entre participantes |
+
+M4 em diante não é escopo autorizado de implementação. Cada marco exige descoberta, PRD, UX, arquitetura, privacidade e rastreabilidade próprias.
 
 ## 27. Métricas de sucesso
 
@@ -599,6 +697,17 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 - diferença entre esforço estimado e realizado;
 - retenção semanal;
 - confiança declarada no plano.
+
+### Desenvolvimento futuro
+
+Métricas candidatas, somente após PRD próprio:
+
+- objetivos com caminho compreendido pelo usuário;
+- milestones com evidência de progresso;
+- recomendações aceitas, rejeitadas ou ajustadas;
+- recursos que resultam em atividades realmente executadas;
+- redução de gaps com evidência adequada;
+- frequência de reavaliações úteis, sem medir sucesso por volume de interação.
 
 ### Rede
 
@@ -619,39 +728,52 @@ Antes da monetização, o produto precisa validar confiança, demanda recorrente
 
 ### Métrica norte
 
-> **Resultados de estudo concluídos com apoio do plano ou da comunidade.**
+> **Progresso verificável em direção aos objetivos do usuário com apoio do SeekIn.**
 
-A definição operacional deve combinar sessões concluídas, atividades entregues no prazo e interações úteis. Tempo de tela, isoladamente, não representa sucesso.
+Durante o MVP do planner, sessões concluídas, atividades entregues no prazo, confiança e retenção continuam sendo os principais sinais operacionais. Na visão futura, esses sinais devem ser relacionados a resultados maiores. Tempo de tela, isoladamente, não representa sucesso.
 
 ## 28. Riscos e respostas
 
 | Risco | Impacto | Resposta recomendada |
 |---|---|---|
-| Escopo excessivo | O planner perde qualidade antes de validar o núcleo | Separar o roadmap e bloquear recursos sociais no MVP |
+| Escopo excessivo | O planner perde qualidade antes de validar o núcleo | Bloquear domínios futuros até validação e PRD próprio |
+| Produto vira “ERP pessoal” | Complexidade, baixa clareza e abandono | Objetivos como contexto transversal; evitar módulo para cada conceito |
+| Recomendação sem direção | Catálogo de conteúdo sem resultado claro | Relacionar recursos a objetivo, gap ou etapa quando esses domínios existirem |
+| IA excessivamente autoritativa | Usuário perde autonomia ou recebe caminhos frágeis | Explicabilidade, incerteza explícita, alternativas e confirmação humana |
 | Plano irreal | O aluno deixa de confiar nas recomendações | Usar reserva de capacidade, limites e replanejamento explicável |
 | Feed vira distração | O produto repete o problema das redes atuais | Separar execução e social; evitar notificações e métricas de vício |
 | Comunidades vazias | Baixo valor e sensação de abandono | Sugerir espaços existentes, semear nichos e arquivar inatividade |
 | Duplicidade e spam | Fragmentação da hierarquia | Busca preventiva, regras de criação e moderação distribuída |
-| Conteúdo incorreto | Danos acadêmicos e perda de confiança | Fontes, correções, reputação e denúncia |
-| Dados sensíveis | Risco de privacidade e conformidade | Minimização, consentimento, visibilidade e anonimização |
+| Conteúdo ou recurso incorreto | Decisões ruins e perda de confiança | Fontes, explicações, correções, reputação e feedback |
+| Dados sensíveis | Risco de privacidade e conformidade | Minimização, finalidade, consentimento, visibilidade e anonimização quando aplicável |
 | Mentoria inadequada | Fraude, abuso ou promessa indevida | Verificação, escopo, pagamentos protegidos e disputa |
 
 ## 29. Decisões registradas
 
 - o nome oficial do produto é **SeekIn**;
+- a visão de longo prazo é uma plataforma de desenvolvimento orientada a objetivos;
 - o produto começa pelo planner de estudos;
-- o planejamento usa conceitos de MRP e CRP adaptados ao tempo;
-- a visão desktop principal é um Gantt minimalista com calendário complementar;
+- estudo é o primeiro domínio de validação, não o limite estratégico;
+- o planner é a camada de execução da visão futura;
+- Goal/Growth Intelligence e Planner possuem responsabilidades diferentes;
+- o `planner-core` deve permanecer independente de LLMs e provedores de recomendação;
+- a visão futura segue a relação estado atual → objetivo → gap → pathway → recursos → atividades → planner → execução → progresso → reavaliação;
+- atividades futuras originadas de Goals ou Pathways devem convergir para o mesmo contrato canônico de entrada usado pelo planejamento;
+- Goals devem contextualizar a experiência, não transformar o produto em um dashboard administrativo;
+- a priorização inicial será determinística e baseada em regras explicáveis;
+- a visão desktop principal do MVP é um Gantt minimalista com calendário complementar;
 - a conta nasce com perfil social, mesmo que os recursos sociais sejam liberados depois;
 - o feed permite compartilhar estudos, dúvidas, pedidos de ajuda e conhecimento científico;
 - servidores e canais organizam; a conversa acontece nas salas;
+- comunidade e mentoria também poderão ser recursos de Pathways, além de experiências próprias;
 - a monetização futura inclui mentorias;
 - o MVP será uma aplicação web responsiva;
 - o MVP será instalável como PWA quando o navegador permitir;
 - a Lista será a visão principal do plano em celulares e tablets em retrato;
 - o Gantt completo ficará restrito a telas grandes, com avaliação específica para tablets em paisagem;
-- a priorização inicial será determinística e baseada em regras explicáveis;
-- o PRD do MVP do planner está registrado em [`docs/01-prd-mvp-planner.md`](docs/01-prd-mvp-planner.md).
+- novos domínios não entram em implementação sem PRD e decisão explícita;
+- o PRD do MVP do planner está registrado em [`docs/01-prd-mvp-planner.md`](docs/01-prd-mvp-planner.md);
+- a visão estratégica Goal-Driven está registrada em [`docs/17-visao-goal-driven-e-growth-engine.md`](docs/17-visao-goal-driven-e-growth-engine.md).
 
 ## 30. Decisões em aberto
 
@@ -660,36 +782,23 @@ A definição operacional deve combinar sessões concluídas, atividades entregu
 - campos obrigatórios e visibilidade padrão do perfil;
 - modelo de estimativa de esforço;
 - validação dos padrões de sessão, reserva e folga definidos no PRD;
+- critérios futuros para representar estado atual e evidências;
+- critérios para iniciar formalmente M4 — Goals;
+- modelo de confiança e avaliação para Gap Intelligence;
+- estratégia de descoberta, qualidade e origem de recursos;
 - quem aprova canais em servidores existentes;
 - formatos permitidos no primeiro feed;
 - critérios de ordenação e de contribuição útil;
-- critérios de qualificação e verificação de mentores;
+- critérios de qualificação e verificação de mentores.
 
 ## 31. Continuidade da documentação
 
-O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) detalha objetivos, requisitos, regras do motor
-MRP/CRP, fluxos, critérios de aceite e métricas. Os requisitos de
-[PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md), a
-[arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os
-[requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a
-[estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a
-fundação e o caminho de escala. O
-[contrato canônico](docs/06-contrato-canonico-entrega-rastreabilidade.md), o
-[backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md), os documentos
-de [UX](docs/10-fluxos-e-estados-ux.md),
-[UI e acessibilidade](docs/11-Sistema-Visual-UI-Acessibilidade-e-Responsividade-do-SeekIn.md),
-[Brand Guide](docs/nova-logo/ajustes-design-system.md),
-[plano da landing pública](docs/nova-logo/plano-landing-page.md),
-[modelo físico e contratos](docs/12-modelo-fisico-contratos-http-datas-ids.md),
-[testes e fixtures](docs/13-plano-de-testes-e-fixtures-sinteticas.md),
-[analytics e consentimento](docs/14-contrato-eventos-analytics-consentimento-metricas.md),
-[governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o
-[runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o
-[modelo de evidências](docs/evidencias/README.md) controlam a execução. Com a Fundação operacional
-aprovada, o portão `G2` fechado no `SKN-030`, a criação/verificação de conta concluída no `SKN-040`,
-a marca/landing verificadas no `SKN-032` e o ciclo de conta, entrada, saída e recuperação concluído
-nos `SKN-040` a `SKN-043`, a sequência segue para perfil por conta no `SKN-044`.
+A [Visão Goal-Driven e Growth Engine](docs/17-visao-goal-driven-e-growth-engine.md) registra a direção estratégica e os limites entre inteligência de desenvolvimento e execução. O [PRD do MVP do Planner](docs/01-prd-mvp-planner.md) continua sendo a referência do produto entregável atual e detalha objetivos, requisitos, regras do motor MRP/CRP, fluxos, critérios de aceite e métricas.
+
+Os requisitos de [PWA e responsividade](docs/02-requisitos-tecnicos-pwa-responsividade.md), a [arquitetura técnica](docs/03-arquitetura-tecnica-e-infraestrutura.md), os [requisitos de engenharia](docs/04-requisitos-de-engenharia-e-qualidade.md) e a [estratégia de evolução para Cloud Run](docs/05-estrategia-de-evolucao-cloud-run.md) registram a fundação e o caminho de escala. O [contrato canônico](docs/06-contrato-canonico-entrega-rastreabilidade.md), o [backlog](docs/07-backlog-canonico.md), a [matriz](docs/08-matriz-rastreabilidade.md), os documentos de [UX](docs/10-fluxos-e-estados-ux.md), [UI e acessibilidade](docs/11-Sistema-Visual-UI-Acessibilidade-e-Responsividade-do-SeekIn.md), [Brand Guide](docs/nova-logo/ajustes-design-system.md), [plano da landing pública](docs/nova-logo/plano-landing-page.md), [modelo físico e contratos](docs/12-modelo-fisico-contratos-http-datas-ids.md), [testes e fixtures](docs/13-plano-de-testes-e-fixtures-sinteticas.md), [analytics e consentimento](docs/14-contrato-eventos-analytics-consentimento-metricas.md), [governança operacional](docs/15-governanca-operacional-ambientes-segredos-custos.md), o [runbook de rollback](docs/16-runbook-rollback-aplicacao-migrations.md) e o [modelo de evidências](docs/evidencias/README.md) controlam a execução.
+
+A visão futura não substitui o caminho crítico atual. Enquanto Goals e demais domínios não possuírem PRD e autorização próprios, PRD do planner, backlog canônico, contratos e evidências atuais prevalecem para implementação.
 
 ---
 
-Este documento é a referência inicial de visão do SeekIn. Mudanças de escopo ou decisões de produto devem ser registradas aqui ou no PRD correspondente.
+Este documento é a referência inicial de visão do SeekIn. Mudanças de escopo ou decisões de produto devem ser registradas aqui, no documento Goal-Driven ou no PRD correspondente.
