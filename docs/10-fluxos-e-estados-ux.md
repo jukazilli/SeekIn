@@ -2,15 +2,17 @@
 
 - **Item:** SKN-002
 - **Status:** Verificado
-- **Versão:** 0.2
-- **Verificado em:** 13 de setembro de 2026
-- **Fontes:** PRD §§7, 8, 12, 15 e 18; requisitos PWA §§3–7 e 9
+- **Versão:** 0.3
+- **Verificado em:** 16 de setembro de 2026
+- **Fontes:** PRD §§7, 8, 12, 15 e 18; requisitos PWA §§3–7 e 9; [Visão Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 
 ## 1. Objetivo
 
 Definir como o estudante percorre autenticação, onboarding e rotina acadêmica no MVP, incluindo os
 estados de carregamento, vazio, erro e offline aplicáveis. Este documento descreve comportamento e
 hierarquia; tokens e aparência visual pertencem ao SKN-003.
+
+A visão Goal-Driven registrada para o futuro não altera os fluxos P0 descritos aqui. Ela adiciona princípios de continuidade para impedir que futuras capacidades de objetivos, caminhos, recursos e IA descaracterizem a baixa carga cognitiva do produto.
 
 ## 2. Princípios de interação
 
@@ -77,6 +79,37 @@ o conteúdo atual de `/app` são incrementais: comprovam sessão, responsividade
 representam a composição final de Hoje, da navegação completa ou do onboarding. Uma tela provisória
 não se torna referência visual apenas por já estar publicada.
 
+### 2.5. Princípios futuros para a experiência Goal-Driven
+
+A evolução para objetivos, gaps, pathways, recursos e progresso deve ser integrada ao fluxo existente e não apresentada como um segundo produto dentro do SeekIn.
+
+Regras de UX futuras:
+
+- **objetivo é contexto, não dashboard obrigatório:** o usuário não deve precisar navegar por uma central complexa de “metas” para entender por que está executando uma atividade;
+- **explicar o vínculo quando ele for útil:** atividades e sessões poderão mostrar de forma discreta a relação `objetivo → milestone/pathway → atividade`, sem competir com a ação principal;
+- **próxima ação continua dominante:** mesmo quando houver vários objetivos, recomendações e recursos, Hoje continua respondendo prioritariamente “o que faz sentido executar agora?”;
+- **recomendações são propostas:** o usuário pode aceitar, editar, adiar, ignorar ou substituir caminhos e recursos sugeridos;
+- **IA não obriga chat:** análise de gaps, descoberta de recursos e explicações podem aparecer de forma contextual, estruturada e direta;
+- **não criar um ERP pessoal:** mais dados sobre objetivos não autorizam sidebars maiores, árvores profundas, matrizes permanentes, painéis de KPI ou telas densas;
+- **progresso deve ter significado:** quando exibido, deve responder “em direção a quê estou avançando?” em vez de premiar somente volume de cliques, sessões ou tempo de tela;
+- **separar evidência de inferência:** quando uma recomendação futura depender de uma inferência da IA, isso deve ser distinguível de fatos, preferências ou evidências fornecidas pelo próprio usuário;
+- **contexto progressivo:** detalhes de competência, gap, recurso ou milestone aparecem sob demanda e não precisam ocupar permanentemente a tela de execução;
+- **comunidade e mentoria são recursos possíveis:** encontrar uma pessoa, comunidade ou mentor pode ser uma ação dentro de um caminho, sem transformar o fluxo principal em feed social.
+
+Exemplo futuro compatível com a hierarquia do SeekIn:
+
+```text
+Product Analytics — 50 min
+Hoje, 19:00
+
+Objetivo: transição para Product Management
+Motivo: avançar no milestone “Fundamentos de métricas”
+
+[Iniciar sessão]
+```
+
+O exemplo é conceitual e não autoriza alterar a tela Hoje do P0.
+
 ## 3. Estrutura de navegação
 
 ### 3.1 Destinos principais
@@ -93,6 +126,8 @@ não se torna referência visual apenas por já estar publicada.
 O destino ativo é reconhecível por texto e estado visual. A navegação não depende apenas de ícones.
 Ao abrir um detalhe a partir de Lista, Calendário ou Gantt, o retorno leva à origem com filtros,
 período e posição preservados.
+
+A visão Goal-Driven não adiciona por antecipação destinos como `Metas`, `IA`, `Competências` ou `Growth` à navegação principal. Qualquer novo destino dependerá de PRD e teste de arquitetura de informação próprios.
 
 ### 3.2 Contrato global de estados
 
@@ -166,6 +201,8 @@ Boas-vindas
 O cabeçalho mostra o nome da etapa e o progresso textual, por exemplo **Etapa 3 de 7**. **Voltar**
 preserva os valores. Etapas opcionais usam **Pular por agora**. Saída voluntária salva no servidor o
 último passo confirmado; o retorno continua desse ponto.
+
+A visão Goal-Driven não adiciona perguntas de objetivo, carreira, competências ou estado desejado ao onboarding do MVP. Essa expansão depende de PRD posterior e deve provar que o valor obtido justifica a carga adicional de configuração.
 
 ### 5.2 Regras por etapa
 
@@ -326,7 +363,8 @@ análise antes de confirmar.
 - [x] carregamento, vazio, erro e offline estão definidos quando aplicáveis;
 - [x] comportamento compacto, intermediário e expandido respeita a matriz responsiva;
 - [x] linguagem evita culpa, enumeração de contas e promessas de persistência offline;
-- [x] foco, teclado, contraste semântico e alternativas textuais foram incorporados ao fluxo.
+- [x] foco, teclado, contraste semântico e alternativas textuais foram incorporados ao fluxo;
+- [x] princípios futuros Goal-Driven preservam autonomia, próxima ação e baixa carga cognitiva sem alterar o MVP.
 
 ## 14. Fora do escopo
 
@@ -334,4 +372,5 @@ análise antes de confirmar.
 - escolha técnica de bibliotecas de Calendário e Gantt, validada em SKN-005;
 - contratos físicos de dados e HTTP, definidos em SKN-004;
 - edição offline e sincronização posterior, que permanecem P1;
-- notificações externas, integrações acadêmicas e login social.
+- notificações externas, integrações acadêmicas e login social;
+- telas, navegação, onboarding ou componentes de Goals, competências, gaps, pathways, recursos e Adaptive Growth, que exigem PRD futuro próprio.

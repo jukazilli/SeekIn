@@ -3,10 +3,11 @@
 > Mapa reverso entre requisitos, itens do backlog e evidências. Esta matriz impede que um requisito fique sem implementação ou que uma entrega seja criada sem origem documental.
 
 **Status:** cobertura inicial completa do escopo documentado  
-**Versão:** 0.1  
-**Data:** 12 de setembro de 2026  
+**Versão:** 0.2  
+**Data:** 16 de setembro de 2026  
 **Contrato:** [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md)  
-**Backlog:** [Backlog canônico](07-backlog-canonico.md)
+**Backlog:** [Backlog canônico](07-backlog-canonico.md)  
+**Visão futura:** [Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 
 ---
 
@@ -17,7 +18,9 @@
 - `Pendente` significa que o item ainda não possui evidência aprovada;
 - ao concluir um item, adicionar o link `EV-SKN-*` sem apagar os itens associados;
 - requisito dispensado permanece na matriz com decisão, aprovador e impacto;
-- uma alteração de requisito atualiza PRD, backlog e matriz no mesmo pull request.
+- uma alteração de requisito atualiza PRD, backlog e matriz no mesmo pull request;
+- a visão Goal-Driven, por si só, **não cria RFs, RNFs ou critérios de aceite executáveis**; novos requisitos só entram nas seções de cobertura depois de PRD próprio e decisão formal de implementação;
+- épicos futuros de descoberta podem aparecer na seção de visão de plataforma sem serem tratados como pendência do MVP atual.
 
 ## 2. Cobertura dos requisitos funcionais P0
 
@@ -129,6 +132,7 @@
 | Arquitetura §7 | Supabase, migrations, grants e RLS | SKN-013/017/018/022/024 | Pendente |
 | Arquitetura §8 | entrada canônica manual/importada | SKN-076/210 | Pendente |
 | Arquitetura §9 | planner isolado e Edge Function | SKN-080–097 | Parcial: [suíte consolidada](evidencias/SKN-088.md), [benchmark](evidencias/SKN-089.md), [geração autenticada](evidencias/SKN-090.md), [persistência atômica](evidencias/SKN-091.md), [idempotência](evidencias/SKN-092.md), [impacto](evidencias/SKN-093.md), [falha segura](evidencias/SKN-094.md), [leitura vigente](evidencias/SKN-095.md) e [resolução de proposta](evidencias/SKN-096.md) verificados; consultas especializadas do SKN-097 pendentes |
+| Arquitetura §§9.4 e 12.5 | separação Goal/Growth Intelligence → demanda confirmada → planner; sem IA dentro do planner | SKN-250–291 | Futuro: descoberta/PRDs; nenhuma implementação autorizada |
 | Arquitetura §§10–11 | fuso e cache PWA | SKN-061/072/121/122 | Pendente |
 | Arquitetura §13 | ambientes e pipeline | SKN-023–030 | [G2 verificado](evidencias/SKN-030.md) |
 | Arquitetura §§14–15 | observabilidade e custo | SKN-028/131/142 | Pendente |
@@ -156,17 +160,37 @@
 
 ## 8. Visão de plataforma futura
 
+Os itens desta seção registram destino estratégico. Eles não entram nas seções 2–5 porque ainda não existem requisitos formais aprovados para implementação.
+
 | Fonte | Destino no backlog | Estado |
 |---|---|---|
-| Briefing §16 — perfil social | SKN-300 | aguarda validação do planner e PRD |
+| Visão Goal-Driven — Goals | SKN-250–252 | descoberta futura; exige PRD e validação após planner |
+| Visão Goal-Driven — Competency & Gap Intelligence | SKN-260–261 | descoberta futura; sem schema ou IA autorizados |
+| Visão Goal-Driven — Pathways | SKN-270–271 | descoberta futura; não escreve diretamente no planner |
+| Visão Goal-Driven — Resource Discovery | SKN-280–281 | descoberta futura; recursos precisam de proveniência e relação com o caminho |
+| Visão Goal-Driven — Adaptive Growth | SKN-290–291 | descoberta futura; mudanças estratégicas viram propostas, não mutações silenciosas |
+| Briefing §16 — perfil social / Knowledge Network | SKN-300 | aguarda validação do planner e PRD |
 | Briefing §17 — feed | SKN-310 | aguarda PRD social |
-| Briefing §§18–20 — comunidades | SKN-320 | aguarda PRD de governança |
-| Briefing §§21–23 — mentorias | SKN-330 | aguarda validação da comunidade |
+| Briefing §§18–20 — Communities | SKN-320 | aguarda PRD de governança |
+| Briefing §§21–23 — Mentorship | SKN-330 | aguarda validação da comunidade e PRD transacional |
 | Arquitetura §17 — Google Calendar | SKN-211 | revisão arquitetural obrigatória |
 | Arquitetura §17 — offline editável | SKN-212 | especificação de conflito obrigatória |
 | Estratégia Cloud Run | SKN-400–405 | ativação por métricas e ADR |
 
-## 9. Auditoria de cobertura
+## 9. Regra para promover a visão futura a requisitos
+
+Um domínio futuro somente sai da seção 8 e passa a possuir RF/RNF/CA próprios quando todos os pontos abaixo existirem no mesmo ciclo documental:
+
+1. problema e hipótese validados o suficiente para justificar PRD;
+2. escopo e não objetivos definidos;
+3. modelo de dados conceitual e ownership revisados;
+4. UX e autonomia do usuário especificadas;
+5. riscos de privacidade, segurança, IA e custo avaliados;
+6. critérios de aceite mensuráveis;
+7. itens do backlog de implementação criados separadamente dos itens de descoberta;
+8. matriz atualizada sem reclassificar silenciosamente requisitos ou evidências do MVP do planner.
+
+## 10. Auditoria de cobertura
 
 Antes de atualizar esta versão, verificar:
 
@@ -177,8 +201,9 @@ Antes de atualizar esta versão, verificar:
 - [ ] todo item referenciado existe no backlog;
 - [ ] todo requisito P1 possui destino explícito;
 - [ ] itens concluídos possuem evidência clicável;
-- [ ] dispensas e cancelamentos preservam histórico.
+- [ ] dispensas e cancelamentos preservam histórico;
+- [ ] visão futura permanece separada de requisitos executáveis enquanto não houver PRD próprio.
 
 ---
 
-A matriz é revisada em todo pull request que altera requisito, aceite, item, dependência ou evidência.
+A matriz é revisada em todo pull request que altera requisito, aceite, item, dependência ou evidência. A visão Goal-Driven pode evoluir estrategicamente sem contaminar a cobertura do MVP até que novos requisitos sejam formalmente aprovados.

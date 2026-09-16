@@ -3,10 +3,11 @@
 > Especificação do primeiro produto entregável do SeekIn: um planejador de estudos que transforma prazos, esforço e disponibilidade em sessões executáveis.
 
 **Status:** pronto para revisão de produto<br>
-**Versão:** 0.1<br>
-**Data:** 12 de setembro de 2026<br>
+**Versão:** 0.2<br>
+**Data:** 16 de setembro de 2026<br>
 **Fase:** M1 — Planner básico<br>
-**Documento de origem:** [Briefing de Produto](../README.md)
+**Documento de origem:** [Briefing de Produto](../README.md)<br>
+**Visão estratégica relacionada:** [Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 
 ---
 
@@ -15,6 +16,8 @@
 O MVP do SeekIn permitirá que um estudante informe sua rotina, disponibilidade e atividades acadêmicas para receber um plano de estudo viável. O sistema usará conceitos de MRP e CRP adaptados ao tempo para decompor o esforço de cada atividade em sessões, comparar a demanda com a capacidade disponível e indicar o que fazer agora.
 
 O MVP será uma PWA responsiva, instalável quando o navegador permitir e utilizável como site em celular, tablet e desktop. A experiência terá baixa densidade visual, com “Hoje” orientado à execução, Lista como visão principal em telas compactas, Gantt no desktop e calendário como visão complementar.
+
+Este PRD continua deliberadamente restrito ao planner. Na visão de longo prazo, o planner será a camada de execução de uma plataforma orientada a objetivos: domínios futuros poderão ajudar o usuário a entender onde está, onde quer chegar, quais gaps existem e quais caminhos ou recursos podem ajudá-lo. Essa visão não altera os requisitos, critérios de aceite ou escopo P0 descritos neste documento.
 
 O produto deve provar três hipóteses:
 
@@ -29,6 +32,8 @@ Listas de tarefas e calendários registram compromissos, mas não verificam se o
 O MVP deve responder:
 
 > **Considerando meus prazos, minha rotina e o esforço restante, qual é a melhor atividade para estudar agora e como devo distribuir o restante?**
+
+Essa pergunta permanece a pergunta operacional do MVP. Questões futuras como “onde quero chegar?”, “o que me falta?” e “qual caminho pode me levar até lá?” pertencem à visão Goal-Driven e não são resolvidas por este PRD.
 
 ## 3. Objetivos
 
@@ -58,6 +63,9 @@ O MVP não pretende:
 - importar automaticamente dados de universidades;
 - sincronizar calendários externos de forma bidirecional;
 - usar inteligência artificial generativa para decidir o plano;
+- modelar Goals, estado atual/estado desejado, competências, evidências ou milestones;
+- executar análise de gaps, gerar pathways ou descobrir recursos para objetivos;
+- usar IA para criar silenciosamente atividades ou sessões em nome do usuário;
 - oferecer chat, videochamada ou colaboração em tempo real;
 - atender equipes ou planejamento multiusuário;
 - reproduzir todas as funções de um software de projetos.
@@ -160,7 +168,14 @@ Essas premissas são configuráveis ou revisáveis após a validação do beta.
 - notificações push, e-mail ou WhatsApp;
 - estimativa de esforço assistida por IA;
 - planejamento offline completo;
-- rede social e mentorias.
+- rede social e mentorias;
+- Goals e milestones;
+- competências e evidências de desenvolvimento;
+- Gap Intelligence;
+- Pathways;
+- Resource Discovery;
+- Adaptive Growth;
+- qualquer interface ou onboarding adicional para a visão Goal-Driven.
 
 ## 7. Arquitetura de informação
 
@@ -190,6 +205,8 @@ flowchart TD
 
 No celular, Hoje, Lista, Calendário e Atividades ficam na navegação inferior. Perfil e ajustes ficam no menu da conta. O Gantt não aparece na navegação compacta.
 
+A visão Goal-Driven não autoriza adicionar `Metas`, `IA`, `Competências` ou outro destino à navegação P0. A arquitetura de informação futura deverá ser validada separadamente e preservar a baixa carga cognitiva.
+
 ## 8. Jornadas principais
 
 ### 8.1 Primeira ativação
@@ -204,6 +221,8 @@ flowchart TD
 ```
 
 O usuário é considerado ativado quando conclui a disponibilidade mínima, cria ao menos uma atividade válida e gera o primeiro plano.
+
+O onboarding do MVP não solicita objetivo de carreira, estado desejado, competências ou gaps. Esses dados somente poderão ser incluídos se um PRD futuro demonstrar valor suficiente para justificar a carga adicional de configuração.
 
 ### 8.2 Execução diária
 
@@ -431,6 +450,8 @@ e `outro`. Ao selecionar `outro`, o usuário pode descrever brevemente o motivo,
 | Item do plano | plano, sessão, mudança, justificativa |
 | Alerta | usuário, tipo, severidade, entidade, mensagem, resolvido_em |
 
+Este é o modelo conceitual do MVP. Entidades futuras como Goal, Competency, Evidence, Gap, Pathway, Resource e Progress pertencem à visão estratégica e não devem ser inferidas como parte deste modelo nem implementadas a partir desta tabela.
+
 ### 10.1 Relações principais
 
 ```mermaid
@@ -514,6 +535,8 @@ somente como último desempate técnico. Esse fallback garante determinismo, mas
 aluno como justificativa de prioridade.
 
 Essa ordem pode ser apresentada ao aluno em linguagem natural. Uma fórmula ponderada ou modelo inteligente só deve substituir as regras após existirem dados suficientes para comparação.
+
+A futura existência de um Goal ou Pathway não altera silenciosamente essa ordem. Caso objetivos estratégicos venham a influenciar prioridade operacional, isso exigirá PRD, regra explícita, explicação ao usuário e revisão dos requisitos `RF-060–064`.
 
 ### 11.5 Divisão em sessões
 
@@ -617,6 +640,8 @@ Etapas:
 6. primeira atividade;
 7. prévia e confirmação do plano.
 
+Neste contexto, “objetivo” da etapa de boas-vindas significa orientar o usuário sobre o propósito imediato do planner, não coletar um Goal estruturado da visão futura.
+
 Regras de experiência:
 
 - indicar progresso;
@@ -624,6 +649,7 @@ Regras de experiência:
 - explicar esforço com exemplos;
 - permitir pular compromissos recorrentes;
 - não pedir informações sociais além do perfil básico;
+- não pedir estado desejado, competências ou objetivos Goal-Driven no MVP;
 - concluir em até cinco minutos no teste de usabilidade.
 
 ### 12.2 Hoje
@@ -839,6 +865,8 @@ Ações possíveis:
 
 Não registrar notas, títulos ou dados pessoais em propriedades analíticas.
 
+Eventos Goal-Driven futuros não são adicionados a este contrato por antecipação. Objetivos, competências, gaps, evidências e conteúdo de recomendações podem ser sensíveis e exigirão revisão específica de minimização e consentimento antes de qualquer instrumentação.
+
 ## 17. Métricas e metas de validação
 
 As metas abaixo são hipóteses para o beta e devem ser revistas após a primeira coorte.
@@ -857,6 +885,8 @@ As metas abaixo são hipóteses para o beta e devem ser revistas após a primeir
 ### 17.1 Métrica norte do MVP
 
 > **Atividades concluídas no prazo com apoio de sessões planejadas pelo SeekIn.**
+
+Essa métrica continua válida para o MVP. A North Star estratégica de longo prazo do SeekIn é definida no briefing e na visão Goal-Driven como progresso verificável em direção aos objetivos do usuário; ela não substitui as metas de validação deste PRD.
 
 ## 18. Casos extremos obrigatórios
 
@@ -914,6 +944,8 @@ O desenvolvimento e os testes devem cobrir:
 - testes com 20 a 50 estudantes;
 - revisão dos limiares de risco.
 
+Nenhuma etapa deste PRD inclui construção do Growth Engine. O beta deve validar primeiro o núcleo operacional antes de qualquer ampliação para Goals ou Gap Intelligence.
+
 ## 20. Critérios de liberação do MVP
 
 O MVP pode ser liberado para o beta quando:
@@ -928,6 +960,8 @@ O MVP pode ser liberado para o beta quando:
 - a revisão básica de segurança e privacidade estiver concluída;
 - pelo menos cinco estudantes concluírem a jornada em teste;
 - a equipe conseguir explicar qualquer recomendação gerada pelo motor.
+
+A liberação do MVP não autoriza automaticamente iniciar M4/Goals. A passagem para domínios Goal-Driven depende da decisão de produto registrada no backlog futuro.
 
 ## 21. Dependências
 
@@ -952,7 +986,7 @@ O MVP pode ser liberado para o beta quando:
 | Gantt complexo no celular | não exibir Gantt compacto; usar Lista e agenda |
 | PWA desatualizada | versionar o shell e solicitar atualização em momento seguro |
 | Dados inconsistentes entre telas | uma versão vigente do plano como fonte única |
-| Complexidade prematura | manter integrações, rede social e IA fora do P0 |
+| Complexidade prematura | manter integrações, rede social e IA fora do P0; manter também Goals, gaps, pathways e recursos fora do MVP até validação própria |
 
 ## 23. Decisões de produto registradas neste PRD
 
@@ -978,7 +1012,9 @@ O MVP pode ser liberado para o beta quando:
 - sessões concluídas e fixadas nunca serão movidas automaticamente;
 - atividades não terão distância máxima entre criação e prazo; o motor considera apenas o horizonte móvel de 90 dias;
 - analytics do beta usará eventos próprios no Supabase, sem conteúdo pessoal ou acadêmico;
-- Google Calendar, IA e recursos sociais ficam fora do P0.
+- Google Calendar, IA e recursos sociais ficam fora do P0;
+- Goals, competências, Gap Intelligence, Pathways, Resource Discovery e Adaptive Growth pertencem à visão futura e não modificam o planner P0;
+- o `planner-core` permanece determinístico; eventual Goal/Growth Intelligence deve produzir ou sugerir demandas confirmáveis, não sessões diretamente.
 
 ## 24. Revisão do Product Owner
 
@@ -1029,6 +1065,43 @@ O backlog inclui como itens obrigatórios:
 
 A implementação começa por SKN-001. Código funcional do produto só entra na branch principal após a aprovação do portão G2 — Fundação operacional em SKN-030.
 
+## 26. Relação com a visão Goal-Driven
+
+Este PRD representa a **camada de execução** da visão maior do SeekIn.
+
+```text
+Visão futura
+
+Estado atual
+   ↓
+Goal
+   ↓
+Gap
+   ↓
+Pathway
+   ↓
+Resources
+   ↓
+Demanda/atividade confirmada
+   ↓
+Planner deste PRD
+   ↓
+Sessões
+   ↓
+Execução
+```
+
+A fronteira é deliberada:
+
+- domínios Goal-Driven futuros podem ajudar a decidir **o que vale a pena fazer**;
+- este planner decide **quando e como uma atividade confirmada cabe na vida real**;
+- a camada futura não deve escrever diretamente em `study_sessions`, `plan_items` ou substituir um plano publicado;
+- qualquer atividade sugerida por IA ou por um pathway deverá convergir ao contrato canônico de atividade e respeitar confirmação, ownership e análise de impacto;
+- falha ou indisponibilidade da camada futura não pode impedir o uso normal do planner;
+- os critérios de sucesso, testes e evidências deste PRD continuam válidos independentemente da evolução estratégica.
+
+Os futuros PRDs de `SKN-250–291` serão responsáveis por Goals, competências, gaps, pathways, recursos e Adaptive Growth. Este documento não deve ser expandido para absorver esses domínios apenas para evitar criar especificações próprias.
+
 ---
 
-Este PRD detalha somente o MVP do planner. Rede social, comunidades e mentorias terão PRDs próprios após a validação do núcleo de planejamento.
+Este PRD detalha somente o MVP do planner. Rede de conhecimento, comunidades, mentorias e os domínios Goal-Driven terão PRDs próprios após a validação do núcleo de planejamento.

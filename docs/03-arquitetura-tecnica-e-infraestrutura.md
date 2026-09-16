@@ -1,11 +1,11 @@
 # Arquitetura técnica e infraestrutura
 
-> Fundação técnica do SeekIn para iniciar com baixa complexidade e custo zero, preservando uma evolução segura para rede social, comunidades, mentorias e Google Cloud Run.
+> Fundação técnica do SeekIn para iniciar com baixa complexidade e custo zero, preservar o planner como núcleo determinístico de execução e permitir evolução segura para uma plataforma orientada a objetivos, rede de conhecimento, mentorias e Google Cloud Run.
 
 **Status:** decisão aprovada  
-**Versão:** 0.1  
-**Data:** 12 de setembro de 2026  
-**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md) · [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) · [Engenharia e qualidade](04-requisitos-de-engenharia-e-qualidade.md) · [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md) · [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md) · [Backlog](07-backlog-canonico.md)
+**Versão:** 0.2  
+**Data:** 16 de setembro de 2026  
+**Documentos relacionados:** [Briefing](../README.md) · [PRD do MVP](01-prd-mvp-planner.md) · [Visão Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md) · [PWA e responsividade](02-requisitos-tecnicos-pwa-responsividade.md) · [Engenharia e qualidade](04-requisitos-de-engenharia-e-qualidade.md) · [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md) · [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md) · [Backlog](07-backlog-canonico.md)
 
 ---
 
@@ -21,7 +21,7 @@ O SeekIn adotará inicialmente:
 - **GitHub e integração contínua** para versionamento, validação e implantação;
 - **Google Cloud Run** como destino planejado para computação pesada e, se necessário, para o servidor web em uma fase posterior.
 
-Esta arquitetura deve suportar o MVP com baixo custo operacional sem transformar antecipadamente o produto em um conjunto de microserviços.
+Esta arquitetura deve suportar o MVP com baixo custo operacional sem transformar antecipadamente o produto em um conjunto de microserviços. A visão Goal-Driven é uma direção arquitetural futura e não autoriza novos módulos, tabelas, rotas ou workloads no P0.
 
 ## 2. Objetivos arquiteturais
 
@@ -32,7 +32,9 @@ Esta arquitetura deve suportar o MVP com baixo custo operacional sem transformar
 - permitir mover cargas para Cloud Run de forma incremental;
 - manter a mesma fonte de dados para Hoje, Lista, Calendário e Gantt;
 - preservar segurança, privacidade, acessibilidade e observabilidade desde o início;
-- preparar o domínio para perfis, feed, comunidades e mentorias sem implementar esses módulos no P0.
+- preparar o domínio para objetivos, competências, evidências, gaps, caminhos, recursos e progresso sem implementar esses módulos no P0;
+- preparar o domínio para perfis, feed, comunidades e mentorias sem implementar esses módulos no P0;
+- preservar uma fronteira explícita entre inteligência de desenvolvimento pessoal e o `planner-core` determinístico.
 
 ## 3. Visão de contexto
 
@@ -53,6 +55,7 @@ flowchart TB
 | Cloudflare | entrega global, HTTPS, ativos estáticos, SSR quando necessário e proteção de borda |
 | Supabase | identidade, dados, RLS, Storage, Realtime, Edge Functions e persistência |
 | Motor de planejamento | calcular capacidade, prioridade, sessões, risco e explicações |
+| Growth/Goal Intelligence futura | analisar direção, gaps, caminhos e recursos; nunca substituir silenciosamente decisões do usuário nem as regras determinísticas do planner |
 | Cloud Run futuro | executar algoritmos, integrações ou trabalhos que excedam os limites serverless iniciais |
 
 ## 4. Estilo arquitetural
@@ -61,7 +64,7 @@ flowchart TB
 
 O produto começa como uma aplicação implantável única, organizada em módulos de negócio. Um módulo não pode acessar estruturas internas de outro módulo; a comunicação ocorre por contratos explícitos.
 
-Módulos previstos:
+Módulos previstos no núcleo e nas evoluções já documentadas:
 
 - identidade e perfil;
 - rotina e disponibilidade;
@@ -75,7 +78,18 @@ Módulos previstos:
 - mentorias e pagamentos;
 - moderação e auditoria.
 
-No P0 serão implementados apenas identidade, rotina, atividades, planejamento, sessões e a infraestrutura mínima de importação.
+Módulos conceituais futuros da visão Goal-Driven, ainda sem autorização de implementação:
+
+- goals;
+- competencies;
+- evidence;
+- gap-analysis;
+- pathways;
+- resources;
+- recommendations;
+- progress.
+
+No P0 serão implementados apenas identidade, rotina, atividades, planejamento, sessões e a infraestrutura mínima de importação. A presença de um módulo nesta lista não autoriza criar package, tabela, rota, job ou dependência antes de PRD e contrato próprios.
 
 ### 4.2 Regra de dependência
 
@@ -158,6 +172,8 @@ tests/
 
 O repositório usará `pnpm workspaces`. Turborepo, Nx ou ferramenta equivalente só será adicionada quando houver mais de uma aplicação ou quando medições mostrarem necessidade de cache de build distribuído.
 
+Os módulos Goal-Driven futuros não devem ser criados antecipadamente dentro de `packages/`. Quando chegarem ao estágio de implementação, sua divisão física deverá decorrer dos boundaries validados em PRD, e não apenas dos nomes conceituais registrados nesta arquitetura.
+
 ## 7. Supabase
 
 ### 7.1 Serviços utilizados
@@ -227,6 +243,8 @@ Regras:
 - eventos externos devem possuir identificador de idempotência;
 - erros de integração não podem corromper a atividade canônica nem apagar o último plano válido.
 
+A mesma regra de convergência vale para futuras recomendações Goal-Driven: uma sugestão de caminho, recurso ou ação não entra diretamente no planner. Primeiro deve se tornar uma demanda/atividade canônica aceita pelo usuário ou por um caso de uso que possua contrato explícito de confirmação.
+
 ## 9. Motor de planejamento
 
 ### 9.1 Isolamento
@@ -282,6 +300,31 @@ plano-base esperado e não permitem resolver proposta de outra conta.
 
 Quando o algoritmo exceder os limites da Edge Function ou precisar de otimização matemática, a mesma entrada será enviada a um serviço no Cloud Run. A estratégia completa está em [Evolução para Cloud Run](05-estrategia-de-evolucao-cloud-run.md).
 
+### 9.4 Fronteira futura com Goal/Growth Intelligence
+
+A visão Goal-Driven introduz no futuro uma camada distinta do `planner-core`.
+
+```mermaid
+flowchart LR
+    CURRENT["Estado atual"] --> GOAL["Objetivo"]
+    GOAL --> GAP["Gap / competências"]
+    GAP --> PATH["Pathway"]
+    PATH --> RESOURCE["Recursos"]
+    RESOURCE --> CONFIRM["Demanda confirmada"]
+    CONFIRM --> PLANNER["planner-core"]
+    PLANNER --> SESSION["Sessões"]
+```
+
+Contrato arquitetural:
+
+- Goal/Growth Intelligence responde **o que pode ajudar o usuário a avançar e por quê**;
+- `planner-core` responde **quando e como uma demanda confirmada cabe na capacidade real**;
+- `planner-core` não depende de LLM, embeddings, catálogo de cursos, busca web, comunidades, mentorias ou provedores de recomendação;
+- uma recomendação futura não cria sessão diretamente;
+- a conversão `pathway/resource → activity` passa por contrato canônico, ownership, validação e confirmação adequada;
+- indisponibilidade da camada de IA/recomendação não impede o funcionamento do planner nem invalida o último plano publicado;
+- explicações geradas por IA não substituem fatores determinísticos produzidos pelo planner para justificar prioridade e risco.
+
 ## 10. Datas, recorrência e fuso
 
 - instantes são persistidos como `timestamptz` em UTC;
@@ -325,6 +368,24 @@ Servidor, canal e sala serão módulos próprios. Autorizações dependem de ass
 ### 12.4 Mentorias
 
 Reservas, ofertas, pagamentos e disputas formam um limite de domínio separado. O SeekIn não armazenará dados de cartão. Webhooks financeiros devem ser assinados, idempotentes e auditáveis.
+
+### 12.5 Plataforma Goal-Driven e Growth Engine
+
+A evolução descrita em [Visão Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md) deve ser tratada como uma sequência de domínios próprios, iniciada somente após a validação do núcleo do planner e PRDs específicos.
+
+Entidades conceituais como `goal`, `competency`, `evidence`, `gap`, `pathway`, `resource`, `recommendation` e `progress` não pertencem ao schema P0 por aparecerem nesta arquitetura. Quando formalizadas, devem preservar:
+
+- ownership explícito por usuário;
+- minimização de dados pessoais;
+- RLS e autorização por operação;
+- versionamento de recomendações e evidências quando necessário;
+- proveniência de dados e recursos externos;
+- explicabilidade suficiente para o usuário entender a origem de uma recomendação;
+- possibilidade de aceitar, editar, ignorar ou substituir caminhos sugeridos;
+- separação entre fatos/evidências fornecidos pelo usuário e inferências produzidas por modelos;
+- contratos que permitam trocar provedores de IA sem contaminar o domínio central.
+
+Comunidades, conteúdos, mentores, cursos, livros, projetos e certificações podem futuramente atuar como **recursos de um pathway**, mas seus domínios continuam independentes e não devem ser fundidos em uma tabela ou serviço genérico de “recomendação”.
 
 ## 13. Ambientes e implantação
 
@@ -384,6 +445,8 @@ Pontos a monitorar:
 
 O primeiro custo recomendado para uma produção pública tende a ser a elevação do Supabase para um plano sem pausa automática e com melhor recuperação. Cloudflare pago ou Cloud Run entram somente quando métricas ou requisitos justificarem.
 
+Workloads futuros de recomendação ou IA não herdam automaticamente o orçamento do planner. Antes de habilitá-los, o projeto deverá medir custo por execução, latência, privacidade, qualidade e estratégia de fallback sem IA.
+
 ## 16. Tecnologias deliberadamente evitadas no início
 
 - microserviços;
@@ -396,6 +459,7 @@ O primeiro custo recomendado para uma produção pública tende a ser a elevaç�
 - Redux para estado remoto;
 - mensageria externa antes de existir carga assíncrona;
 - inteligência artificial dentro das regras determinísticas do planner;
+- criação antecipada de vetor/embedding store sem caso de uso Goal-Driven validado;
 - uso amplo de Realtime em consultas que aceitam atualização normal.
 
 ## 17. Critérios para revisar esta arquitetura
@@ -407,6 +471,8 @@ Uma revisão arquitetural será obrigatória quando ocorrer um destes eventos:
 - inclusão do feed ou chat;
 - integração bidirecional com Google Calendar;
 - introdução de edição offline;
+- início de implementação de Goals, Gap Intelligence, Pathways, Resource Discovery ou Adaptive Growth;
+- adoção de LLM, embeddings ou busca semântica em caminho de produção;
 - motor ultrapassando limites da Edge Function;
 - necessidade de disponibilidade contratual;
 - mudança material no custo ou status das plataformas;
@@ -414,6 +480,7 @@ Uma revisão arquitetural será obrigatória quando ocorrer um destes eventos:
 
 ## 18. Referências
 
+- [Visão Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 - [Cloudflare Workers — preços](https://developers.cloudflare.com/workers/platform/pricing/)
 - [Cloudflare Workers — React Router](https://developers.cloudflare.com/workers/framework-guides/web-apps/react-router/)
 - [Supabase — billing e quotas](https://supabase.com/docs/guides/platform/billing-on-supabase)
@@ -426,4 +493,4 @@ Uma revisão arquitetural será obrigatória quando ocorrer um destes eventos:
 
 ---
 
-Esta arquitetura é a base aprovada para iniciar a implementação. Qualquer alteração estrutural deve ser registrada por ADR e avaliar impacto no produto, custo, segurança e migração futura.
+Esta arquitetura é a base aprovada para iniciar a implementação do MVP e preservar uma evolução segura para a visão Goal-Driven. Qualquer alteração estrutural deve ser registrada por ADR e avaliar impacto no produto, custo, segurança, privacidade e migração futura.

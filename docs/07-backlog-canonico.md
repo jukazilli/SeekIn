@@ -1,18 +1,19 @@
 # Backlog canônico do SeekIn
 
-> Sequência completa e rastreável para construir primeiro a fundação operacional e, somente depois, implementar o MVP do planner.
+> Sequência completa e rastreável para construir primeiro a fundação operacional e o MVP do planner e, somente após sua validação, evoluir para a visão Goal-Driven do SeekIn.
 
 **Status:** pronto para priorização e execução  
-**Versão:** 0.1  
-**Data:** 12 de setembro de 2026  
+**Versão:** 0.2  
+**Data:** 16 de setembro de 2026  
 **Contrato obrigatório:** [Contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md)  
-**Rastreabilidade reversa:** [Matriz de rastreabilidade](08-matriz-rastreabilidade.md)
+**Rastreabilidade reversa:** [Matriz de rastreabilidade](08-matriz-rastreabilidade.md)  
+**Visão futura:** [Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 
 ---
 
 ## 1. Regra de execução
 
-A sequência oficial é:
+A sequência oficial do produto atualmente autorizado é:
 
 ```mermaid
 flowchart TD
@@ -30,16 +31,18 @@ flowchart TD
   composição: tarefa principal, padrão de interação, hierarquia, estados e referência responsiva; a
   conveniência de framework, biblioteca ou gerador não constitui decisão de UX;
 - um item só muda para concluído conforme o [contrato canônico](06-contrato-canonico-entrega-rastreabilidade.md);
-- o estado inicial dos itens deste documento é **Proposto**, exceto quando uma evidência publicada disser o contrário.
+- o estado inicial dos itens deste documento é **Proposto**, exceto quando uma evidência publicada disser o contrário;
+- épicos Goal-Driven futuros registrados após `EP-20` são **direção de produto e descoberta**: não entram em implementação antes da validação do planner, PRD próprio, critérios de aceite, contratos e nova decisão explícita de prioridade;
+- nenhum item futuro pode alterar retroativamente requisitos P0, evidências aprovadas ou o comportamento determinístico do `planner-core` sem um processo formal de mudança.
 
 ## 2. Prioridades
 
 | Prioridade | Significado |
 |---|---|
 | P0 | necessário para o beta do planner |
-| P1 | evolução após validar o núcleo |
-| P2 | plataforma social ou monetização, dependente de PRD próprio |
-| Futuro | migração ou escala ativada por gatilho mensurável |
+| P1 | evolução após validar o núcleo do planner |
+| P2 | domínio futuro do produto; começa por descoberta/PRD e não autoriza implementação por existir neste backlog |
+| Futuro | migração, escala ou decisão técnica ativada por gatilho mensurável |
 
 ## 3. Mapa de épicos
 
@@ -61,7 +64,14 @@ flowchart TD
 | EP-13 — Qualidade operacional | segurança, observabilidade e analytics | G5 |
 | EP-14 — Beta | validação com pessoas e decisão de lançamento | G5 |
 | EP-20 — Evoluções P1 | integrações e conveniências pós-MVP | posterior |
-| EP-30 — Plataforma social | rede, comunidades e mentoria | PRDs futuros |
+| EP-25 — Goals & Personal Development | estado atual, estado desejado e objetivos formalizados | descoberta futura |
+| EP-26 — Competency & Gap Intelligence | lacunas e evidências compreensíveis e revisáveis | descoberta futura |
+| EP-27 — Pathways | caminhos estruturados entre estado atual e objetivo | descoberta futura |
+| EP-28 — Resource Discovery | recursos úteis associados ao caminho sem criar catálogo infinito | descoberta futura |
+| EP-29 — Adaptive Growth | progresso, desvio e reavaliação do caminho | descoberta futura |
+| EP-30 — Knowledge Network | identidade e conhecimento como recursos do desenvolvimento | PRDs futuros |
+| EP-31 — Communities | comunidades contextuais e governança | PRDs futuros |
+| EP-32 — Mentorship | mentores como recurso de desenvolvimento e serviço seguro | PRDs futuros |
 | EP-40 — Cloud Run | escala incremental sem reescrita | por gatilho |
 
 ---
@@ -290,7 +300,7 @@ planner.
 
 # Evoluções posteriores
 
-Estes itens preservam a visão de longo prazo, mas não podem competir com o P0. Antes de entrar em desenvolvimento, devem ser decompostos com o mesmo contrato canônico.
+Estes itens preservam a visão de longo prazo, mas não podem competir com o P0. Antes de entrar em desenvolvimento, devem ser decompostos com o mesmo contrato canônico. Os épicos `EP-25` a `EP-32` registram **descoberta futura**, não autorização para implementação.
 
 ## EP-20 — P1 do planner e integrações
 
@@ -307,14 +317,60 @@ Estes itens preservam a visão de longo prazo, mas não podem competir com o P0.
 | SKN-211 | P1 | Integração bidirecional com Google Calendar, tokens privados, OAuth mínimo, idempotência e conflitos. | ADR e revisão arquitetural | Arquitetura §17; Engenharia §11.3 |
 | SKN-212 | P1 | Edição offline com outbox e resolução explícita de conflitos. | especificação própria | PWA §7.4; Arquitetura §17 |
 
-## EP-30 — Plataforma social e mentorias
+## EP-25 — Goals & Personal Development
+
+| ID | P | Resultado | Gatilho/dependências | Fonte |
+|---|---|---|---|---|
+| SKN-250 | P2 | Criar PRD do domínio de Goals definindo estado atual, estado desejado, objetivo, milestones, horizonte, status, autonomia e critérios de sucesso. Nenhuma migration é criada nesta etapa. | planner validado no beta; hipótese de valor confirmada | Visão Goal-Driven §§3–6 |
+| SKN-251 | P2 | Validar com usuários se objetivos melhoram direção e execução sem aumentar excessivamente o onboarding ou transformar o SeekIn em gerenciador genérico de metas. | SKN-250 | Visão Goal-Driven; UX §2.5 |
+| SKN-252 | P2 | Definir contrato conceitual `goal/milestone → demanda confirmada → activity` preservando o comando canônico de atividade e a autonomia do usuário. | SKN-250; planner estável | Arquitetura §§8 e 9.4 |
+
+## EP-26 — Competency & Gap Intelligence
+
+| ID | P | Resultado | Gatilho/dependências | Fonte |
+|---|---|---|---|---|
+| SKN-260 | P2 | Criar PRD de competências, níveis, evidências, proveniência e análise de gaps, distinguindo fatos fornecidos pelo usuário de inferências do sistema. | SKN-250/251 | Visão Goal-Driven §§7–9 |
+| SKN-261 | P2 | Definir critérios de explicabilidade, revisão e correção de gaps e recomendações, incluindo comportamento quando a confiança for insuficiente. | SKN-260 | Visão Goal-Driven; Arquitetura §12.5 |
+
+## EP-27 — Pathways
+
+| ID | P | Resultado | Gatilho/dependências | Fonte |
+|---|---|---|---|---|
+| SKN-270 | P2 | Criar PRD de pathways e steps, incluindo múltiplos caminhos possíveis, dependências, milestones e edição pelo usuário. | SKN-260/261 | Visão Goal-Driven §§10–11 |
+| SKN-271 | P2 | Definir como um step aceito pode originar demanda executável sem permitir que IA ou recomendação escreva diretamente em sessões do planner. | SKN-270; SKN-252 | Arquitetura §9.4 |
+
+## EP-28 — Resource Discovery
+
+| ID | P | Resultado | Gatilho/dependências | Fonte |
+|---|---|---|---|---|
+| SKN-280 | P2 | Criar PRD de descoberta e avaliação de recursos como cursos, livros, conteúdos, projetos, certificações, comunidades e mentores, com proveniência e explicação da recomendação. | SKN-270 | Visão Goal-Driven §§12–13 |
+| SKN-281 | P2 | Definir regras contra catálogo infinito, publicidade disfarçada e recomendação sem relação demonstrável com objetivo/gap/pathway. | SKN-280 | Visão Goal-Driven; princípios de produto |
+
+## EP-29 — Adaptive Growth
+
+| ID | P | Resultado | Gatilho/dependências | Fonte |
+|---|---|---|---|---|
+| SKN-290 | P2 | Criar PRD de progresso orientado a objetivo, evidências, desvio e reavaliação do caminho sem linguagem punitiva. | SKN-270/280 | Visão Goal-Driven §§14–16 |
+| SKN-291 | P2 | Definir como mudanças estratégicas geram propostas de novas demandas sem substituir automaticamente o plano publicado ou compromissos confirmados. | SKN-290; planner estável | Arquitetura §9.4; UX §2.5 |
+
+## EP-30 — Knowledge Network
 
 | ID | P | Resultado | Dependência | Fonte |
 |---|---|---|---|---|
-| SKN-300 | P2 | Criar PRD e modelo de autorização do perfil social e conexões. | validação do planner | Briefing §16 |
-| SKN-310 | P2 | Criar PRD de feed, conteúdo, moderação, paginação e métricas de utilidade. | SKN-300 | Briefing §§17 e 20 |
-| SKN-320 | P2 | Criar PRD de servidor → canal → sala, papéis e governança. | SKN-300 | Briefing §§18–20 |
-| SKN-330 | P2 | Criar PRD de mentorias, agenda, pagamentos, disputa e confiança. | comunidade validada | Briefing §§21–23 |
+| SKN-300 | P2 | Criar PRD e modelo de autorização do perfil social e conexões, conectando identidade acadêmica/profissional à evolução do usuário sem tornar dados privados de estudo públicos por padrão. | validação do planner; direção Goal-Driven | Briefing §16; Arquitetura §12.1 |
+| SKN-310 | P2 | Criar PRD de feed, conteúdo, moderação, paginação e métricas de utilidade; o feed deve apoiar conhecimento e não competir com a execução diária. | SKN-300 | Briefing §§17 e 20 |
+
+## EP-31 — Communities
+
+| ID | P | Resultado | Dependência | Fonte |
+|---|---|---|---|---|
+| SKN-320 | P2 | Criar PRD de servidor → canal → sala, papéis, descoberta e governança; comunidades podem ser recursos associados a objetivos e pathways quando houver contexto. | SKN-300; integração conceitual com SKN-280 | Briefing §§18–20 |
+
+## EP-32 — Mentorship
+
+| ID | P | Resultado | Dependência | Fonte |
+|---|---|---|---|---|
+| SKN-330 | P2 | Criar PRD de mentorias, agenda, pagamentos, disputa e confiança; mentorias podem ser recursos de um pathway, mas continuam domínio transacional próprio. | comunidade validada; integração conceitual com SKN-280 | Briefing §§21–23; Arquitetura §12.4 |
 
 ## EP-40 — Evolução para Cloud Run
 
@@ -329,9 +385,29 @@ Estes itens preservam a visão de longo prazo, mas não podem competir com o P0.
 
 ---
 
-## 4. Caminho crítico inicial
+## 4. Roadmap estratégico após a validação do planner
 
-O primeiro ciclo deve seguir esta ordem:
+A ordem estratégica de longo prazo é:
+
+```text
+M0 — Descoberta / fundação
+M1 — Planner básico
+M2 — Planejamento inteligente
+M3 — Beta e aprendizado
+M4 — Goals
+M5 — Gap Intelligence
+M6 — Pathways
+M7 — Resource Discovery
+M8 — Adaptive Growth
+M9 — Knowledge Network / Communities
+M10 — Mentorship
+```
+
+A passagem de `M3` para `M4` não é automática. O beta precisa demonstrar que o planner entrega valor e que existe evidência suficiente para ampliar o problema atendido. Cada marco futuro começa por descoberta e PRD antes de backlog de implementação.
+
+## 5. Caminho crítico inicial
+
+O primeiro ciclo continua seguindo esta ordem:
 
 1. `SKN-001` — resolver decisões bloqueadoras;
 2. `SKN-002` a `SKN-007` — fechar especificações e provas;
@@ -339,22 +415,27 @@ O primeiro ciclo deve seguir esta ordem:
 4. `SKN-023` a `SKN-030` — provar CI, preview, beta e smoke ponta a ponta;
 5. somente então iniciar `SKN-040` — autenticação.
 
-## 5. Política de refinamento
+A visão Goal-Driven não altera o caminho crítico atual.
+
+## 6. Política de refinamento
 
 - um item grande pode gerar subtarefas, mas o ID pai continua responsável pelo resultado;
 - subtarefas usam `SKN-NNN.A`, `.B`, `.C` apenas dentro da issue ou ferramenta de execução;
 - nenhuma subtarefa pode encerrar o pai sem todas as evidências previstas;
 - descoberta que alterar comportamento atualiza primeiro o documento fonte;
 - débito técnico recebe ID novo e vínculo ao item que o originou;
-- bugs usam o ID da entrega afetada mais um registro próprio na ferramenta, sem alterar a evidência histórica.
+- bugs usam o ID da entrega afetada mais um registro próprio na ferramenta, sem alterar a evidência histórica;
+- itens Goal-Driven não podem ser convertidos de descoberta para implementação no mesmo PR que apenas define a visão; isso exige decisão posterior com requisitos e riscos próprios.
 
-## 6. Próxima ação operacional
+## 7. Próxima ação operacional
 
 Com geração, persistência, idempotência, impacto, proteção contra falhas, leitura vigente e resolução
 de propostas fechados nos `SKN-080–096`, a dependência do `SKN-056` está satisfeita. A próxima ação é
 retomar o `SKN-056`: ligar a etapa final do onboarding ao planner real, apresentar a prévia e publicar
 o primeiro plano somente após o aceite do usuário.
 
+A orientação Goal-Driven registrada neste documento não muda essa próxima ação.
+
 ---
 
-Este backlog é canônico. GitHub Issues, quadros ou outras ferramentas são projeções dele e não podem alterar escopo, ordem ou aceite sem atualizar este documento e a matriz no mesmo pull request.
+Este backlog é canônico. GitHub Issues, quadros ou outras ferramentas são projeções dele e não podem alterar escopo, ordem ou aceite sem atualizar este documento e a matriz no mesmo pull request. A presença dos épicos Goal-Driven futuros serve para preservar direção estratégica, não para antecipar implementação antes da validação do planner.
