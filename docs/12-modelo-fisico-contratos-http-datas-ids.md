@@ -2,9 +2,9 @@
 
 - **Item:** SKN-004
 - **Status:** Verificado
-- **Versão:** 0.1
-- **Data:** 12 de setembro de 2026
-- **Fontes:** PRD §§9–11; Arquitetura §§7–10; Engenharia §§4–8; SKN-001
+- **Versão:** 0.2
+- **Data:** 16 de setembro de 2026
+- **Fontes:** PRD §§9–11; Arquitetura §§7–10; Engenharia §§4–8; SKN-001; [Visão Goal-Driven e Growth Engine](17-visao-goal-driven-e-growth-engine.md)
 
 ## 1. Objetivo
 
@@ -14,6 +14,8 @@ invariantes, datas, IDs, concorrência e respostas HTTP antes das migrations com
 
 Não é uma migration nem autoriza editar estruturas já aplicadas. Quando houver diferença com a
 migration de fundação, uma migration aditiva posterior deve convergir para este contrato.
+
+A visão Goal-Driven do SeekIn é registrada aqui somente como **limite de evolução futura**. Ela não acrescenta tabelas, endpoints, colunas ou estados ao catálogo P0 definido neste documento.
 
 ## 2. Decisões estruturais
 
@@ -144,6 +146,8 @@ operação recebe grant e policy explícitos; `anon` não acessa dados acadêmic
 | `private.planner_runs` | entrada, saída e resultado de cada cálculo | `user_id` | cascade controlado |
 | `private.audit_events` | trilha técnica sem conteúdo acadêmico | `user_id` | política de retenção |
 
+**Limite explícito:** `goals`, `competencies`, `evidence`, `gaps`, `pathways`, `resources`, `recommendations` e `progress` não fazem parte do catálogo físico P0. Os nomes aparecem apenas como conceitos de evolução e não autorizam migration, tabela, coluna, view, função, índice ou endpoint.
+
 ## 7. Contrato das tabelas
 
 Colunas `created_at` e `updated_at` são `timestamptz not null default now()` nas entidades mutáveis.
@@ -251,6 +255,8 @@ exclusão física. Arquivar não altera atividades existentes.
 Esforço restante é `greatest(0, estimated_minutes - actual_minutes)`. Prazo no passado é válido e
 gera risco; não é erro de persistência. Mudanças de prazo, esforço, prioridade ou status disparam
 análise de impacto, mas não publicam outro plano automaticamente.
+
+A futura relação entre uma atividade e Goal/Pathway não deve ser adicionada como FK ou coluna ao P0 por antecipação. O contrato dessa associação será definido apenas quando `SKN-250–271` formalizarem cardinalidade, histórico, ownership e comportamento de exclusão.
 
 ### 7.7 `activity_links`
 
@@ -459,6 +465,8 @@ não precisa criar uma Edge Function por verbo.
 Autenticação, confirmação de e-mail, recuperação e renovação de sessão usam o contrato oficial do
 Supabase Auth por meio do adaptador da aplicação. O SeekIn não cria endpoints paralelos de senha ou
 emite tokens próprios.
+
+Nenhuma rota Goal/Growth (`/goals`, `/gaps`, `/pathways`, `/resources` ou equivalente) é autorizada por esta documentação. Endpoints futuros exigem contrato próprio e não devem ser adicionados como extensão improvisada de `/planner`.
 
 ## 10. Contrato HTTP comum
 
@@ -686,7 +694,8 @@ Não há conflito de nomes ou defaults entre as duas tabelas existentes e este c
 - [x] Data API e Edge Functions possuem fronteiras de responsabilidade;
 - [x] comandos críticos possuem contrato, erro, concorrência e idempotência definidos;
 - [x] segurança foi revisada contra RLS, grants, logs, conteúdo acadêmico e service role;
-- [x] divergências da fundação foram resolvidas sem reescrever migration aplicada.
+- [x] divergências da fundação foram resolvidas sem reescrever migration aplicada;
+- [x] visão Goal-Driven foi registrada apenas como limite futuro, sem alterar o catálogo físico P0.
 
 ## 16. Fora do escopo
 
@@ -695,4 +704,38 @@ Não há conflito de nomes ou defaults entre as duas tabelas existentes e este c
 - implementação das Edge Functions do planner e sessões;
 - schemas Zod executáveis do planner, entregues por SKN-080;
 - feed, comunidades, mentorias, pagamentos, Google Calendar e edição offline;
-- anexos de atividade ou sessão, que permanecem P1.
+- anexos de atividade ou sessão, que permanecem P1;
+- tabelas, endpoints, contratos ou migrations de Goals, competências, evidências, gaps, pathways, recursos, recomendações ou progresso Goal-Driven.
+
+## 17. Contrato de evolução futura Goal-Driven
+
+Quando os itens `SKN-250–291` produzirem PRDs aprovados, um novo documento de modelo físico deverá ser criado ou este contrato deverá receber uma revisão explícita. Até lá, os conceitos futuros não possuem representação física oficial.
+
+Qualquer futura modelagem deverá responder, antes de criar migration:
+
+1. **ownership:** quem é dono do objetivo, evidência, pathway ou recurso associado;
+2. **cardinalidade:** se uma atividade pode contribuir para vários objetivos e como o histórico é preservado;
+3. **proveniência:** quais dados vieram do usuário, de integração, de catálogo externo ou de inferência por IA;
+4. **confiança e revisão:** como uma inferência incorreta pode ser corrigida sem apagar evidências válidas;
+5. **versionamento:** quando uma mudança de objetivo/pathway cria revisão, snapshot ou apenas atualização mutável;
+6. **privacidade:** quais competências, objetivos e evidências são privadas por padrão e quais podem ser compartilhadas explicitamente;
+7. **retenção e exclusão:** como dados derivados são removidos quando sua fonte ou conta é excluída;
+8. **auditoria:** quais mudanças precisam de histórico sem registrar conteúdo pessoal desnecessário;
+9. **integração com o planner:** como uma recomendação vira atividade canônica confirmada sem escrever diretamente em `study_sessions` ou `plan_items`;
+10. **isolamento de IA:** como trocar modelo/provedor sem transformar suas respostas em fonte canônica não revisável.
+
+A regra estrutural permanece:
+
+```text
+Goal / Gap / Pathway / Resource
+            ↓
+   demanda confirmada
+            ↓
+        activities
+            ↓
+      planner-core
+            ↓
+   plans / sessions
+```
+
+`activities` continua sendo a fronteira canônica entre intenção estratégica e execução temporal até que um PRD futuro aprove explicitamente outro contrato.
